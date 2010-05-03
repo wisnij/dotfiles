@@ -1,3 +1,4 @@
+# -*- Ruby -*-
 require 'rake'
 require 'erb'
 
