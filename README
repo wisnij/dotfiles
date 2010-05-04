@@ -1,1 +1,7 @@
 Adapted from http://github.com/ryanb/dotfiles
+
+To set up on a new system:
+
+  git clone git://github.com/wisnij/dotfiles ~/.dotfiles
+  cd ~/.dotfiles
+  rake install
