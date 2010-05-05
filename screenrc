@@ -18,7 +18,12 @@ bind 0 select 10
 bind x
 bind ^x
 
+# xterm titles
+termcapinfo xterm*|rxvt*|kterm*|Eterm* "hs:ts=\E]0;:fs=\007:ds=\E]0;\007"
+hardstatus off
+hardstatus string "$USER@%H: %t (%n)"
+
 # prettier status line
-hardstatus alwayslastline "%{= BW} [%H] %{+r dd}  %?%-Lw%?%{+ .W}%n+%f %t%? (%u)%?%{-}%?%+Lw%? %=%{-} %l @ %Y-%m-%d %0c "
+caption always "%{= BW} [%H] %{+r dd}  %?%-Lw%?%{+ .W}%n+%f %t%? (%u)%?%{-}%?%+Lw%? %=%{-} %l @ %Y-%m-%d %0c "
 
 screen 1
