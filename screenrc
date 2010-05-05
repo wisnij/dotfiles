@@ -1,5 +1,4 @@
 altscreen on
-shell /bin/bash
 startup_message off
 vbell off
 verbose on
