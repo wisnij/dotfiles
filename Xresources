@@ -28,3 +28,8 @@ XTerm*scrollBar:	true
 
 emacs*font:		7x13
 XLock.mode:		blank
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! local settings
+
+#include ".Xresources-local"
