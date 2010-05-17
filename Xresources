@@ -22,6 +22,7 @@ XTerm*metaSendsEscape:	true
 XTerm*rightScrollBar:	true
 XTerm*saveLines:	10000
 XTerm*scrollBar:	true
+XTerm*toolBar:		false
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! misc
