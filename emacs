@@ -111,6 +111,13 @@ See `sort-regexp-fields'."
   (interactive)
   (shell-command-on-region (point-min) (point-max) "wc -w"))
 
+(defmacro incf* (var &optional step init)
+  "If VAR is already bound, increment its value by STEP (1 by
+default).  Otherwise set VAR to INIT (0 by default)."
+  `(if (boundp ',var)
+       (incf ,var ,(or step 1))
+       (setq ,var ,(or init 0))))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Passive settings
