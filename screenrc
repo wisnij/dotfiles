@@ -1,4 +1,5 @@
 altscreen on
+defflow off
 startup_message off
 vbell off
 verbose on
