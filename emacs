@@ -212,6 +212,21 @@ value should be a list in the format accepted by `font-lock-add-keywords'.")
 (dolist (f '(narrow-to-page narrow-to-region upcase-region downcase-region))
   (put f 'disabled nil))
 
+;; buffer switching
+(iswitchb-mode)
+
+(defun iswitchb-local-keys ()
+  (mapc (lambda (K) 
+          (let* ((key (car K)) (fun (cdr K)))
+            (define-key iswitchb-mode-map (edmacro-parse-keys key) fun)))
+        '(("<right>" . iswitchb-next-match)
+          ("<left>"  . iswitchb-prev-match)
+          ("<down>"  . iswitchb-next-match)
+          ("<up>"    . iswitchb-prev-match))))
+
+(add-hook 'iswitchb-define-mode-map-hook 'iswitchb-local-keys)
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Finish up

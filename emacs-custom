@@ -20,6 +20,7 @@
  '(inhibit-startup-message t)
  '(inhibit-startup-screen t)
  '(initial-scratch-message nil)
+ '(iswitchb-buffer-ignore (quote ("^ " "^\\\\*")))
  '(kill-read-only-ok t)
  '(kill-whole-line t)
  '(p4-verbose nil)
