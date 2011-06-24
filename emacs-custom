@@ -31,6 +31,7 @@
  '(tool-bar-mode nil nil (tool-bar))
  '(transient-mark-mode t)
  '(truncate-partial-width-windows t)
+ '(uniquify-buffer-name-style (quote post-forward-angle-brackets) nil (uniquify))
  '(x-select-enable-clipboard t)
  '(x-stretch-cursor t))
 
