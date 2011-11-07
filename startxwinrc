@@ -1,0 +1,5 @@
+#!/bin/sh
+
+xrdb .Xresources
+xhost +
+xterm -ls
