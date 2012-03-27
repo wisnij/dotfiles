@@ -117,6 +117,19 @@ See `sort-regexp-fields'."
   (interactive)
   (shell-command-on-region (point-min) (point-max) "wc -w"))
 
+(defun wc (&optional start end)
+  "Prints number of lines, words and characters in region or whole buffer."
+  (interactive)
+  (let ((n 0)
+        (start (if mark-active (region-beginning) (point-min)))
+        (end   (if mark-active (region-end)       (point-max))))
+    (save-excursion
+      (goto-char start)
+      (while (< (point) end)
+        (if (forward-word 1)
+            (setq n (1+ n)))))
+    (message "%3d %3d %3d" (count-lines start end) n (- end start))))
+
 (defmacro incf* (var &optional step init)
   "If VAR is already bound, increment its value by STEP (1 by
 default).  Otherwise set VAR to INIT (0 by default)."
