@@ -259,6 +259,6 @@ value should be a list in the format accepted by `font-lock-add-keywords'.")
 
 ;; load time message
 (message "Loaded .emacs in %ds"
-         (destructuring-bind (hi lo ms) (current-time)
+         (destructuring-bind (hi lo &optional ms ps) (current-time)
            (- (+ hi lo)
               (+ (first emacs-load-start) (second emacs-load-start)))))
