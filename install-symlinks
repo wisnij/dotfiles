@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 pn=`basename "$0"`
 
 function link_file ()
