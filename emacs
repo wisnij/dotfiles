@@ -186,7 +186,7 @@ default).  Otherwise set VAR to INIT (0 by default)."
 ;; Visible tabs
 (defface visible-whitespace-face
     '((((class color) (background dark))
-       (:background "grey22" :foreground "aquamarine3"))
+       (:background "grey10" :foreground "aquamarine3"))
       (((class color) (background light))
        (:background "beige"  :foreground "aquamarine3"))
       (t (:foreground "aquamarine3")))
