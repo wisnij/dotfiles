@@ -41,8 +41,8 @@
 (global-set-key (kbd "C-b") 'buffer-menu)
 (global-set-key (kbd "M-[") 'goto-matching-paren)
 (global-set-key (kbd "M-g") 'goto-line)
-(global-set-key (kbd "M-s") 'next-multiframe-window)
-(global-set-key (kbd "M-S") 'previous-multiframe-window)
+(global-set-key (kbd "M-s") 'next-frame-window)
+(global-set-key (kbd "M-S") 'previous-frame-window)
 (global-set-key (kbd "M-y") 'yank-to-region)
 
 
@@ -88,6 +88,16 @@ paren."
         (next-char (char-to-string (following-char))))
     (cond ((string-match "\\s\(" next-char) (forward-sexp))
           ((string-match "\\s\)" prev-char) (backward-sexp)))))
+
+(defun next-frame-window ()
+  "Select the next window on the current frame"
+  (interactive)
+  (select-window (next-window)))
+
+(defun previous-frame-window ()
+  "Select the previous window on the current frame"
+  (interactive)
+  (select-window (previous-window)))
 
 ;; Overwrite yank
 (defun yank-to-region ()
@@ -186,7 +196,7 @@ default).  Otherwise set VAR to INIT (0 by default)."
 ;; Visible tabs
 (defface visible-whitespace-face
     '((((class color) (background dark))
-       (:background "grey22" :foreground "aquamarine3"))
+       (:background "grey10" :foreground "aquamarine3"))
       (((class color) (background light))
        (:background "beige"  :foreground "aquamarine3"))
       (t (:foreground "aquamarine3")))
