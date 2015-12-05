@@ -29,6 +29,7 @@
  '(kill-whole-line t)
  '(p4-default-diff-options "-dNu")
  '(p4-verbose nil)
+ '(package-archives (quote (("gnu" . "http://elpa.gnu.org/packages/") ("melpa-stable" . "http://stable.melpa.org/packages/"))))
  '(save-abbrevs (quote silently))
  '(scroll-bar-mode (quote right))
  '(show-paren-mode t nil (paren))
