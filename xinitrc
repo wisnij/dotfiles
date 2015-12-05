@@ -2,7 +2,7 @@
 
 xrdb .Xresources
 xhost +
-xterm -ls
+urxvt -ls
 
 # keep X server from exiting
 exec sleep infinity
