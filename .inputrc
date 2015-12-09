@@ -2,12 +2,9 @@ set editing-mode emacs
 
 "\e[3~": delete-char
 
-"\e[5C": forward-word
-"\e[5D": backward-word
+"\eOc": forward-word
+"\eOd": backward-word
 "\e[1;5C": forward-word
 "\e[1;5D": backward-word
-
-$if term=rxvt
-    "\eOc": forward-word
-    "\eOd": backward-word
-$endif
+"\e[5C": forward-word
+"\e[5D": backward-word
