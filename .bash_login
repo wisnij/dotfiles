@@ -1,0 +1,9 @@
+if [[ -f $HOME/.bashrc ]]; then
+    source $HOME/.bashrc
+fi
+
+if [[ -d $HOME/.config/bash/login ]]; then
+    for file in $HOME/.config/bash/login/*.bash; do
+        source "$file"
+    done
+fi
