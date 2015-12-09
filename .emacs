@@ -11,7 +11,7 @@
 (setq user-emacs-directory
       (file-name-as-directory (expand-file-name (if vms-p
                                                     "~/emacs"
-                                                    "~/.emacs.d"))))
+                                                    "~/.emacs.d/lisp"))))
 
 ;; load path
 (defun use-lib (lib-dir)
