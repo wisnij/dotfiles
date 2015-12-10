@@ -3,3 +3,5 @@
 	email = wisnij@gmail.com
 [push]
 	default = simple
+[alias]
+	diffs = diff --staged
