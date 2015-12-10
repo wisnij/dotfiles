@@ -1,6 +1,6 @@
 lsopts='-AF --color=auto'
 lsopts_long='-l --time-style="+%Y-%m-%d %H:%M:%S"'
-if ls --help | grep -q group-directories-first; then
+if ls --help 2>/dev/null | grep -q group-directories-first; then
     lsopts="$lsopts --group-directories-first"
 fi
 
