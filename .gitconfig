@@ -5,3 +5,4 @@
 	default = simple
 [alias]
 	diffs = diff --staged
+	graph = log --graph --pretty=tformat:\"%C(yellow)%h%Creset %C(cyan)%ad%Creset %s\" --date=format:\"%Y%m%d\"
