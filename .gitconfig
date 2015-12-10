@@ -3,3 +3,5 @@
 	email = wisnij@gmail.com
 [push]
 	default = simple
+[alias]
+	trypull = "!git fetch -v; git whatchanged ..origin/common --pretty=format:\"%C(yellow)%h%Creset [%C(cyan)%ar%Creset] %s\" --reverse"
