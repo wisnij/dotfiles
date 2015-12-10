@@ -4,5 +4,6 @@ xrdb .Xresources
 xhost +
 urxvt -ls
 
-# keep X server from exiting
-exec sleep infinity
+if [[ -f .xinitrc-local ]]; then
+    source .xinitrc-local
+fi
