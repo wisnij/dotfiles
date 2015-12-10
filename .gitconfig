@@ -4,4 +4,6 @@
 [push]
 	default = simple
 [alias]
+	diffs = diff --staged
+	graph = log --graph --pretty=tformat:\"%C(yellow)%h%Creset %C(cyan)%ad%Creset %s\" --date=format:\"%Y%m%d\"
 	trypull = "!git fetch -v; git whatchanged ..origin/common --pretty=format:\"%C(yellow)%h%Creset [%C(cyan)%ar%Creset] %s\" --reverse"
