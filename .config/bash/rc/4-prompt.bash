@@ -1,4 +1,16 @@
-_prompt () {
+_titlebar_prompt () {
+    # set the window titlebar if we're in a term which can do that
+    case $TERM in
+        xterm*|rxvt*)
+            echo -ne "\e]0;${USER}@${hostname}: ${PWD/$HOME/\~}\007"
+            ;;
+        screen)
+            echo -ne "\ek$(echo ${PWD/$HOME/\~} | sed -re 's/^.+(.{17})$/...\1/')\e\\"
+            ;;
+    esac
+}
+
+_bash_prompt () {
     local status=$?
 
     local red="\[\e[01;31m\]"
@@ -43,16 +55,11 @@ _prompt () {
     
     # final prompt char
     PS1="$PS1 \$ "
-    
-    # set the window titlebar if we're in a term which can do that
-    case $TERM in
-        xterm*|rxvt*)
-            echo -ne "\e]0;${USER}@${hostname}: ${PWD/$HOME/\~}\007"
-            ;;
-        screen)
-            echo -ne "\ek$(echo ${PWD/$HOME/\~} | sed -re 's/^.+(.{17})$/...\1/')\e\\"
-            ;;
-    esac
+}
+
+_prompt () {
+    _bash_prompt
+    _titlebar_prompt
 }
 
 export PROMPT_COMMAND=_prompt
