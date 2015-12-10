@@ -10,7 +10,6 @@ export PAGER='less'
 export PATH="$HOME/bin:$HOME/usr/bin:$PATH"
 export PERL5LIB="$HOME/usr/lib/perl5:$PERL5LIB"
 export SBCL_HOME="$HOME/usr/lib/sbcl"
-export SCREENRC="$HOME/.config/screenrc"
 
 if type -t emacs >/dev/null; then
     EDITOR='emacs -nw'
