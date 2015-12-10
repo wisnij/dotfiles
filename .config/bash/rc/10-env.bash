@@ -1,5 +1,4 @@
 export COLUMNS
-export EDITOR='emacs -nw'
 export HISTCONTROL='ignoredups'
 export HISTFILESIZE=200000
 export HISTSIZE=100000
@@ -12,6 +11,13 @@ export PATH="$HOME/bin:$HOME/usr/bin:$PATH"
 export PERL5LIB="$HOME/usr/lib/perl5:$PERL5LIB"
 export SBCL_HOME="$HOME/usr/lib/sbcl"
 export SCREENRC="$HOME/.config/screenrc"
+
+if type -t emacs >/dev/null; then
+    EDITOR='emacs -nw'
+else
+    EDITOR='nano'
+fi
+export EDITOR
 export VISUAL="$EDITOR"
 
 if [[ -x /usr/bin/lesspipe.sh ]]; then
