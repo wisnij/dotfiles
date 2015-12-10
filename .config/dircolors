@@ -82,7 +82,7 @@ EXEC                    01;32           # file with execute bit set (+x)
 *README.md              01;30;47
 .csv                    38;5;255
 .dat                    38;5;255
-.psv                    38;5;255           
+.psv                    38;5;255
 .tsv                    38;5;255
 .txt                    38;5;255
 

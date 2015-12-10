@@ -12,6 +12,7 @@ export PAGER='less'
 export PATH="$HOME/bin:$HOME/usr/bin:$PATH"
 export PERL5LIB="$HOME/usr/lib/perl5:$PERL5LIB"
 export SBCL_HOME="$HOME/usr/lib/sbcl"
+export SCREENRC="$HOME/.config/screenrc"
 export VISUAL="$EDITOR"
 
 if [[ -x /usr/bin/lesspipe.sh ]]; then

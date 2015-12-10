@@ -1,3 +1,3 @@
-if [[ -f $HOME/.dircolors ]]; then
-    eval "$(dircolors -b $HOME/.dircolors)"
+if [[ -f $HOME/.config/dircolors ]]; then
+    eval "$(dircolors -b $HOME/.config/dircolors)"
 fi
