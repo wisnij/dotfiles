@@ -19,6 +19,8 @@ _bash_prompt () {
     local normal="\[\e[00m\]"
 
     local hostname=${HOSTNAME:-$(hostname)}
+    hostname=${hostname%%.*}
+
     local host_color
     if [[ -n $HOST_COLOR ]]; then
         host_color="\[\e[${HOST_COLOR}m\]"
