@@ -55,6 +55,8 @@
 (define-key function-key-map "\eOb" [C-down])
 (define-key function-key-map "\eOc" [C-right])
 (define-key function-key-map "\eOd" [C-left])
+(define-key function-key-map "\e[5^" [C-prior])
+(define-key function-key-map "\e[6^" [C-next])
 
 (global-set-key [delete] 'delete-char)
 (global-set-key (kbd "C-<next>") 'next-user-buffer)
