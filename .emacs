@@ -51,6 +51,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Keybindings
 
+(define-key function-key-map "\eOa" [C-up])
+(define-key function-key-map "\eOb" [C-down])
+(define-key function-key-map "\eOc" [C-right])
+(define-key function-key-map "\eOd" [C-left])
+
 (global-set-key [delete] 'delete-char)
 (global-set-key (kbd "C-<next>") 'next-user-buffer)
 (global-set-key (kbd "C-<prior>") 'previous-user-buffer)
