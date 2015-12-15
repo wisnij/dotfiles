@@ -13,9 +13,11 @@
 
 (defun user-file (name)
   "Return an absolute file name for NAME in `user-emacs-directory'."
-  (convert-standard-filename
-   (abbreviate-file-name
-    (expand-file-name name user-emacs-directory))))
+  (if (fboundp 'locate-user-emacs-file)
+      (locate-user-emacs-file name)
+      (convert-standard-filename
+       (abbreviate-file-name
+        (expand-file-name name user-emacs-directory)))))
 
 (add-to-list 'load-path (user-file "lisp"))
 
