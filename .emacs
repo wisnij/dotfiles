@@ -34,6 +34,17 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Libraries
 
+(defmacro with-library (symbol &rest body)
+  (let ((err (gensym)))
+    `(condition-case ,err
+         (progn
+           (require ',symbol)
+           ,@body)
+       (error (message (format "with-library: error loading '%s': %S"
+                               ',symbol ,err))
+              nil))))
+(put 'with-library 'lisp-indent-function 1)
+
 (require 'uniquify)
 
 
