@@ -5,24 +5,19 @@
 (defvar emacs-load-start (current-time)
   "The `current-time' when .emacs started loading.")
 
-(defconst vms-p (string-equal system-type "vax-vms")
-  "Non-nil iff we're running on VMS.")
+(when (fboundp 'package-initialize)
+  (package-initialize))
 
-(setq user-emacs-directory
-      (file-name-as-directory (expand-file-name (if vms-p
-                                                    "~/emacs"
-                                                    "~/.emacs.d/lisp"))))
+(when (not (boundp 'user-emacs-directory))
+  (setq user-emacs-directory "~/.emacs.d/"))
 
-;; load path
-(defun use-lib (lib-dir)
-  "Add LIB-DIR and all subdirectories to `load-path' with
-`normal-top-level-add-subdirs-to-load-path'."
-  (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
-      (let ((default-directory lib-dir))
-        (add-to-list 'load-path lib-dir t)
-        (normal-top-level-add-subdirs-to-load-path))))
+(defun user-file (name)
+  "Return an absolute file name for NAME in `user-emacs-directory'."
+  (convert-standard-filename
+   (abbreviate-file-name
+    (expand-file-name name user-emacs-directory))))
 
-(use-lib user-emacs-directory)
+(add-to-list 'load-path (user-file "lisp"))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -254,21 +249,21 @@ value should be a list in the format accepted by `font-lock-add-keywords'.")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Finish up
 
+;; custom file
+(setq custom-file (user-file "custom.el"))
+(when (file-exists-p custom-file)
+  (load custom-file))
+
 ;; per-site settings
 (defvar user-local-init-file
-  (concat user-init-file "-local")
+  (user-file "local.el")
   "Initializations local to this particular machine.")
 
 (when (file-exists-p user-local-init-file)
   (load user-local-init-file))
 
-;; custom file
-(setq custom-file (concat user-init-file "-custom"))
-(when (file-exists-p custom-file)
-  (load custom-file))
-
 ;; load time message
 (message "Loaded .emacs in %ds"
-         (destructuring-bind (hi lo &optional ms ps) (current-time)
+         (destructuring-bind (hi lo &rest) (current-time)
            (- (+ hi lo)
               (+ (first emacs-load-start) (second emacs-load-start)))))
