@@ -19,7 +19,16 @@
        (abbreviate-file-name
         (expand-file-name name user-emacs-directory)))))
 
-(add-to-list 'load-path (user-file "lisp"))
+(defun add-to-load-path (lib-dir)
+  "Add LIB-DIR and all subdirectories to `load-path' with
+`normal-top-level-add-subdirs-to-load-path' (if available)."
+  (add-to-list 'load-path lib-dir t)
+  (if (and (fboundp 'normal-top-level-add-subdirs-to-load-path)
+           (file-directory-p lib-dir))
+      (let ((default-directory lib-dir))
+        (normal-top-level-add-subdirs-to-load-path))))
+
+(add-to-load-path (user-file "lisp"))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
