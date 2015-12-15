@@ -1,10 +1,2 @@
+$include /etc/inputrc
 set editing-mode emacs
-
-"\e[3~": delete-char
-
-"\eOc": forward-word
-"\eOd": backward-word
-"\e[1;5C": forward-word
-"\e[1;5D": backward-word
-"\e[5C": forward-word
-"\e[5D": backward-word
