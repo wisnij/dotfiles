@@ -164,12 +164,14 @@ See `sort-regexp-fields'."
   (interactive "P\nr")
   (sort-regexp-fields reverse "\\w+" "\\&" beg end))
 
-(defun word-count nil
-  "Count the number of words in the current buffer."
+(defun wc nil
+  "Count the number of lines, words and characters in the region or buffer with `wc'."
   (interactive)
-  (shell-command-on-region (point-min) (point-max) "wc -w"))
+  (let ((start (if mark-active (region-beginning) (point-min)))
+        (end   (if mark-active (region-end)       (point-max))))
+    (shell-command-on-region start end "wc")))
 
-(defun wc (&optional start end)
+(defun word-count (&optional start end)
   "Prints number of lines, words and characters in region or whole buffer."
   (interactive)
   (let ((n 0)
