@@ -45,7 +45,22 @@
               nil))))
 (put 'with-library 'lisp-indent-function 1)
 
+;; disambiguate buffer names with <dirname>
 (require 'uniquify)
+
+;; buffer switching
+(with-library iswitchb
+  (iswitchb-mode t)
+  (defun iswitchb-local-keys ()
+    (mapc (lambda (k)
+            (let ((key (car k))
+                  (fun (cdr k)))
+              (define-key iswitchb-mode-map (edmacro-parse-keys key) fun)))
+          '(("<right>" . iswitchb-next-match)
+            ("<left>"  . iswitchb-prev-match)
+            ("<down>"  . iswitchb-next-match)
+            ("<up>"    . iswitchb-prev-match))))
+  (add-hook 'iswitchb-define-mode-map-hook 'iswitchb-local-keys))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -62,13 +77,16 @@
 (global-set-key (kbd "C-<next>") 'next-user-buffer)
 (global-set-key (kbd "C-<prior>") 'previous-user-buffer)
 (global-set-key (kbd "C-<tab>") 'indent-relative)
-(global-set-key (kbd "C-b") 'buffer-menu)
 (global-set-key (kbd "M-]") 'goto-matching-paren)
 (global-set-key (kbd "M-g") 'goto-line)
 (global-set-key (kbd "M-s") 'next-frame-window)
 (global-set-key (kbd "M-S") 'previous-frame-window)
 (global-set-key (kbd "M-y") 'yank-to-region)
 
+(global-set-key (kbd "C-b")
+                (if (fboundp 'iswitchb-buffer)
+                    'iswitchb-buffer
+                    'buffer-menu))
 
 ;; Keybinding functions
 (defun switch-to-buffer-num (arg)
@@ -258,21 +276,6 @@ value should be a list in the format accepted by `font-lock-add-keywords'.")
 ;; disabled functions
 (dolist (f '(narrow-to-page narrow-to-region upcase-region downcase-region))
   (put f 'disabled nil))
-
-;; buffer switching
-(iswitchb-mode)
-
-(defun iswitchb-local-keys ()
-  (mapc (lambda (K) 
-          (let* ((key (car K)) (fun (cdr K)))
-            (define-key iswitchb-mode-map (edmacro-parse-keys key) fun)))
-        '(("<right>" . iswitchb-next-match)
-          ("<left>"  . iswitchb-prev-match)
-          ("<down>"  . iswitchb-next-match)
-          ("<up>"    . iswitchb-prev-match))))
-
-(add-hook 'iswitchb-define-mode-map-hook 'iswitchb-local-keys)
-
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
