@@ -30,7 +30,7 @@
 
 (add-to-load-path (user-file "lisp"))
 
-
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Libraries
 
@@ -62,7 +62,7 @@
             ("<up>"    . iswitchb-prev-match))))
   (add-hook 'iswitchb-define-mode-map-hook 'iswitchb-local-keys))
 
-
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Keybindings
 
@@ -149,7 +149,7 @@ paren."
     (delete-region (point) (mark))
     (yank)))
 
-
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Miscellaneous functions
 
@@ -189,7 +189,7 @@ default).  Otherwise set VAR to INIT (0 by default)."
        (incf ,var ,(or step 1))
        (setq ,var ,(or init 0))))
 
-
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Passive settings
 
@@ -277,7 +277,7 @@ value should be a list in the format accepted by `font-lock-add-keywords'.")
 (dolist (f '(narrow-to-page narrow-to-region upcase-region downcase-region))
   (put f 'disabled nil))
 
-
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Finish up
 
