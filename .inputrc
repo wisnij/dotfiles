@@ -1,2 +1,5 @@
 $include /etc/inputrc
 set editing-mode emacs
+
+"\eOc": forward-word
+"\eOd": backward-word
