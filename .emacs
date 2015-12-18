@@ -46,22 +46,11 @@
 (put 'with-library 'lisp-indent-function 1)
 
 ;; disambiguate buffer names with <dirname>
-(require 'uniquify)
+(with-library uniquify)
 
 ;; buffer switching
-(with-library iswitchb
-  (iswitchb-mode t)
-  (defun iswitchb-local-keys ()
-    (mapc (lambda (k)
-            (let ((key (car k))
-                  (fun (cdr k)))
-              (define-key iswitchb-mode-map (edmacro-parse-keys key) fun)))
-          '(("<right>" . iswitchb-next-match)
-            ("<left>"  . iswitchb-prev-match)
-            ("<down>"  . iswitchb-next-match)
-            ("<up>"    . iswitchb-prev-match))))
-  (add-hook 'iswitchb-define-mode-map-hook 'iswitchb-local-keys))
-
+(with-library ido
+  (ido-mode 1))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Keybindings
@@ -83,9 +72,10 @@
 (global-set-key (kbd "M-S") 'previous-frame-window)
 (global-set-key (kbd "M-y") 'yank-to-region)
 
+(global-set-key (kbd "C-x b") 'buffer-menu)
 (global-set-key (kbd "C-b")
-                (if (fboundp 'iswitchb-buffer)
-                    'iswitchb-buffer
+                (if (fboundp 'ido-switch-buffer)
+                    'ido-switch-buffer
                     'buffer-menu))
 
 ;; Keybinding functions
