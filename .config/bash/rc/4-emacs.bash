@@ -1,3 +1,4 @@
+
 alias emacs='emacs -nw'
 
 unalias xemacs 2>/dev/null
@@ -6,7 +7,7 @@ xemacs () {
         source $HOME/.ssh/last_connection_init
     fi
     
-    if type emacs-23.1 >/dev/null 2>&1; then
+    if type -t emacsclient >/dev/null; then
         emacsclient -a '' -n -c "$@"
     else
         'emacs' "$@" &
@@ -15,7 +16,7 @@ xemacs () {
 }
 
 emacsnw () {
-    if type emacs-23.1 >/dev/null 2>&1; then
+    if type -t emacsclient >/dev/null; then
         emacsclient -a '' -t "$@"
     else
         'emacs' -nw "$@"
