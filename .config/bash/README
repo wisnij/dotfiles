@@ -1,0 +1,15 @@
+Numbering scheme for rc files:
+
+0x  local init
+
+1x  common setup
+2x  platform setup
+3x  local setup
+
+4   common user
+5   platform user
+6   local user
+
+7x  common post 
+8x  platform post
+9x  local post
