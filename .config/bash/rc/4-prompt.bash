@@ -4,7 +4,7 @@ _titlebar_prompt () {
         xterm*|rxvt*)
             echo -ne "\e]0;${USER}@${HOSTNAME}: ${PWD/$HOME/\~}\007"
             ;;
-        screen)
+        screen*)
             echo -ne "\ek$(echo ${PWD/$HOME/\~} | sed -re 's/^.+(.{17})$/...\1/')\e\\"
             ;;
     esac
