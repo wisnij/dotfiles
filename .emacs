@@ -45,6 +45,11 @@
               nil))))
 (put 'with-library 'lisp-indent-function 1)
 
+;; color theme
+(with-library color-theme
+  (load (user-file "colors.el"))
+  (color-theme-wisniewski))
+
 ;; disambiguate buffer names with <dirname>
 (with-library uniquify)
 
