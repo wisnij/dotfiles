@@ -31,6 +31,7 @@ Mostly standard Emacs colors, but with a few changes for readability."
      (link-visited ((t (:foreground "violet" :underline t))))
      (isearch ((t (:background "palevioletred2" :foreground "black"))))
      (isearch-fail ((t (:background "red4"))))
+     (minibuffer-prompt ((t (:foreground "cyan"))))
      (mode-line ((t (:background "red4" :foreground "white" :box (:line-width -1 :style released-button)))))
      (mode-line-inactive ((t (:background "grey30" :foreground "grey80" :box (:line-width -1 :color "grey40" :style released-button) :weight light))))
      (show-paren-match ((t (:background "steelblue3" :foreground "black"))))
