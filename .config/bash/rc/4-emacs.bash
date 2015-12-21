@@ -1,4 +1,3 @@
-
 alias emacs='emacs -nw'
 
 unalias xemacs 2>/dev/null
