@@ -28,6 +28,7 @@
  '(iswitchb-buffer-ignore (quote ("^ " "^\\*")))
  '(kill-read-only-ok t)
  '(kill-whole-line t)
+ '(menu-bar-mode nil)
  '(p4-default-diff-options "-dNu")
  '(p4-verbose nil)
  '(package-archives (quote (("gnu" . "http://elpa.gnu.org/packages/") ("melpa" . "http://melpa.org/packages/"))))

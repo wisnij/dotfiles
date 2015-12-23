@@ -1,3 +1,44 @@
+(defvar foo
+    ;; name      256        8
+    '((black    "#000000"  ("black"))
+      (dkgray   "#262626"  ("black" . t))
+      (gray     "#7f7f7f"  ("white"))
+      (ltgray   "#dadada"  ("white"))
+      (white    "#ffffff"  ("white" . t))
+      (red      "#ff0000"  ("red" . t))
+      (orange   "#ff5f00"  ("red"))
+      (ltorange "#ffaf87"  ("yellow"))
+      (yellow   "#ffd787"  ("yellow" . t))
+      (green    "#00ff00"  ("green"))
+      (ltgreen  "#87ff87"  ("green" . t))
+      (dkcyan   "#00cdcd"  ("cyan"))
+      (cyan     "#00ffff"  ("cyan"))
+      (ltcyan   "#87ffd7"  ("cyan" . t))
+      (dkblue   "#0000af"  ("blue"))
+      (blue     "#87afff"  ("blue" . t))
+      (ltblue   "#afd7ff"  ("blue" . t))
+      (magenta  "#ff00ff"  ("magenta" . t))
+      (violet   "#af87ff"  ("magenta"))
+      )
+  "")
+
+;; (defun face-for-index (orig-spec index &optional bold-attr)
+;;   (let ((spec (copy-sequence orig-spec)))
+;;     (dolist (property '(:foreground :background))
+;;       (let ((color-name (plist-get spec property)))
+;;         (when color-name
+;;           (plist-put spec property )
+;;       )
+;;     spec)
+
+;; (defun create-facespec (name spec)
+;;   `(,name ((((min-colors 256))
+;;             ,(face-for-index spec 1))
+;;            (((min-colors 16))
+;;             ,(face-for-index spec 2))
+;;            (((min-colors 8))
+;;             ,(face-for-index spec 2 t)))))
+
 (defun color-theme-wisniewski ()
   "Color theme by jwisniewski, created 2015-12-20.
 Based on standard graphical Emacs colors, but snapped to 256-color palette so
