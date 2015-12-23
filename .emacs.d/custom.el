@@ -35,6 +35,7 @@
  '(save-abbrevs (quote silently))
  '(scroll-bar-mode (quote right))
  '(show-paren-mode t nil (paren))
+ '(show-trailing-whitespace t)
  '(size-indication-mode t)
  '(slime-startup-animation nil)
  '(sql-product (quote mysql))
