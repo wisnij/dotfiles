@@ -55,5 +55,4 @@
  '(diff-changed ((nil (:foreground "darkgreen"))))
  '(diff-changed-face ((nil (:foreground "darkgreen"))))
  '(diff-removed ((t (:inherit diff-changed :foreground "red"))))
- '(diff-removed-face ((t (:inherit diff-changed :foreground "red"))))
- '(font-lock-comment-face ((nil (:foreground "red")))))
+ '(diff-removed-face ((t (:inherit diff-changed :foreground "red")))))
