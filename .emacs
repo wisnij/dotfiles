@@ -57,6 +57,10 @@
 (with-library ido
   (ido-mode 1))
 
+;; window numbering
+(with-library window-numbering
+  (window-numbering-mode t))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Keybindings
 
