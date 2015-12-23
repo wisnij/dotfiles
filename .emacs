@@ -195,9 +195,12 @@ default).  Otherwise set VAR to INIT (0 by default)."
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 ;; fuck CPerl mode
-(defalias 'cperl-mode 'perl-mode)
-(add-to-list 'auto-mode-alist '("\\.pod$" . perl-mode))
-(add-to-list 'auto-mode-alist '("\\.perl-expr$" . perl-mode))
+(with-library perl-mode
+  (defalias 'cperl-mode 'perl-mode)
+  (add-to-list 'auto-mode-alist '("\\.pod$" . perl-mode))
+  (add-to-list 'auto-mode-alist '("\\.perl-expr$" . perl-mode))
+  (add-to-list 'perl-font-lock-keywords-2 '("\\<\\(our\\)\\>" . font-lock-type-face) t)
+  (add-to-list 'perl-font-lock-keywords-2 '("\\(\\<not\\>\\|!\\)" . font-lock-negation-char-face) t))
 
 ;; fix POD highlighting
 (setq perl-font-lock-syntactic-keywords
