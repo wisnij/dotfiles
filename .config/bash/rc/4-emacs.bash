@@ -1,4 +1,11 @@
-alias emacs='emacs -nw'
+emacs () {
+    local term=$TERM
+    if [[ $term == 'screen-256color' ]]; then
+        term=xterm-256color
+    fi
+
+    env TERM=$term emacs -nw "$@"
+}
 
 unalias xemacs 2>/dev/null
 xemacs () {
@@ -9,15 +16,20 @@ xemacs () {
     if type -t emacsclient >/dev/null; then
         emacsclient -a '' -n -c "$@"
     else
-        'emacs' "$@" &
+        env emacs "$@" &
         disown
     fi
 }
 
 emacsnw () {
+    local term=$TERM
+    if [[ $term == 'screen-256color' ]]; then
+        term=xterm-256color
+    fi
+
     if type -t emacsclient >/dev/null; then
-        emacsclient -a '' -t "$@"
+        env TERM=$term emacsclient -a '' -t "$@"
     else
-        'emacs' -nw "$@"
+        env TERM=$term emacs -nw "$@"
     fi
 }
