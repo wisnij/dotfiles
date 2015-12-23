@@ -234,17 +234,18 @@ default).  Otherwise set VAR to INIT (0 by default)."
 
 ;; Visible tabs
 (defface visible-whitespace-face
-    '((((class color) (background dark))
-       (:background "grey10" :foreground "aquamarine3"))
-      (((class color) (background light))
-       (:background "beige"  :foreground "aquamarine3"))
-      (t (:foreground "aquamarine3")))
+    '((t (:inherit trailing-whitespace)))
   "Face used to visualize TAB.")
 
 (defvar visible-whitespace-characters
   '(("\t" . 'visible-whitespace-face))
   "Characters shown as visible whitespace in `visible-whitespace-face'.  The
 value should be a list in the format accepted by `font-lock-add-keywords'.")
+
+(standard-display-ascii
+ ?\t (cond ((null window-system)       ">\t")
+           ((> emacs-major-version 21) "\xBB\t")
+           (t                          "\x08BB\t")))
 
 (add-hook 'font-lock-mode-hook
           (lambda ()
@@ -257,11 +258,6 @@ value should be a list in the format accepted by `font-lock-add-keywords'.")
              '(("\\<\\(BUG\\|FIXME\\|TODO\\|XXX\\)" 1 font-lock-warning-face t)))))
 
 (add-hook 'text-mode-hook 'turn-on-font-lock)
-
-(standard-display-ascii
- ?\t (cond ((null window-system)       ">\t")
-           ((> emacs-major-version 21) "\xBB\t")
-           (t                          "\x08BB\t")))
 
 ;; frame title
 (setq frame-title-format
