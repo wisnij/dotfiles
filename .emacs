@@ -5,6 +5,12 @@
 (defvar emacs-load-start (current-time)
   "The `current-time' when .emacs started loading.")
 
+;; load time message
+(defun startup-echo-area-message ()
+  (message "Emacs loaded in %.3fs"
+           (- (float-time)
+              (float-time emacs-load-start))))
+
 (when (fboundp 'package-initialize)
   (package-initialize))
 
@@ -291,9 +297,3 @@ value should be a list in the format accepted by `font-lock-add-keywords'.")
 
 (when (file-exists-p user-local-init-file)
   (load user-local-init-file))
-
-;; load time message
-(defun startup-echo-area-message ()
-  (message "Loaded .emacs in %.3fs"
-           (- (float-time)
-              (float-time emacs-load-start))))
