@@ -194,8 +194,6 @@ default).  Otherwise set VAR to INIT (0 by default)."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Passive settings
 
-(defun startup-echo-area-message () nil)
-
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 ;; fuck CPerl mode
@@ -295,6 +293,7 @@ value should be a list in the format accepted by `font-lock-add-keywords'.")
   (load user-local-init-file))
 
 ;; load time message
-(message "Loaded .emacs in %.3fs"
-         (- (float-time)
-            (float-time emacs-load-start)))
+(defun startup-echo-area-message ()
+  (message "Loaded .emacs in %.3fs"
+           (- (float-time)
+              (float-time emacs-load-start))))
