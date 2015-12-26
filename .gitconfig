@@ -11,3 +11,5 @@
 	pager = cat
 [color]
 	ui = always
+[include]
+	path = ~/.config/gitconfig-local
