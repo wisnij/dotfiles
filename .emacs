@@ -295,7 +295,6 @@ value should be a list in the format accepted by `font-lock-add-keywords'.")
   (load user-local-init-file))
 
 ;; load time message
-(message "Loaded .emacs in %ds"
-         (destructuring-bind (hi lo &rest) (current-time)
-           (- (+ hi lo)
-              (+ (first emacs-load-start) (second emacs-load-start)))))
+(message "Loaded .emacs in %.3fs"
+         (- (float-time)
+            (float-time emacs-load-start)))
