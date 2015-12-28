@@ -79,11 +79,10 @@
     spec))
 
 (defun color-theme-wisniewski--create-facespec (name spec)
-  (let* ((depth (display-color-cells))
-         (face (color-theme-wisniewski--face-for-depth
-                spec (cond ((>= depth 256) 256)
-                           ((>= depth  16)  16)
-                           (t                8)))))
+  (let* ((depth (case system-type
+                  ('darwin 8)
+                  (t 256)))
+         (face (color-theme-wisniewski--face-for-depth spec depth)))
     `(,name ((t ,face)))))
 
 (defun color-theme-wisniewski ()
