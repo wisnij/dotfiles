@@ -13,3 +13,5 @@
 	ui = always
 [include]
 	path = ~/.config/gitconfig-local
+[status]
+	showUntrackedFiles = no
