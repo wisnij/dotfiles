@@ -253,13 +253,12 @@ default).  Otherwise set VAR to INIT (0 by default)."
   "Characters shown as visible whitespace in `visible-whitespace-face'.  The
 value should be a list in the format accepted by `font-lock-add-keywords'.")
 
-(standard-display-ascii
- ?\t (cond ((null window-system)       ">\t")
-           ((> emacs-major-version 21) "\xBB\t")
-           (t                          "\x08BB\t")))
-
 (add-hook 'font-lock-mode-hook
           (lambda ()
+            (standard-display-ascii
+             ?\t (cond ((null window-system)       ">\t")
+                       ((> emacs-major-version 21) "\xBB\t")
+                       (t                          "\x08BB\t")))
             (font-lock-add-keywords nil visible-whitespace-characters)))
 
 ;; Highlight comment keywords
