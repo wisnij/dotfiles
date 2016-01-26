@@ -280,6 +280,10 @@ value should be a list in the format accepted by `font-lock-add-keywords'.")
 (dolist (f '(narrow-to-page narrow-to-region upcase-region downcase-region))
   (put f 'disabled nil))
 
+;; use 7x13 on Windows, where .Xresources has no effect
+(when (eql system-type 'windows-nt)
+  (set-frame-font "7x13-10" nil t))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Finish up
