@@ -251,7 +251,7 @@ default).  Otherwise set VAR to INIT (0 by default)."
 
 ;; Visible tabs
 (defface visible-whitespace-face
-    '((t (:inherit trailing-whitespace)))
+    '((t (:inherit escape-glyph)))
   "Face used to visualize TAB.")
 
 (defvar visible-whitespace-characters
