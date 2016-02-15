@@ -196,6 +196,12 @@ default).  Otherwise set VAR to INIT (0 by default)."
        (incf ,var ,(or step 1))
        (setq ,var ,(or init 0))))
 
+(defun longlines-toggle-hard-newlines ()
+  "Toggle visibility of hard newlines."
+  (interactive)
+  (when (bound-and-true-p longlines-mode)
+    (longlines-show-hard-newlines longlines-showing)))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Passive settings
