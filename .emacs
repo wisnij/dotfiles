@@ -259,13 +259,12 @@ default).  Otherwise set VAR to INIT (0 by default)."
   "Characters shown as visible whitespace in `visible-whitespace-face'.  The
 value should be a list in the format accepted by `font-lock-add-keywords'.")
 
-(standard-display-ascii
- ?\t (cond ((null window-system)       ">\t")
-           ((> emacs-major-version 21) "\xBB\t")
-           (t                          "\x08BB\t")))
-
 (add-hook 'font-lock-mode-hook
           (lambda ()
+            (standard-display-ascii
+             ?\t (cond ((null window-system)       ">\t")
+                       ((> emacs-major-version 21) "\xBB\t")
+                       (t                          "\x08BB\t")))
             (font-lock-add-keywords nil visible-whitespace-characters)))
 
 ;; Highlight comment keywords
@@ -286,6 +285,10 @@ value should be a list in the format accepted by `font-lock-add-keywords'.")
 ;; disabled functions
 (dolist (f '(narrow-to-page narrow-to-region upcase-region downcase-region))
   (put f 'disabled nil))
+
+;; use 7x13 on Windows, where .Xresources has no effect
+(when (eql system-type 'windows-nt)
+  (set-frame-font "7x13-10" nil t))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
