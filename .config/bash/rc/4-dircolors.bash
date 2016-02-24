@@ -1,7 +1,7 @@
 if type -t dircolors >/dev/null; then
     if [[ -f $HOME/.config/dircolors ]]; then
         dircolors_cmd=$(dircolors -b $HOME/.config/dircolors 2>/dev/null)
-        if [[ $? -ne 0 ]]; then
+        if [[ $? -ne 0 && -f $HOME/.config/dircolors-old ]]; then
             dircolors_cmd=$(dircolors -b $HOME/.config/dircolors-old)
         fi
 
