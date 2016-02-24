@@ -9,7 +9,7 @@ bak () {
     shift
     local slug
     if [[ $# -gt 0 ]]; then
-        slug=-$(sed -re 's/[^A-Za-z0-9_]+/-/g' <<< "$*")
+        slug=$(sed -re 's/[^A-Za-z0-9_]+/-/g' <<< "-$*")
     fi 
     local backup="$file.$(date +'%Y%m%d-%H%M%S')$slug.bak"
     cp -v "$file" "$backup"
