@@ -202,11 +202,24 @@ default).  Otherwise set VAR to INIT (0 by default)."
   (when (bound-and-true-p longlines-mode)
     (longlines-show-hard-newlines longlines-showing)))
 
+(defun cleanup-whitespace ()
+  "Delete trailing whitespace and remove blank lines at the end of the buffer."
+  (interactive)
+  (save-excursion
+    (save-restriction
+      (widen)
+      (delete-trailing-whitespace)
+      (goto-char (point-max))
+      (delete-blank-lines))))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Passive settings
 
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
+
+;; clean whitespace when saving
+(add-hook 'before-save-hook 'cleanup-whitespace)
 
 ;; fuck CPerl mode
 (with-library perl-mode
