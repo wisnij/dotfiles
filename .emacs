@@ -202,6 +202,14 @@ default).  Otherwise set VAR to INIT (0 by default)."
   (when (bound-and-true-p longlines-mode)
     (longlines-show-hard-newlines longlines-showing)))
 
+(defun untabify-buffer ()
+  "Convert all tabs in buffer to multiple spaces, preserving columns."
+  (interactive)
+  (save-excursion
+    (save-restriction
+      (widen)
+      (untabify (point-min) (point-max)))))
+
 (defun cleanup-whitespace ()
   "Delete trailing whitespace and remove blank lines at the end of the buffer."
   (interactive)
