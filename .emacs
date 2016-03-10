@@ -311,6 +311,20 @@ value should be a list in the format accepted by `font-lock-add-keywords'.")
 (when (eql system-type 'windows-nt)
   (set-frame-font "7x13-10" nil t))
 
+;; make scratch buffer unkillable
+(defun unkillable-scratch-buffer ()
+  "Instead of killing *scratch*, just delete its contents and
+mark it as unmodified."
+  (if (equal (buffer-name (current-buffer)) "*scratch*")
+      (progn
+        (widen)
+        (delete-region (point-min) (point-max))
+        (set-buffer-modified-p nil)
+        nil)
+      t))
+
+(add-hook 'kill-buffer-query-functions 'unkillable-scratch-buffer)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Finish up
