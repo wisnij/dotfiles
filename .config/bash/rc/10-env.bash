@@ -19,6 +19,8 @@ fi
 export EDITOR
 export VISUAL="$EDITOR"
 
-if [[ -x /usr/bin/lesspipe.sh ]]; then
+if type -t lesspipe >/dev/null; then
+    eval "$(lesspipe)"
+elif [[ -x /usr/bin/lesspipe.sh ]]; then
     export LESSOPEN="|-/usr/bin/lesspipe.sh %s"
 fi
