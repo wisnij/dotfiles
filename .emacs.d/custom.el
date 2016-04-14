@@ -19,6 +19,7 @@
  '(global-visual-fill-column-mode t)
  '(htmlize-css-name-prefix "htmlize-")
  '(htmlize-html-major-mode (quote html-mode))
+ '(ido-default-buffer-method (quote selected-window))
  '(ido-enable-flex-matching t)
  '(ido-ignore-buffers (quote ("\\` " "^\\*")))
  '(ido-ignore-files
