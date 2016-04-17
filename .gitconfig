@@ -24,3 +24,5 @@
 	oldHighlight = red 52
 	newNormal = cyan
 	newHighlight = cyan 19
+[pager]
+	diff = diff-highlight
