@@ -27,6 +27,6 @@ hardstatus off
 hardstatus string "$USER@%H: %t (%n)"
 
 # prettier status line
-caption always "%{= BW} [%H] %{+r dd} %0L=%?%-Lw%?%{+ .W}%45L>%n+%f %t%? (%u)%?%{-}%?%+Lw%?%-039= %{-} %l @ %Y-%m-%d %0c "
+caption always "%{= gk} [%H] %{= kG} %0L=%?%-Lw%?%{+r}%45L>%n+%f %t%? (%u)%?%{-}%?%+Lw%?%-039= %{-} %l @ %Y-%m-%d %0c "
 
 screen 1
