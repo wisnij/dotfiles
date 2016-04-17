@@ -1,4 +1,16 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! Rofi
+
+rofi.color-enabled:	true
+rofi.color-window:	#000000, #00ff00, #00cc00
+rofi.color-normal:	#000000, #00ff00, #000000, #006600, #00ff00
+rofi.color-active:	#000000, #ffff00, #000000, #006600, #ffff00
+rofi.color-urgent:	#000000, #ff6600, #000000, #006600, #ff6600
+rofi.fake-transparency:	true
+rofi.levenshtein-sort:	true
+rofi.separator-style:	solid
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! XTerm
 
 ! basics
@@ -41,7 +53,6 @@ URxvt*color4:		rgb:33/33/ff
 URxvt*color12:		rgb:66/66/ff
 URxvt*colorBD:		white
 URxvt*colorUL:		dark cyan
-
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! misc
