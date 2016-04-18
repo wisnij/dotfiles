@@ -1,8 +1,8 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! Emacs
 
-Emacs*font:		7x13
-Emacs*reverseVideo:	true
+Emacs.font:		7x13
+Emacs.reverseVideo:	true
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! Rofi
@@ -15,6 +15,24 @@ rofi.color-urgent:	#000000, #ff6600, #000000, #006600, #ff6600
 rofi.fake-transparency:	true
 rofi.levenshtein-sort:	true
 rofi.separator-style:	solid
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! (U)Rxvt
+
+! basics
+Rxvt.termName:		rxvt-256color
+Rxvt.font:		7x13
+Rxvt.geometry:		160x60+50+50
+Rxvt.scrollstyle:	plain
+Rxvt.scrollBar_right:	true
+
+! colors
+Rxvt.background:	black
+Rxvt.foreground:	grey
+Rxvt.color4:		#3333ff
+Rxvt.color12:		#6666ff
+Rxvt.colorBD:		white
+Rxvt.colorUL:		dark cyan
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! XTerm
@@ -41,29 +59,6 @@ XTerm*rightScrollBar:	true
 XTerm*saveLines:	10000
 XTerm*scrollBar:	true
 XTerm*toolBar:		false
-
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!! URxvt
-
-URxvt*termName:	rxvt-256color
-
-URxvt*font:		7x13
-URxvt*geometry:	160x60+50+50
-
-URxvt*scrollstyle:	plain
-URxvt*scrollBar_right:	true
-
-URxvt*background:	black
-URxvt*foreground:	grey
-URxvt*color4:		rgb:33/33/ff
-URxvt*color12:		rgb:66/66/ff
-URxvt*colorBD:		white
-URxvt*colorUL:		dark cyan
-
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!! misc
-
-XLock.mode:		blank
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! local settings
