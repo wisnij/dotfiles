@@ -341,6 +341,10 @@ mark it as unmodified."
 
 (add-hook 'kill-buffer-query-functions 'unkillable-scratch-buffer)
 
+;; wrap lines at fill-column in visual line mode
+(with-library visual-fill-column
+  (add-hook 'visual-line-mode-hook 'visual-fill-column-mode))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Finish up

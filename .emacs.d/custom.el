@@ -16,7 +16,6 @@
  '(delete-old-versions t)
  '(fill-column 80)
  '(global-font-lock-mode t nil (font-lock))
- '(global-visual-fill-column-mode t)
  '(htmlize-css-name-prefix "htmlize-")
  '(htmlize-html-major-mode (quote html-mode))
  '(ido-default-buffer-method (quote selected-window))
