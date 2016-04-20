@@ -34,9 +34,6 @@ Rxvt.color12:		#6666ff
 Rxvt.colorBD:		white
 Rxvt.colorUL:		dark cyan
 
-! misc
-Rxvt.fading:		25
-
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! XTerm
 
