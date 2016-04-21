@@ -8,10 +8,10 @@ Emacs.reverseVideo:	true
 !! Rofi
 
 rofi.color-enabled:	true
-rofi.color-window:	#000000, #00ff00, #00cc00
-rofi.color-normal:	#000000, #00ff00, #000000, #006600, #00ff00
-rofi.color-active:	#000000, #ffff00, #000000, #006600, #ffff00
-rofi.color-urgent:	#000000, #ff6600, #000000, #006600, #ff6600
+rofi.color-window:	#000, #0f0, #0c0
+rofi.color-normal:	#000, #0f0, #000, #060, #0f0
+rofi.color-active:	#000, #ff0, #000, #060, #ff0
+rofi.color-urgent:	#000, #f60, #000, #060, #f60
 rofi.fake-transparency:	true
 rofi.levenshtein-sort:	true
 rofi.separator-style:	solid
@@ -29,8 +29,8 @@ Rxvt.scrollBar_right:	true
 ! colors
 Rxvt.background:	black
 Rxvt.foreground:	grey
-Rxvt.color4:		#3333ff
-Rxvt.color12:		#6666ff
+Rxvt.color4:		#33f
+Rxvt.color12:		#66f
 Rxvt.colorBD:		white
 Rxvt.colorUL:		dark cyan
 
