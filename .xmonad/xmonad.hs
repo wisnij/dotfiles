@@ -51,7 +51,8 @@ myKeys = [ -- the "lock" key is permanently set to Win-l, so use that for lockin
            -- calc key
          , ("<XF86Calculator>", spawn "gnome-calculator")
            -- web key
-         , ("<XF86HomePage>", spawn "x-www-browser")
+         , ("<XF86HomePage>",   spawn "chromium")
+         , ("S-<XF86HomePage>", spawn "chromium --incognito")
            -- file key
          , ("<XF86MyComputer>", spawn (myTerminal ++ " -e mc"))
          ]
