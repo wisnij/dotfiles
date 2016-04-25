@@ -13,6 +13,7 @@ Rxvt.font:		7x13
 Rxvt.geometry:		160x60+50+50
 Rxvt.scrollstyle:	plain
 Rxvt.scrollBar_right:	true
+Rxvt.loginShell:	true
 
 ! colors
 Rxvt.background:	black
