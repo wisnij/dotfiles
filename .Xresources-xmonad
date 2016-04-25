@@ -1,0 +1,19 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! Rofi
+
+rofi.color-enabled:	true
+rofi.color-window:	#000, #0f0, #0c0
+rofi.color-normal:	#000, #0f0, #000, #060, #0f0
+rofi.color-active:	#000, #ff0, #000, #060, #ff0
+rofi.color-urgent:	#000, #f60, #000, #060, #f60
+rofi.fake-transparency:	true
+rofi.levenshtein-sort:	true
+rofi.separator-style:	solid
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! (U)Rxvt
+
+Rxvt.scrollColor:	#030
+Rxvt.shading:		75
+Rxvt.transparent:	true
