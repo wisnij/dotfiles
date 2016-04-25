@@ -83,6 +83,7 @@
 (global-set-key (kbd "C-<tab>") 'indent-relative)
 (global-set-key (kbd "M-]") 'goto-matching-paren)
 (global-set-key (kbd "M-g") 'goto-line)
+(global-set-key (kbd "M-Q") 'unfill-paragraph)
 (global-set-key (kbd "M-s") 'next-frame-window)
 (global-set-key (kbd "M-S") 'previous-frame-window)
 (global-set-key (kbd "M-y") 'yank-to-region)
@@ -153,6 +154,13 @@ paren."
   (progn
     (delete-region (point) (mark))
     (yank)))
+
+(defun unfill-paragraph (&optional region)
+  "Takes a multi-line paragraph and makes it into a single line of text."
+  (interactive (progn (barf-if-buffer-read-only) '(t)))
+  (let ((fill-column (point-max))
+        (emacs-lisp-docstring-fill-column t))
+    (fill-paragraph nil region)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
