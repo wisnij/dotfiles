@@ -1,0 +1,7 @@
+xkb_keymap {
+    xkb_keycodes  { include "evdev+aliases(qwerty)+tp_e550(swap_ralt_prtsc)" };
+    xkb_types     { include "complete" };
+    xkb_compat    { include "complete" };
+    xkb_symbols   { include "pc+us+inet(evdev)+tp_e550+capslock(ctrl_modifier)+shift(both_capslock)" };
+    xkb_geometry  { include "pc(pc105)" };
+};

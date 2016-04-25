@@ -1,0 +1,39 @@
+-- -*- Haskell; coding: utf-8 -*-
+
+Config { font = "-*-Fixed-Medium-R-Normal-*-11-*-*-*-*-*-*-*"
+       , bgColor = "black"
+       , fgColor = "grey"
+       , alpha = 128
+       , position = Top
+       , commands = [ Run StdinReader
+                    , Run Battery ["-t", "BATT <acstatus><left>%", "--",
+                                   "-O", "+", "-i", "", "-o", "-",
+                                   "-l", "red", "-m", "yellow", "-h", "green", "-p", "cyan"] 10
+                    , Run Brightness ["-t", "LCD <percent>%", "--",
+                                      "-D", "intel_backlight"] 10
+                    , Run Cpu ["-t", "CPU <total>%",
+                               "-l", "green", "-n", "yellow", "-h", "red"] 10
+                    , Run CoreTemp ["-t", "<core0>C",
+                                    "-L", "50", "-H", "70",
+                                    "-l", "green", "-n", "yellow", "-h", "red"] 50
+                    , Run Date "%a %Y.%m.%d %H:%M:%S" "date" 10
+                    , Run DiskU [("/", "DISK <usedp>%")]
+                                ["-l", "green", "-n", "yellow", "-h", "red"] 50
+                    , Run DynNetwork ["-t", "NET <fc=#9f9><rx></fc> <fc=#f99><tx></fc>",
+                                      "-S", "True"] 50
+                    , Run Memory ["-t", "MEM <usedratio>%",
+                                  "-l", "green", "-n", "yellow", "-h", "red"] 10
+                    , Run Swap ["-t", "SWAP <usedratio>%",
+                                "-l", "green", "-n", "yellow", "-h", "red"] 10
+                    , Run Uptime ["-t", "UP <days>d <hours>h <minutes>m"] 600
+                    , Run Volume "default" "Master" ["-t", "VOL <status><volume>%", "--",
+                                                     "-O", "", "-o", "MUTE "] 10
+                    , Run Weather "KBDR" [ "-t", "<tempF>F <rh>% <skyCondition>",
+                                           "-L", "60", "-H", "78",
+                                           "-l", "cyan", "-n", "green", "-h", "red"
+                                         ] 36000
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = "%StdinReader% }{ %KBDR% · %disku%  %cpu% %coretemp%  %memory% %swap%  %dynnetwork%  %default:Master% %bright%  %battery% · %uptime% · %date%"
+       }

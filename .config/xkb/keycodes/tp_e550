@@ -1,0 +1,8 @@
+default xkb_keycodes "tp_e550" {
+};
+
+xkb_keycodes "swap_ralt_prtsc" {
+    // swap RAlt and PrtSc for easier Ctrl+Alt access
+    <RALT> = 107;
+    <PRSC> = 108;
+};

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+export PATH="$HOME/bin:$PATH"
+
+if [[ -r ~/.config/xkb/keymap.xkb ]]; then
+    xkbcomp -I$HOME/.config/xkb/ ~/.config/xkb/keymap.xkb $DISPLAY
+fi
+
+if type -t xscreensaver >/dev/null; then
+    xscreensaver &
+fi
+
+if type -t unclutter >/dev/null; then
+    unclutter &
+fi
