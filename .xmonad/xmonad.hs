@@ -1,4 +1,4 @@
--- -*- Haskell; coding: utf-8 -*-
+-- -*- mode: Haskell; coding: utf-8 -*-
 
 import XMonad
 import XMonad.Hooks.DynamicLog
