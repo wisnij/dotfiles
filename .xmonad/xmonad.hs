@@ -6,6 +6,7 @@ import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Layout.Grid
 import XMonad.Layout.NoBorders(smartBorders)
+import XMonad.Layout.Renamed
 import XMonad.Layout.Spacing
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig
@@ -62,10 +63,11 @@ myRawKeys = [ -- XF86AudioMicMute
               ((0, 0x1008ffb2), spawn "pulseaudio-ctl mute-input")
             ]
 
-myLayoutHook = smartSpacing 2 $ smartBorders $ avoidStruts layouts
+myLayoutHook = renamed [CutWordsLeft 2] $ smartSpacing 2 $ smartBorders $ avoidStruts layouts
   where
-    layouts = (tall ||| Mirror tall ||| Grid ||| Full)
+    layouts = tall ||| wide ||| Grid ||| Full
     tall    = Tall nmaster delta ratio
+    wide    = renamed [Replace "Wide"] $ Mirror tall
     nmaster = 1
     ratio   = 1/2
     delta   = 5/100
