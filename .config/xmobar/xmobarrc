@@ -1,4 +1,4 @@
--- -*- Haskell; coding: utf-8 -*-
+-- -*- mode: Haskell; coding: utf-8 -*-
 
 Config { font = "-*-Fixed-Medium-R-Normal-*-11-*-*-*-*-*-*-*"
        , bgColor = "black"
