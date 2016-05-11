@@ -8,6 +8,7 @@ import XMonad.Layout.Grid
 import XMonad.Layout.NoBorders(smartBorders)
 import XMonad.Layout.Renamed
 import XMonad.Layout.Spacing
+import XMonad.Layout.Tabbed
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig
 import System.IO
@@ -63,11 +64,23 @@ myRawKeys = [ -- XF86AudioMicMute
               ((0, 0x1008ffb2), spawn "pulseaudio-ctl mute-input")
             ]
 
+myTabConfig = defaultTheme { activeColor         = "#060"
+                           , activeBorderColor   = "#0f0"
+                           , activeTextColor     = "#0f0"
+                           , inactiveColor       = "#030"
+                           , inactiveBorderColor = "#060"
+                           , inactiveTextColor   = "#090"
+                           , urgentColor         = "#330"
+                           , urgentBorderColor   = "#f60"
+                           , urgentTextColor     = "#f90"
+                           }
+
 myLayoutHook = renamed [CutWordsLeft 2] $ smartSpacing 2 $ smartBorders $ avoidStruts layouts
   where
-    layouts = tall ||| wide ||| Grid ||| Full
+    layouts = tall ||| wide ||| Grid ||| tabs
     tall    = Tall nmaster delta ratio
     wide    = renamed [Replace "Wide"] $ Mirror tall
+    tabs    = renamed [Replace "Tabs"] $ tabbed shrinkText myTabConfig
     nmaster = 1
     ratio   = 1/2
     delta   = 5/100
