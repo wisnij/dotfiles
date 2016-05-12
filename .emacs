@@ -181,7 +181,8 @@ See `sort-regexp-fields'."
   "Count the number of lines, words and characters in the region or buffer with `wc'."
   (interactive)
   (let ((start (if mark-active (region-beginning) (point-min)))
-        (end   (if mark-active (region-end)       (point-max))))
+        (end   (if mark-active (region-end)       (point-max)))
+        deactivate-mark)
     (shell-command-on-region start end "wc")))
 
 (defun word-count (&optional start end)
