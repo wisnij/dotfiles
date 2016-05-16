@@ -48,6 +48,7 @@
  '(tool-bar-mode nil nil (tool-bar))
  '(transient-mark-mode t)
  '(truncate-partial-width-windows t)
+ '(typopunct-buffer-language (quote english))
  '(uniquify-buffer-name-style (quote post-forward-angle-brackets) nil (uniquify))
  '(version-control t)
  '(x-select-enable-clipboard t)

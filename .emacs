@@ -67,6 +67,8 @@
 (with-library window-numbering
   (window-numbering-mode t))
 
+(with-library typopunct)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Keybindings
 
