@@ -91,6 +91,7 @@ taillog () {
 
 
 timestamp () {
+    local line
     while read line; do
         printf '\e[38;5;8m[%s]\e[0m %s\n' "$(date +'%F %T')" "$line"
     done
