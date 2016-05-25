@@ -86,7 +86,12 @@ perlmake () {
 
 
 taillog () {
-    tail -F "$@" | while read line; do
+    tail -F "$@" | timestamp
+}
+
+
+timestamp () {
+    while read line; do
         printf '\e[38;5;8m[%s]\e[0m %s\n' "$(date +'%F %T')" "$line"
     done
 }
