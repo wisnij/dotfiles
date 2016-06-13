@@ -1,0 +1,10 @@
+#!/bin/bash
+
+dev_touchpad='AlpsPS/2 ALPS DualPoint TouchPad'
+dev_stick='AlpsPS/2 ALPS DualPoint Stick'
+
+# turn off touchpad entirely
+xinput disable "$dev_touchpad"
+
+# set mouse acceleration
+xinput set-ptr-feedback "$dev_stick" 0 3 1
