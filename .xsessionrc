@@ -7,4 +7,4 @@ dev_stick='AlpsPS/2 ALPS DualPoint Stick'
 xinput disable "$dev_touchpad"
 
 # set mouse acceleration
-xinput set-ptr-feedback "$dev_stick" 0 3 1
+xinput set-ptr-feedback "$dev_stick" 0 4 1
