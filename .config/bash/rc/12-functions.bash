@@ -22,6 +22,16 @@ bar () {
 }
 
 
+bell () {
+    for t in "$@" ''; do
+        echo -ne '\a'
+        if [[ -n $t ]]; then
+            sleep $t
+        fi
+    done
+}
+
+
 cath () {
     for file in "$@"; do
         echo -e "\e[7m##### $file #####\e[0m"
