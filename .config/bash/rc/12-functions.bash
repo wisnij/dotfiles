@@ -86,7 +86,7 @@ dups () {
 
 
 find-large-files () {
-    find -type f -printf '%s\t%p\n' | sort -nr
+    find "$@" -type f -printf '%s\t%p\n' | awk '{ if ($1 >= 1000000) print }' | sort -nr
 }
 
 
