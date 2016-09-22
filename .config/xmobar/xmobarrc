@@ -31,5 +31,5 @@ Config { font = "-*-Fixed-Medium-R-Normal-*-11-*-*-*-*-*-*-*"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %disku%  %cpu% %coretemp%  %memory% %swap%  %dynnetwork%  %default:Master% %bright%  %battery% · %uptime% · %date%"
+       , template = "%StdinReader% }{ %dynnetwork%  %memory% %swap%  %cpu% %coretemp%  %disku%  %default:Master% %bright%  %battery% · %uptime% · %date%"
        }
