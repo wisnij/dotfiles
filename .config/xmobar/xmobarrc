@@ -28,12 +28,8 @@ Config { font = "-*-Fixed-Medium-R-Normal-*-11-*-*-*-*-*-*-*"
                     , Run Uptime ["-t", "UP <days>d <hours>h <minutes>m"] 600
                     , Run Volume "default" "Master" ["-t", "VOL <status><volume>%", "--",
                                                      "-O", "", "-o", "MUTE "] 10
-                    , Run Weather "KBDR" [ "-t", "<tempF>F <rh>% <skyCondition>",
-                                           "-L", "60", "-H", "80",
-                                           "-l", "cyan", "-n", "green", "-h", "red"
-                                         ] 36000
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %KBDR% · %disku%  %cpu% %coretemp%  %memory% %swap%  %dynnetwork%  %default:Master% %bright%  %battery% · %uptime% · %date%"
+       , template = "%StdinReader% }{ %disku%  %cpu% %coretemp%  %memory% %swap%  %dynnetwork%  %default:Master% %bright%  %battery% · %uptime% · %date%"
        }
