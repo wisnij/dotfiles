@@ -2,8 +2,10 @@
 
 export PATH="$HOME/bin:$PATH"
 
-if [[ -r ~/.config/xkb/keymap.xkb ]]; then
-    xkbcomp -I$HOME/.config/xkb/ ~/.config/xkb/keymap.xkb $DISPLAY
+xkbhome=$HOME/.config/xkb
+if [[ -r $xkbhome/keymap.xkb ]]; then
+    # FIXME: this is stupid
+    (sleep 1; xkbcomp -I$xkbhome $xkbhome/keymap.xkb $DISPLAY) &
 fi
 
 if type -t xscreensaver >/dev/null; then
