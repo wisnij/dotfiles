@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 dev_touchpad='AlpsPS/2 ALPS DualPoint TouchPad'
 dev_stick='AlpsPS/2 ALPS DualPoint Stick'
