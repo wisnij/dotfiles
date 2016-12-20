@@ -4,13 +4,13 @@ bak () {
         l *.bak
         return
     fi
-    
+
     local file=$1
     shift
     local slug
     if [[ $# -gt 0 ]]; then
         slug=$(sed -re 's/[^A-Za-z0-9_]+/-/g' <<< "-$*")
-    fi 
+    fi
     local backup="$file.$(date +'%Y%m%d-%H%M%S')$slug.bak"
     cp -v "$file" "$backup"
 }
@@ -19,6 +19,16 @@ bak () {
 bar () {
     local n=${1:-2}
     perl -le "print '#' x $COLUMNS for 1..$n"
+}
+
+
+bell () {
+    for t in "$@" ''; do
+        echo -ne '\a'
+        if [[ -n $t ]]; then
+            sleep $t
+        fi
+    done
 }
 
 
@@ -76,12 +86,25 @@ dups () {
 
 
 find-large-files () {
-    find -type f -printf '%s\t%p\n' | sort -nr
+    find "$@" -type f -printf '%s\t%p\n' | awk '{ if ($1 >= 1000000) print }' | sort -nr
 }
 
 
 perlmake () {
     perl Makefile.PL PREFIX="~/usr" LIB="~/usr/lib/perl5" "$@"
+}
+
+
+taillog () {
+    tail -F "$@" | timestamp
+}
+
+
+timestamp () {
+    local line
+    while IFS= read -r line; do
+        printf '\e[38;5;8m[%s]\e[0m %s\n' "$(date +'%F %T')" "$line"
+    done
 }
 
 

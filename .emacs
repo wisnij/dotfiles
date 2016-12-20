@@ -67,6 +67,8 @@
 (with-library window-numbering
   (window-numbering-mode t))
 
+(with-library typopunct)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Keybindings
 
@@ -183,7 +185,8 @@ See `sort-regexp-fields'."
   "Count the number of lines, words and characters in the region or buffer with `wc'."
   (interactive)
   (let ((start (if mark-active (region-beginning) (point-min)))
-        (end   (if mark-active (region-end)       (point-max))))
+        (end   (if mark-active (region-end)       (point-max)))
+        deactivate-mark)
     (shell-command-on-region start end "wc")))
 
 (defun word-count (&optional start end)
@@ -254,7 +257,21 @@ default).  Otherwise set VAR to INIT (0 by default)."
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 ;; clean whitespace when saving
-(add-hook 'before-save-hook 'cleanup-whitespace)
+(defvar auto-cleanup-whitespace t
+  "Whether `cleanup-whitespace' runs automatically when saving a buffer.")
+
+(make-variable-buffer-local 'auto-cleanup-whitespace)
+
+(defun toggle-auto-cleanup-whitespace ()
+  "Toggle the value of `auto-cleanup-whitespace'."
+  (interactive)
+  (setq auto-cleanup-whitespace (not auto-cleanup-whitespace))
+  (message "Auto cleanup whitespace %s"
+           (if auto-cleanup-whitespace "enabled" "disabled")))
+
+(add-hook 'before-save-hook (lambda ()
+                              (when auto-cleanup-whitespace
+                                (cleanup-whitespace))))
 
 ;; fuck CPerl mode
 (with-library perl-mode
