@@ -7,7 +7,7 @@ Config { font = "-*-Fixed-Medium-R-Normal-*-11-*-*-*-*-*-*-*"
        , position = Top
        , commands = [ Run StdinReader
                     , Run Battery ["-t", "BATT <acstatus><left>%", "--",
-                                   "-O", "+", "-i", "", "-o", "-",
+                                   "-O", "+", "-i", "=", "-o", "",
                                    "-l", "red", "-m", "yellow", "-h", "green", "-p", "cyan"] 10
                     , Run Brightness ["-t", "LCD <percent>%", "--",
                                       "-D", "intel_backlight"] 10
