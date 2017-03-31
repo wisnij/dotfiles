@@ -5,8 +5,9 @@
 	default = simple
 [alias]
 	diffs = diff --staged
-	graph = log --graph --pretty=tformat:\"%C(yellow)%h%Creset %C(cyan)%ad%Creset %s\" --date=relative
+	graph = "!git log --graph --pretty=tformat:\"%C(yellow)%h%Creset %C(cyan)%ad%Creset %s\" --date=relative | less"
 	trypull = "!git fetch -v; git whatchanged ..origin/common --pretty=format:\"%C(yellow)%h%Creset [%C(cyan)%ar%Creset] %s\" --reverse"
+	branch-delete = "!f(){ git branch -d ${1} && git push origin --delete ${1}; };f"
 [core]
 	pager = cat
 [color]
@@ -25,4 +26,4 @@
 	newNormal = cyan
 	newHighlight = cyan 19
 [pager]
-	diff = diff-highlight
+	diff = diff-highlight | less
