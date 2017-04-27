@@ -278,7 +278,7 @@ default).  Otherwise set VAR to INIT (0 by default)."
   (defalias 'cperl-mode 'perl-mode)
   (add-to-list 'auto-mode-alist '("\\.pod$" . perl-mode))
   (add-to-list 'auto-mode-alist '("\\.perl-expr$" . perl-mode))
-  (add-to-list 'perl-font-lock-keywords-2 '("\\<\\(our\\)\\>" . font-lock-type-face) t)
+  (add-to-list 'perl-font-lock-keywords-2 '("\\<\\(our\\|state\\)\\>" . font-lock-type-face) t)
   (add-to-list 'perl-font-lock-keywords-2 '("\\(\\<not\\>\\|!\\)" . font-lock-negation-char-face) t))
 
 ;; fix POD highlighting
