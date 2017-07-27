@@ -27,7 +27,7 @@ _bash_prompt () {
     else
         # use CRC checksum to turn the hostname into a semi-unique integer
         local n=$(echo $hostname | cksum | cut -d' ' -f1)
-        
+
         # fold into the 256color range 22-231
         local hc=$((22 + 10#$n % 210))
         host_color="\[\e[1;38;5;${hc}m\]"
@@ -41,20 +41,20 @@ _bash_prompt () {
     else
         prompt_color=$green
     fi
-    
+
     # basics: [time] user@host pwd
     PS1="${prompt_color}[\t] \u${normal}@${host_color}$hostname${normal} ${blue}\w${normal}"
-    
+
     # show error statuses in red
     if [[ $status != 0 ]]; then
         PS1="$PS1 ${red}${status}${normal}"
     fi
-    
+
     # number of active jobs if >0
     if [[ -n $(jobs) ]]; then
         PS1="$PS1 (\j)"
     fi
-    
+
     # final prompt char
     PS1="$PS1 \$ "
 }
@@ -64,4 +64,4 @@ _prompt () {
     _titlebar_prompt
 }
 
-export PROMPT_COMMAND=_prompt
+export PROMPT_COMMAND="_prompt;$PROMPT_COMMAND"
