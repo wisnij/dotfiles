@@ -1,7 +1,6 @@
 unset PROMPT_COMMAND
 
 export COLUMNS
-export GREP_OPTIONS='--color=auto'
 export HISTCONTROL='ignoredups'
 export HISTFILESIZE=200000
 export HISTSIZE=100000

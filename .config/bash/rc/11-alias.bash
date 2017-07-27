@@ -17,6 +17,8 @@ le () {
 
 alias cp='cp -vi'
 alias crontab='crontab -i'
+alias egrep='egrep --color=auto'
+alias grep='grep --color=auto'
 alias hex='hexdump -C'
 alias mv='mv -vi'
 alias psf='ps fuxw'
