@@ -64,4 +64,4 @@ _prompt () {
     _titlebar_prompt
 }
 
-export PROMPT_COMMAND="_prompt;$PROMPT_COMMAND"
+PROMPT_COMMAND="_prompt;$PROMPT_COMMAND"
