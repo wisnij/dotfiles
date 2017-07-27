@@ -1,3 +1,5 @@
+unset PROMPT_COMMAND
+
 export COLUMNS
 export HISTCONTROL='ignoredups'
 export HISTFILESIZE=200000
