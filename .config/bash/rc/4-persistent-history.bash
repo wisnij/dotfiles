@@ -23,7 +23,7 @@ persistent_history_append_log () {
             fi
         fi
 
-        if [[ $command != $last_command ]]; then
+        if [[ -n $command && $command != $last_command ]]; then
             if [[ ! -e $PERSISTENT_HISTORY_FILE ]]; then
                 (umask g=,o=; touch $PERSISTENT_HISTORY_FILE)
             fi
