@@ -27,3 +27,5 @@
 	newHighlight = cyan 19
 [pager]
 	diff = diff-highlight | less
+[merge]
+	ff = false
