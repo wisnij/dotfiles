@@ -13,8 +13,6 @@
 	pager = cat
 [color]
 	ui = always
-[include]
-	path = ~/.config/git/config-local
 [status]
 	showUntrackedFiles = no
 [color "diff"]
@@ -31,3 +29,5 @@
 	diff = diff-highlight | less
 [merge]
 	ff = false
+[include]
+	path = config-local
