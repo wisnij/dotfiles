@@ -13,7 +13,7 @@ persistent_history_append_log () {
     mkdir -p $PERSISTENT_HISTORY_DIR
 
     (
-        flock -x 200
+        flock -x -w 60 200
 
         local last_num=0 last_command
         if [[ -e $PERSISTENT_HISTORY_FILE ]]; then

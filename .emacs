@@ -337,7 +337,7 @@ value should be a list in the format accepted by `font-lock-add-keywords'.")
 (add-hook 'font-lock-mode-hook
           (lambda ()
             (font-lock-add-keywords nil
-             '(("\\<\\(BUG\\|FIXME\\|TODO\\|XXX\\)" 1 font-lock-warning-face t)))))
+             '(("\\<\\(BUG\\|FIXME\\|TODO\\|XXX\\|NOSUBMIT\\)" 1 font-lock-warning-face t)))))
 
 (add-hook 'text-mode-hook 'turn-on-font-lock)
 
