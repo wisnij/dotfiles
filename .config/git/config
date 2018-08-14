@@ -5,12 +5,14 @@
 	default = simple
 [alias]
 	diffs = diff --staged
-	graph = "!git log --graph --branches --pretty=tformat:\"%C(yellow)%h%Creset %C(cyan)%ad%Creset %C(magenta)%an%Creset %s%C(auto)%d\" --date=relative | less"
+	graph = "!git log --graph --branches --pretty=oneline-date --date=relative"
 	trypull = "!git fetch -v; git whatchanged ..origin/common --pretty=format:\"%C(yellow)%h%Creset [%C(cyan)%ar%Creset] %s\" --reverse"
 	branch-delete = "!f(){ git branch -d ${1} && git push origin --delete ${1}; };f"
 	difflast = diff HEAD~1 HEAD
+	changes = "!git log --pretty=oneline-isodate"
+	history = "!git log -p"
 [core]
-	pager = cat
+	pager = less
 [color]
 	ui = always
 [status]
@@ -31,3 +33,6 @@
 	ff = false
 [include]
 	path = config-local
+[pretty]
+	oneline-date = tformat:"%C(yellow)%h%Creset %C(cyan)%ad%Creset %C(magenta)%an%Creset %s%C(auto)%d"
+	oneline-isodate = tformat:"%C(yellow)%h%Creset %C(cyan)%ai%Creset %C(magenta)%an%Creset %s%C(auto)%d"
