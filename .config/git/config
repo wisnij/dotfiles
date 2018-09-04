@@ -1,33 +1,38 @@
-[user]
-	name = Jim Wisniewski
-	email = wisnij@gmail.com
-[push]
-	default = simple
 [alias]
-	diffs = diff --staged
-	graph = "!git log --graph --branches --pretty=tformat:\"%C(yellow)%h%Creset %C(cyan)%ad%Creset %C(magenta)%an%Creset %s%C(auto)%d\" --date=relative | less"
-	trypull = "!git fetch -v; git whatchanged ..origin/common --pretty=format:\"%C(yellow)%h%Creset [%C(cyan)%ar%Creset] %s\" --reverse"
 	branch-delete = "!f(){ git branch -d ${1} && git push origin --delete ${1}; };f"
+	changes = "!git log --pretty=oneline-isodate"
 	difflast = diff HEAD~1 HEAD
-[core]
-	pager = cat
-[color]
-	ui = always
-[status]
-	showUntrackedFiles = no
+	diffs = diff --staged
+	graph = "!git log --graph --branches --pretty=oneline-date --date=relative"
+	history = "!git log -p"
+	trypull = "!git fetch -v; git whatchanged ..origin/common --pretty=format:\"%C(yellow)%h%Creset [%C(cyan)%ar%Creset] %s\" --reverse"
 [color "diff"]
-	old = red
-	new = cyan
 	frag = yellow
+	new = cyan
+	old = red
 	plain = bold black
 [color "diff-highlight"]
-	oldNormal = red
-	oldHighlight = red 52
-	newNormal = cyan
 	newHighlight = cyan 19
-[pager]
-	diff = diff-highlight | less
-[merge]
-	ff = false
+	newNormal = cyan
+	oldHighlight = red 52
+	oldNormal = red
+[color]
+	ui = always
+[core]
+	pager = less
 [include]
 	path = config-local
+[merge]
+	ff = false
+[pager]
+	diff = diff-highlight | less
+[pretty]
+	oneline-date = tformat:"%C(yellow)%h%Creset %C(cyan)%ad%Creset %C(magenta)%an%Creset %s%C(auto)%d"
+	oneline-isodate = tformat:"%C(yellow)%h%Creset %C(cyan)%ai%Creset %C(magenta)%an%Creset %s%C(auto)%d"
+[push]
+	default = simple
+[status]
+	showUntrackedFiles = no
+[user]
+	email = wisnij@gmail.com
+	name = Jim Wisniewski
