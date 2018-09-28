@@ -116,7 +116,7 @@ todo () {
 waitpid () {
     local pid=$1
     local seen=0
-    while kill -0 $pid 2>/dev/null; do
+    while [[ -e /proc/$pid ]]; do
         sleep 1
         seen=1
     done
