@@ -93,7 +93,7 @@
 (global-set-key (kbd "C-S-y") 'yank-rectangle)
 (global-set-key (kbd "C-x <backspace>") 'delete-region)
 
-(global-set-key (kbd "C-x b") 'buffer-menu)
+(global-set-key (kbd "C-x C-b") 'buffer-menu)
 (global-set-key (kbd "C-b")
                 (if (fboundp 'ido-switch-buffer)
                     'ido-switch-buffer
