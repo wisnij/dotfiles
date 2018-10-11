@@ -7,6 +7,7 @@
 	history = "!git log -p"
 	trypull = "!git fetch -v; git whatchanged ..origin/common --pretty=format:\"%C(yellow)%h%Creset [%C(cyan)%ar%Creset] %s\" --reverse"
 [color "diff"]
+	commit = bold yellow
 	frag = yellow
 	new = cyan
 	old = red
