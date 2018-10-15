@@ -23,8 +23,6 @@
 	pager = less
 [include]
 	path = config-local
-[merge]
-	ff = false
 [pager]
 	diff = diff-highlight | less
 	history = diff-highlight | less
