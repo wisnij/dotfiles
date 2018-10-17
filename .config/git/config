@@ -21,8 +21,6 @@
 	ui = always
 [core]
 	pager = less
-[include]
-	path = config-local
 [pager]
 	diff = diff-highlight | less
 	history = diff-highlight | less
@@ -36,3 +34,5 @@
 [user]
 	email = wisnij@gmail.com
 	name = Jim Wisniewski
+[include]
+	path = config-local
