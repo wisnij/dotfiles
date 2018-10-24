@@ -8,7 +8,7 @@ PERSISTENT_HISTORY_LOCK=${PERSISTENT_HISTORY_FILE}.flock
 persistent_history_append_log () {
     [[ $(history 1) =~ ^\ *[0-9]+\ +\[([^\]]+)\]\ +(.*)$ ]]
     local date="${BASH_REMATCH[1]}"
-    local command="${BASH_REMATCH[2]}"
+    local command="${BASH_REMATCH[2]//$'\n'/ }"
 
     mkdir -p $PERSISTENT_HISTORY_DIR
 
