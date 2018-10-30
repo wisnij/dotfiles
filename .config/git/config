@@ -1,10 +1,10 @@
 [alias]
 	branch-delete = "!f(){ git branch -d ${1} && git push origin --delete ${1}; };f"
-	changes = "!git log --pretty=oneline-isodate"
+	changes = log --pretty=oneline-isodate
 	difflast = diff HEAD~1 HEAD
 	diffs = diff --staged
-	graph = "!git log --graph --branches --pretty=oneline-date --date=relative"
-	history = "!git log -p"
+	graph = log --graph --branches --pretty=oneline-date --date=relative
+	history = log -p
 	trypull = "!git fetch -v; git whatchanged ..origin/common --pretty=format:\"%C(yellow)%h%Creset [%C(cyan)%ar%Creset] %s\" --reverse"
 [color "diff"]
 	commit = bold yellow
