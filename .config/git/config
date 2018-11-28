@@ -6,6 +6,7 @@
 	files = "!f(){ git ls-files \"$@\" | sort; };f"
 	graph = log --graph --branches --pretty=oneline-date --date=relative --date-order
 	history = log -p
+	puff = pull --ff --ff-only
 [color "diff"]
 	commit = bold yellow
 	frag = yellow
@@ -21,12 +22,16 @@
 	ui = always
 [core]
 	pager = less
+[merge]
+	ff = false
 [pager]
 	diff = diff-highlight | less
 	history = diff-highlight | less
 [pretty]
 	oneline-date = tformat:"%C(yellow)%h%Creset %C(cyan)%cd%Creset %C(magenta)%cn%Creset %s%C(auto)%d"
 	oneline-isodate = tformat:"%C(yellow)%h%Creset %C(cyan)%ci%Creset %C(magenta)%cn%Creset %s%C(auto)%d"
+[pull]
+	ff = only
 [push]
 	default = simple
 [status]
