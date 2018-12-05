@@ -55,8 +55,13 @@ _bash_prompt () {
         PS1="$PS1 (\j)"
     fi
 
+    local prompt i
+    for (( i=0; i < $SHLVL; ++i )); do
+        prompt+="\\\$"
+    done
+
     # final prompt char
-    PS1="$PS1 \\\$ "
+    PS1="$PS1 $prompt "
 }
 
 _prompt () {
