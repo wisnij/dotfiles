@@ -56,7 +56,7 @@ _bash_prompt () {
     fi
 
     # final prompt char
-    PS1="$PS1 \$ "
+    PS1="$PS1 \\\$ "
 }
 
 _prompt () {
