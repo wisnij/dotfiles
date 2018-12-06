@@ -3,9 +3,13 @@
 	changes = log --pretty=oneline-isodate
 	difflast = diff HEAD~1 HEAD
 	diffs = diff --staged
+	d  = diff --patch --stat --ignore-space-change --ignore-space-at-eol
+	ds = diff --patch --stat --ignore-space-change --ignore-space-at-eol --staged
+	fa = fetch --all
 	files = "!f(){ git ls-files \"$@\" | sort; };f"
+	gg = "!f(){ git ls-files | sort | xargs grep -E \"$@\"; };f"
 	graph = log --graph --branches --pretty=oneline-date --date=relative --date-order
-	history = log -p
+	history = log -p --ignore-space-change --ignore-space-at-eol
 	puff = pull --ff --ff-only
 [color "diff"]
 	commit = bold yellow
