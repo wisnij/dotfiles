@@ -36,9 +36,6 @@
 
 (add-to-load-path (user-file "lisp"))
 
-(when (fboundp 'set-language-environment)
-  (set-language-environment "UTF-8"))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Libraries
@@ -257,6 +254,9 @@ default).  Otherwise set VAR to INIT (0 by default)."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Passive settings
+
+(when (fboundp 'set-language-environment)
+  (set-language-environment "UTF-8"))
 
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
