@@ -36,6 +36,9 @@
 
 (add-to-load-path (user-file "lisp"))
 
+(when (fboundp 'set-language-environment)
+  (set-language-environment "UTF-8"))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Libraries
