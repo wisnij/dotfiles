@@ -282,6 +282,7 @@ default).  Otherwise set VAR to INIT (0 by default)."
   (defalias 'cperl-mode 'perl-mode)
   (add-to-list 'auto-mode-alist '("\\.pod$" . perl-mode))
   (add-to-list 'auto-mode-alist '("\\.perl-expr$" . perl-mode))
+  (add-to-list 'auto-mode-alist '("\\.psgi$" . perl-mode))
   (add-to-list 'perl-font-lock-keywords-2 '("\\<\\(our\\|state\\)\\>" . font-lock-type-face) t)
   (add-to-list 'perl-font-lock-keywords-2 '("\\<\\(given\\|when\\|default\\)\\>" . font-lock-keyword-face) t)
   (add-to-list 'perl-font-lock-keywords-2 '("\\(\\<not\\>\\|!\\)" . font-lock-negation-char-face) t))
