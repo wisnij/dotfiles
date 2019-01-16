@@ -30,6 +30,7 @@
 [merge]
 	ff = false
 [pager]
+	branch = false
 	diff = diff-highlight | less
 	history = diff-highlight | less
 [pretty]
