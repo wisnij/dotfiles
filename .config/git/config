@@ -11,6 +11,7 @@
 	graph = log --graph --branches --pretty=oneline-date --date=relative --date-order
 	history = log -p --ignore-space-change --ignore-space-at-eol
 	puff = pull --ff --ff-only
+	s = show --patch --stat --ignore-space-change --ignore-space-at-eol
 [color "diff"]
 	commit = bold yellow
 	frag = yellow
