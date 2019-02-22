@@ -7,8 +7,9 @@
 	ds = diff --patch --stat --ignore-space-change --ignore-space-at-eol --staged
 	fa = fetch --all
 	files = "!f(){ git ls-files \"$@\" | sort; };f"
+	g = graph --all
 	gg = "!f(){ git ls-files | sort | xargs grep -E \"$@\"; };f"
-	graph = log --graph --branches --pretty=oneline-date --date=relative --date-order
+	graph = log --graph --pretty=oneline-date --date=relative --date-order
 	history = log -p --ignore-space-change --ignore-space-at-eol
 	puff = pull --ff --ff-only
 	s = show --patch --stat --ignore-space-change --ignore-space-at-eol
