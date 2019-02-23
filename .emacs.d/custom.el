@@ -1,10 +1,10 @@
 ;; -*- Emacs-Lisp -*-
 
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(ansi-color-for-comint-mode t)
  '(backup-by-copying t)
  '(backward-delete-char-untabify-method nil)
@@ -21,7 +21,9 @@
  '(ido-default-buffer-method (quote selected-window))
  '(ido-enable-flex-matching t)
  '(ido-ignore-buffers (quote ("\\` " "^\\*")))
- '(ido-ignore-files (quote ("\\`CVS/" "\\`#" "\\`.#" "\\`\\.\\./" "\\`\\./" "\\.bak\\'")))
+ '(ido-ignore-files
+   (quote
+    ("\\`CVS/" "\\`#" "\\`.#" "\\`\\.\\./" "\\`\\./" "\\.bak\\'")))
  '(ido-save-directory-list-file "~/.emacs.d/ido.last")
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
@@ -32,9 +34,17 @@
  '(menu-bar-mode nil)
  '(p4-default-diff-options "-dNu")
  '(p4-verbose nil)
- '(package-archives (quote (("gnu" . "http://elpa.gnu.org/packages/") ("melpa" . "http://melpa.org/packages/"))))
+ '(package-archives
+   (quote
+    (("gnu" . "http://elpa.gnu.org/packages/")
+     ("melpa" . "http://melpa.org/packages/"))))
+ '(package-selected-packages
+   (quote
+    (yaml-mode color-identifiers-mode window-numbering quick-buffer-switch json-mode icicles color-theme)))
+ '(read-quoted-char-radix 16)
  '(save-abbrevs (quote silently))
  '(scroll-bar-mode (quote right))
+ '(select-enable-clipboard t)
  '(show-paren-mode t nil (paren))
  '(show-trailing-whitespace t)
  '(size-indication-mode t)
@@ -47,14 +57,13 @@
  '(typopunct-buffer-language (quote english))
  '(uniquify-buffer-name-style (quote post-forward-angle-brackets) nil (uniquify))
  '(version-control t)
- '(x-select-enable-clipboard t)
  '(x-stretch-cursor t))
 
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(diff-added ((t (:inherit diff-changed :foreground "cyan"))))
  '(diff-added-face ((t (:inherit diff-changed :foreground "cyan"))))
  '(diff-changed ((nil (:foreground "darkgreen"))))

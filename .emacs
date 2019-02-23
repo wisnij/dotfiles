@@ -258,6 +258,9 @@ default).  Otherwise set VAR to INIT (0 by default)."
 (when (fboundp 'set-language-environment)
   (set-language-environment "UTF-8"))
 
+(when (fboundp 'prefer-coding-system)
+  (prefer-coding-system 'utf-8-unix))
+
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 ;; clean whitespace when saving
