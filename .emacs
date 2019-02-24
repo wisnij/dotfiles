@@ -362,7 +362,7 @@ value should be a list in the format accepted by `font-lock-add-keywords'.")
 
 ;; use 7x13 on Windows, where .Xresources has no effect
 (when (eql system-type 'windows-nt)
-  (set-frame-font "7x13-10" nil t))
+  (set-frame-font "7x13-10" t t))
 
 ;; make scratch buffer unkillable
 (defun unkillable-scratch-buffer ()
