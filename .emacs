@@ -360,9 +360,9 @@ value should be a list in the format accepted by `font-lock-add-keywords'.")
 (dolist (f '(narrow-to-page narrow-to-region upcase-region downcase-region))
   (put f 'disabled nil))
 
-;; use 7x13 on Windows, where .Xresources has no effect
+;; use 6x13 on Windows, where .Xresources has no effect
 (when (eql system-type 'windows-nt)
-  (set-frame-font "7x13-10" t t))
+  (set-frame-font "6x13-10" t t))
 
 ;; make scratch buffer unkillable
 (defun unkillable-scratch-buffer ()
