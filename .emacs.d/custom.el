@@ -11,7 +11,6 @@
  '(c-default-style "wisnij")
  '(case-fold-search t)
  '(column-number-mode t)
- '(current-language-environment "UTF-8")
  '(default-input-method "latin-1-prefix")
  '(delete-old-versions t)
  '(fill-column 80)
