@@ -37,35 +37,30 @@ PROMPT_COMMAND="persistent_history_append_log;$PROMPT_COMMAND"
 
 phistory () {
     local OPTION OPTARG OPTIND search recall
-    while getopts 'gr' OPTION; do
+    while getopts 'g:r:' OPTION; do
         case $OPTION in
-            g) search=1 ;;
-            r) recall=1 ;;
+            g) search=$OPTARG ;;
+            r) recall=$OPTARG ;;
         esac
     done
-    if [[ -n $OPTIND ]]; then
-        shift $(($OPTIND - 1))
-    fi
+    shift $(($OPTIND - 1))
 
-    local num=$1
-    if [[ -n $search ]]; then
-        grep "$@" $PERSISTENT_HISTORY_FILE
-    elif [[ -n $recall ]]; then
-        local entry=$(grep "^ *$num " $PERSISTENT_HISTORY_FILE)
+    if [[ -n $recall ]]; then
+        local entry=$(grep "^ *$recall " $PERSISTENT_HISTORY_FILE)
         if [[ -z $entry ]]; then
-            echo "history entry $num not found"
-            exit 1
+            echo "history entry $recall not found"
+            return 1
         elif [[ $entry =~ ^\ *[0-9]+\ +\[[^\]]+\]\ +(.*)$ ]]; then
             local command="${BASH_REMATCH[1]}"
             echo "recalling command: $command"
             history -s "$command"
         else
             echo "malformed history entry: $entry"
-            exit 2
+            return 2
         fi
-    elif [[ -n $num ]]; then
-        tail -n $num $PERSISTENT_HISTORY_FILE
+    elif [[ -n $search ]]; then
+        grep "$search" $PERSISTENT_HISTORY_FILE "$@"
     else
-        cat $PERSISTENT_HISTORY_FILE
+        tail -n ${1:-10} $PERSISTENT_HISTORY_FILE
     fi
 }
