@@ -3,16 +3,16 @@
 	changes = log --pretty=oneline-isodate
 	difflast = diff HEAD~1 HEAD
 	diffs = diff --staged
-	d  = diff --patch --stat --ignore-space-change --ignore-space-at-eol
-	ds = diff --patch --stat --ignore-space-change --ignore-space-at-eol --staged
+	d  = diff --patch --compact-summary --ignore-space-change --ignore-space-at-eol
+	ds = diff --patch --compact-summary --ignore-space-change --ignore-space-at-eol --staged
 	fa = fetch --all
 	files = "!f(){ git ls-files \"$@\" | sort; };f"
 	gg = "!f(){ git ls-files | sort | xargs grep -E \"$@\"; };f"
 	graph = log --graph --pretty=oneline-date --date=relative --date-order
 	g     = log --graph --pretty=oneline-date --date=relative --date-order --all
-	history = log -p --ignore-space-change --ignore-space-at-eol
+	history = log --patch  --compact-summary --ignore-space-change --ignore-space-at-eol
 	puff = pull --ff --ff-only
-	s = show --patch --stat --ignore-space-change --ignore-space-at-eol
+	s = show --patch --compact-summary --ignore-space-change --ignore-space-at-eol
 [color "diff"]
 	commit = bold yellow
 	frag = yellow
