@@ -18,6 +18,7 @@
  '(htmlize-css-name-prefix "htmlize-")
  '(htmlize-html-major-mode (quote html-mode))
  '(ido-default-buffer-method (quote selected-window))
+ '(ido-default-file-method (quote selected-window))
  '(ido-enable-flex-matching t)
  '(ido-ignore-buffers (quote ("\\` " "^\\*")))
  '(ido-ignore-files
@@ -39,7 +40,7 @@
      ("melpa" . "http://melpa.org/packages/"))))
  '(package-selected-packages
    (quote
-    (yaml-mode color-identifiers-mode window-numbering quick-buffer-switch json-mode icicles color-theme)))
+    (markdown-mode+ markdown-mode git-commit gitconfig-mode go-mode yaml-mode color-identifiers-mode window-numbering quick-buffer-switch json-mode icicles color-theme)))
  '(read-quoted-char-radix 16)
  '(save-abbrevs (quote silently))
  '(scroll-bar-mode (quote right))
@@ -48,7 +49,7 @@
  '(show-trailing-whitespace t)
  '(size-indication-mode t)
  '(slime-startup-animation nil)
- '(sort-fold-case t t)
+ '(sort-fold-case t)
  '(sql-product (quote mysql))
  '(tool-bar-mode nil nil (tool-bar))
  '(transient-mark-mode t)
@@ -68,4 +69,5 @@
  '(diff-changed ((nil (:foreground "darkgreen"))))
  '(diff-changed-face ((nil (:foreground "darkgreen"))))
  '(diff-removed ((t (:inherit diff-changed :foreground "red"))))
- '(diff-removed-face ((t (:inherit diff-changed :foreground "red")))))
+ '(diff-removed-face ((t (:inherit diff-changed :foreground "red"))))
+ '(markdown-code-face ((t (:inherit nil)))))
