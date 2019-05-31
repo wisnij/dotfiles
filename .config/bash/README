@@ -10,6 +10,6 @@ Numbering scheme for rc files:
 5   platform user
 6   local user
 
-7x  common post 
+7x  common post
 8x  platform post
 9x  local post
