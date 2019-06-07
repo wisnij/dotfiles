@@ -59,6 +59,12 @@ _bash_prompt () {
         PS1="$PS1 (\j)"
     fi
 
+    # are we in a Python venv?
+    if [[ -n $VIRTUAL_ENV ]]; then
+        local venv=$(basename $VIRTUAL_ENV)
+        PS1="$PS1 ($(_str_color $venv)$venv$normal)"
+    fi
+
     local prompt i
     for (( i=0; i < $SHLVL; ++i )); do
         prompt+="\\\$"
