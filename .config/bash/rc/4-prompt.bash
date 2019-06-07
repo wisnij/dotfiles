@@ -49,9 +49,10 @@ _bash_prompt () {
     # basics: [time] user@host pwd
     PS1="${prompt_color}[\t] \u${normal}@${host_color}$hostname${normal} ${blue}\w${normal}"
 
-    # show error statuses in red
-    if [[ $status != 0 ]]; then
-        PS1="$PS1 ${red}${status}${normal}"
+    # are we in a Python venv?
+    if [[ -n $VIRTUAL_ENV ]]; then
+        local venv=$(basename $VIRTUAL_ENV)
+        PS1="$PS1 ($(_str_color $venv)$venv$normal)"
     fi
 
     # number of active jobs if >0
@@ -59,10 +60,9 @@ _bash_prompt () {
         PS1="$PS1 (\j)"
     fi
 
-    # are we in a Python venv?
-    if [[ -n $VIRTUAL_ENV ]]; then
-        local venv=$(basename $VIRTUAL_ENV)
-        PS1="$PS1 ($(_str_color $venv)$venv$normal)"
+    # show error statuses in red
+    if [[ $status != 0 ]]; then
+        PS1="$PS1 ${red}${status}${normal}"
     fi
 
     local prompt i
