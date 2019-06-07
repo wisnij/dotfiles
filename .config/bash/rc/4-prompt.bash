@@ -10,6 +10,15 @@ _titlebar_prompt () {
     esac
 }
 
+_str_color () {
+    local str=$1
+    local n=$(echo $str | cksum | cut -d' ' -f1)
+
+    # fold into the 256color range 22-231
+    local c=$((22 + 10#$n % 210))
+    echo "\[\e[1;38;5;${c}m\]"
+}
+
 _bash_prompt () {
     local status=$?
 
@@ -25,12 +34,7 @@ _bash_prompt () {
     if [[ -n $HOST_COLOR ]]; then
         host_color="\[\e[${HOST_COLOR}m\]"
     else
-        # use CRC checksum to turn the hostname into a semi-unique integer
-        local n=$(echo $hostname | cksum | cut -d' ' -f1)
-
-        # fold into the 256color range 22-231
-        local hc=$((22 + 10#$n % 210))
-        host_color="\[\e[1;38;5;${hc}m\]"
+        host_color=$(_str_color $hostname)
     fi
 
     local prompt_color
