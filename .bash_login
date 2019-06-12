@@ -1,9 +1,14 @@
-if [[ -f $HOME/.bashrc ]]; then
-    source $HOME/.bashrc
-fi
+_bash_login () {
+    if [[ -f $HOME/.bashrc ]]; then
+        source $HOME/.bashrc
+    fi
 
-if [[ -d $HOME/.config/bash/login ]]; then
-    for file in $HOME/.config/bash/login/*.bash; do
-        source "$file"
-    done
-fi
+    if [[ -d $HOME/.config/bash/login ]]; then
+        local file
+        for file in $HOME/.config/bash/login/*.bash; do
+            source "$file"
+        done
+    fi
+}
+
+_bash_login
