@@ -34,7 +34,7 @@ bell () {
 
 cath () {
     for file in "$@"; do
-        echo -e "\e[7m##### $file #####\e[0m"
+        echo -e "\033[7m##### $file #####\033[0m"
         cat "$file"
     done
 }
@@ -47,13 +47,13 @@ cath () {
 #   uses the contents of that file.
 # ------------------------------------------------
 cb () {
-  local _scs_col="\e[0;32m"; local _wrn_col='\e[1;31m'; local _trn_col='\e[0;33m'
+  local _scs_col="\033[0;32m"; local _wrn_col='\033[1;31m'; local _trn_col='\033[0;33m'
   # Check that xclip is installed.
   if ! type xclip > /dev/null 2>&1; then
-    echo -e "$_wrn_col""You must have the 'xclip' program installed.\e[0m"
+    echo -e "$_wrn_col""You must have the 'xclip' program installed.\033[0m"
   # Check user is not root (root doesn't have access to user xorg server)
   elif [[ "$USER" == "root" ]]; then
-    echo -e "$_wrn_col""Must be regular user (not root) to copy a file to the clipboard.\e[0m"
+    echo -e "$_wrn_col""Must be regular user (not root) to copy a file to the clipboard.\033[0m"
   else
     # If no tty, data should be available on stdin
     if ! [[ "$( tty )" == /dev/* ]]; then
@@ -72,9 +72,9 @@ cb () {
       # Copy input to clipboard
       echo -n "$input" | xclip -selection c
       # Truncate text for status
-      if [ ${#input} -gt 80 ]; then input="$(echo $input | cut -c1-80)$_trn_col...\e[0m"; fi
+      if [ ${#input} -gt 80 ]; then input="$(echo $input | cut -c1-80)$_trn_col...\033[0m"; fi
       # Print status.
-      echo -e "$_scs_col""Copied to clipboard:\e[0m $input"
+      echo -e "$_scs_col""Copied to clipboard:\033[0m $input"
     fi
   fi
 }
@@ -103,7 +103,7 @@ taillog () {
 timestamp () {
     local line
     while IFS= read -r line; do
-        printf '\e[38;5;8m[%s]\e[0m %s\n' "$(date +'%F %T')" "$line"
+        printf '\033[38;5;8m[%s]\033[0m %s\n' "$(date +'%F %T')" "$line"
     done
 }
 
