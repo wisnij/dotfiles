@@ -4,6 +4,7 @@ export COLUMNS
 export HISTCONTROL='ignoredups'
 export HISTFILESIZE=200000
 export HISTSIZE=100000
+export INPUTRC="$HOME/.config/readline/inputrc"
 export LESS='-M -i -S -R'
 export MANPATH="$HOME/usr/share/man:$MANPATH"
 export MANWIDTH=80
