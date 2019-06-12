@@ -1,6 +1,14 @@
+# -*- conf -*-
+
 $include /etc/inputrc
 set editing-mode emacs
 
 # rxvt
 "\eOc": forward-word
 "\eOd": backward-word
+
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
+
+"\e[1;9C": forward-word
+"\e[1;9D": backward-word
