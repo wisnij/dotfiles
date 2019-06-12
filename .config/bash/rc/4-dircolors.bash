@@ -1,12 +1,17 @@
-if type -t dircolors >/dev/null; then
-    if [[ -f $HOME/.config/dircolors ]]; then
-        dircolors_cmd=$(dircolors -b $HOME/.config/dircolors 2>/dev/null)
-        if [[ $? -ne 0 && -f $HOME/.config/dircolors-old ]]; then
-            dircolors_cmd=$(dircolors -b $HOME/.config/dircolors-old)
-        fi
+_dircolors_init () {
+    if type -t dircolors >/dev/null; then
+        local confdir=$HOME/.config/dircolors
+        if [[ -f $confdir/dircolors ]]; then
+            local dircolors_cmd=$(dircolors -b $confdir/dircolors 2>/dev/null)
+            if [[ $? -ne 0 && -f $confdir/dircolors-old ]]; then
+                dircolors_cmd=$(dircolors -b $confdir/dircolors-old)
+            fi
 
-        if [[ -n $dircolors_cmd ]]; then
-            eval "$dircolors_cmd"
+            if [[ -n $dircolors_cmd ]]; then
+                eval "$dircolors_cmd"
+            fi
         fi
     fi
-fi
+}
+
+_dircolors_init
