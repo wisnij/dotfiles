@@ -1,17 +1,25 @@
 # -*- conf -*-
 
 $include /etc/inputrc
+
+## Variables
+
 set editing-mode emacs
 
-# rxvt
-"\eOc": forward-word
+## Key bindings
+
+# C-left
+"\e[1;5D": backward-word
 "\eOd": backward-word
 
-"\e\e[C": forward-word
+# M-left
+"\e[1;9D": backward-word
 "\e\e[D": backward-word
 
+# C-right
 "\e[1;5C": forward-word
-"\e[1;5D": backward-word
+"\eOc": forward-word
 
+# M-right
 "\e[1;9C": forward-word
-"\e[1;9D": backward-word
+"\e\e[C": forward-word
