@@ -18,7 +18,7 @@
 	frag = yellow
 	new = cyan
 	old = red
-	plain = bold black
+	plain = dim
 [color "diff-highlight"]
 	newHighlight = cyan 19
 	newNormal = cyan
