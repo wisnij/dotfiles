@@ -55,6 +55,28 @@ _bash_prompt () {
         PS1="$PS1 [$(_str_color $VIRTUAL_ENV)$venv$normal]"
     fi
 
+    # git branch and status; __git_ps1 from git/contrib/completion/git-prompt.sh
+    if type -t __git_ps1 >/dev/null; then
+        GIT_PS1_SHOWDIRTYSTATE=true
+        GIT_PS1_SHOWSTASHSTATE=true
+        GIT_PS1_SHOWUNTRACKEDFILES=true
+        GIT_PS1_SHOWUPSTREAM="auto"
+        GIT_PS1_HIDE_IF_PWD_IGNORED=true
+        GIT_PS1_SHOWCOLORHINTS=true
+
+        local old_PS1=$PS1
+        PS1=''
+        if __git_ps1 "" "" "%s"; then
+            jobs >/dev/null # dumb hack to clear out lingering git commands
+        fi
+
+        if [[ -n $PS1 ]]; then
+            PS1="$old_PS1 ($PS1)"
+        else
+            PS1=$old_PS1
+        fi
+    fi
+
     # number of active jobs if >0
     if [[ -n $(jobs) ]]; then
         PS1="$PS1 (\j)"
