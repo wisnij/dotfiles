@@ -56,9 +56,10 @@
   (package-initialize))
 
 ;; color theme
-(with-library color-theme
-  (load (user-file "colors.el"))
-  (color-theme-wisniewski))
+(let ((color-theme-obsolete nil))
+  (with-library color-theme
+    (load (user-file "colors.el"))
+    (color-theme-wisniewski)))
 
 ;; disambiguate buffer names with <dirname>
 (with-library uniquify)
