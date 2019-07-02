@@ -35,8 +35,8 @@
 	diff = diff-highlight | less
 	history = diff-highlight | less
 [pretty]
-	oneline-date = tformat:"%C(yellow)%h%Creset %C(cyan)%ad%Creset %C(magenta)%an%Creset %s%C(auto)%d"
-	oneline-isodate = tformat:"%C(yellow)%h%Creset %C(cyan)%ai%Creset %C(magenta)%an%Creset %s%C(auto)%d"
+	oneline-date = tformat:"%C(yellow)%h%Creset %C(cyan)%cd%Creset %C(magenta)%an%Creset %s%C(auto)%d"
+	oneline-isodate = tformat:"%C(yellow)%h%Creset %C(cyan)%ci%Creset %C(magenta)%an%Creset %s%C(auto)%d"
 [pull]
 	ff = only
 [push]
