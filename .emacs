@@ -369,7 +369,7 @@ value should be a list in the format accepted by `font-lock-add-keywords'.")
       '(""
         (:eval (cond (buffer-read-only "%%  ")
                      ((buffer-modified-p) "*  ")))
-        "%b  (" invocation-name "@" system-name ")"))
+        "%b"))
 
 ;; disabled functions
 (dolist (f '(narrow-to-page narrow-to-region upcase-region downcase-region))
