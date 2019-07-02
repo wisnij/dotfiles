@@ -375,9 +375,14 @@ value should be a list in the format accepted by `font-lock-add-keywords'.")
 (dolist (f '(narrow-to-page narrow-to-region upcase-region downcase-region))
   (put f 'disabled nil))
 
-;; use 6x13 on Windows, where .Xresources has no effect
-(when (eql system-type 'windows-nt)
-  (set-frame-font "6x13-10" t t))
+;; set default GUI font
+(when window-system
+  (let ((font (case system-type
+                ;; use 6x13 on Windows, where .Xresources has no effect
+                (windows-nt "6x13-10")
+                ;; use Monaco on Mac
+                (darwin "Monaco-10"))))
+    (set-frame-font font t t)))
 
 ;; make scratch buffer unkillable
 (defun unkillable-scratch-buffer ()
