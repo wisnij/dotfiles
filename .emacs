@@ -74,13 +74,23 @@
 
 (with-library typopunct)
 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Keybindings
 
+;; C-arrow
 (define-key function-key-map "\eOa" [C-up])
 (define-key function-key-map "\eOb" [C-down])
 (define-key function-key-map "\eOc" [C-right])
 (define-key function-key-map "\eOd" [C-left])
+
+;; M-arrow
+(define-key function-key-map "\e[1;9A" [M-up])
+(define-key function-key-map "\e[1;9B" [M-down])
+(define-key function-key-map "\e[1;9C" [M-right])
+(define-key function-key-map "\e[1;9D" [M-left])
+
+;; C-PgUp/PgDown
 (define-key function-key-map "\e[5^" [C-prior])
 (define-key function-key-map "\e[6^" [C-next])
 
