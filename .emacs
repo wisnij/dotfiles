@@ -11,9 +11,6 @@
            (- (float-time)
               (float-time emacs-load-start))))
 
-(when (fboundp 'package-initialize)
-  (package-initialize))
-
 (when (not (boundp 'user-emacs-directory))
   (setq user-emacs-directory "~/.emacs.d/"))
 
@@ -50,6 +47,13 @@
                                ',symbol ,err))
               nil))))
 (put 'with-library 'lisp-indent-function 1)
+
+(with-library package
+  (defun package--disable-save-selected-packages (&rest dummy)
+    "Don't save package-selected-packages to `custom-file' at all."
+    nil)
+  (advice-add 'package--save-selected-packages :around #'package--disable-save-selected-packages)
+  (package-initialize))
 
 ;; color theme
 (with-library color-theme

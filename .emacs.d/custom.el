@@ -38,9 +38,6 @@
    (quote
     (("gnu" . "http://elpa.gnu.org/packages/")
      ("melpa" . "http://melpa.org/packages/"))))
- '(package-selected-packages
-   (quote
-    (markdown-mode+ markdown-mode git-commit gitconfig-mode go-mode yaml-mode color-identifiers-mode window-numbering quick-buffer-switch json-mode icicles color-theme)))
  '(read-quoted-char-radix 16)
  '(save-abbrevs (quote silently))
  '(scroll-bar-mode (quote right))
