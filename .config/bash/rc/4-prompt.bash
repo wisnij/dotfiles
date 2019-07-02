@@ -52,7 +52,7 @@ _bash_prompt () {
     # are we in a Python venv?
     if [[ -n $VIRTUAL_ENV ]]; then
         local venv=$(basename $VIRTUAL_ENV)
-        PS1="$PS1 ($(_str_color $venv)$venv$normal)"
+        PS1="$PS1 [$(_str_color $VIRTUAL_ENV)$venv$normal]"
     fi
 
     # number of active jobs if >0
