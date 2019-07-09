@@ -380,8 +380,8 @@ value should be a list in the format accepted by `font-lock-add-keywords'.")
   (let ((font (case system-type
                 ;; use 6x13 on Windows, where .Xresources has no effect
                 (windows-nt "6x13-10")
-                ;; use Monaco on Mac
-                (darwin "Monaco-10"))))
+                ;; use Inconsolata on Mac
+                (darwin "Inconsolata-11"))))
     (set-frame-font font t t)))
 
 ;; make scratch buffer unkillable
