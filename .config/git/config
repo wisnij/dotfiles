@@ -32,8 +32,8 @@
 	ff = false
 [pager]
 	branch = false
-	diff = diff-highlight | less
-	history = diff-highlight | less
+	diff = diff-highlight | less +g +/^diff
+	history = diff-highlight | less +g "+/^commit\\ [0-9a-f]+"
 [pretty]
 	oneline-date = tformat:"%C(yellow)%h%Creset %C(cyan)%cd%Creset %C(magenta)%an%Creset %s%C(auto)%d"
 	oneline-isodate = tformat:"%C(yellow)%h%Creset %C(cyan)%ci%Creset %C(magenta)%an%Creset %s%C(auto)%d"
