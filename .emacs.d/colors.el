@@ -83,9 +83,10 @@
     spec))
 
 (defun color-theme-wisniewski--create-facespec (name spec)
-  (let* ((depth (case system-type
-                  ('darwin 8)
-                  (t 256)))
+  (let* ((depth (if (and (eql system-type 'darwin)
+                         (<= emacs-major-version 21))
+                    8
+                  256))
          (face (color-theme-wisniewski--face-for-depth spec depth)))
     `(,name ((t ,face)))))
 
