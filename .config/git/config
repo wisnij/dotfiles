@@ -1,5 +1,5 @@
 [alias]
-	a = add --update --verbose
+	a = add --verbose
 	branch-delete = "!f(){ git branch -d ${1} && git push origin --delete ${1}; };f"
 	changes = log --pretty=oneline-isodate
 	difflast = diff HEAD~1 HEAD
@@ -14,6 +14,7 @@
 	history = log --patch  --compact-summary --ignore-space-change --ignore-space-at-eol --pretty=fuller-compact
 	puff = pull --ff --ff-only
 	s = show --patch --compact-summary --ignore-space-change --ignore-space-at-eol --pretty=fuller-compact
+	update = add --update --verbose
 [color "diff"]
 	commit = bold yellow
 	frag = yellow
