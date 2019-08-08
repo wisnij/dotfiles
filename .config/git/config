@@ -1,4 +1,5 @@
 [alias]
+	a = add --update --verbose
 	branch-delete = "!f(){ git branch -d ${1} && git push origin --delete ${1}; };f"
 	changes = log --pretty=oneline-isodate
 	difflast = diff HEAD~1 HEAD
