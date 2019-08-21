@@ -28,6 +28,8 @@
 	oldNormal = red
 [color]
 	ui = always
+[commit]
+	verbose = true
 [core]
 	pager = less
 [merge]
