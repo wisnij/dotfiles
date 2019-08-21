@@ -44,6 +44,8 @@
 	ff = only
 [push]
 	default = current
+[rebase]
+	autoSquash = true
 [status]
 	showUntrackedFiles = no
 [user]
