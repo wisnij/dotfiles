@@ -101,7 +101,7 @@
 (global-set-key (kbd "C-<next>") 'next-user-buffer)
 (global-set-key (kbd "C-<prior>") 'previous-user-buffer)
 (global-set-key (kbd "C-<tab>") 'indent-relative)
-(global-set-key (kbd "C-s-m") 'toggle-frame-maximized))
+(global-set-key (kbd "C-s-m") 'toggle-frame-maximized)
 (global-set-key (kbd "C-S-w") 'kill-rectangle)
 (global-set-key (kbd "C-S-y") 'yank-rectangle)
 (global-set-key (kbd "C-x <backspace>") 'delete-region)
