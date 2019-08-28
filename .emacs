@@ -94,10 +94,14 @@
 (define-key function-key-map "\e[5^" [C-prior])
 (define-key function-key-map "\e[6^" [C-next])
 
-(global-set-key [delete] 'delete-char)
+;; translate key with leftCmd to rightCmd equivalent
+(define-key key-translation-map [C-s-268632077] (kbd "C-s-m"))
+
+(global-set-key (kbd "<delete>") 'delete-char)
 (global-set-key (kbd "C-<next>") 'next-user-buffer)
 (global-set-key (kbd "C-<prior>") 'previous-user-buffer)
 (global-set-key (kbd "C-<tab>") 'indent-relative)
+(global-set-key (kbd "C-s-m") 'toggle-frame-maximized))
 (global-set-key (kbd "C-S-w") 'kill-rectangle)
 (global-set-key (kbd "C-S-y") 'yank-rectangle)
 (global-set-key (kbd "C-x <backspace>") 'delete-region)
@@ -108,9 +112,9 @@
 (global-set-key (kbd "M-S") 'previous-frame-window)
 (global-set-key (kbd "M-y") 'yank-to-region)
 (global-set-key (kbd "s-<down>") 'next-frame-window)
-(global-set-key (kbd "s-<up>") 'previous-frame-window)
-(global-set-key (kbd "s-<right>") 'other-frame)
 (global-set-key (kbd "s-<left>") (lambda () (interactive) (other-frame -1)))
+(global-set-key (kbd "s-<right>") 'other-frame)
+(global-set-key (kbd "s-<up>") 'previous-frame-window)
 
 (global-set-key (kbd "C-x C-b") 'buffer-menu)
 (global-set-key (kbd "C-b")
