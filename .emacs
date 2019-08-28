@@ -110,7 +110,7 @@
 (global-set-key (kbd "s-<down>") 'next-frame-window)
 (global-set-key (kbd "s-<up>") 'previous-frame-window)
 (global-set-key (kbd "s-<right>") 'other-frame)
-(global-set-key (kbd "s-<left>") (lambda () (other-frame -1)))
+(global-set-key (kbd "s-<left>") (lambda () (interactive) (other-frame -1)))
 
 (global-set-key (kbd "C-x C-b") 'buffer-menu)
 (global-set-key (kbd "C-b")
