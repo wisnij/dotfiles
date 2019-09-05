@@ -22,6 +22,10 @@
        (abbreviate-file-name
         (expand-file-name name user-emacs-directory)))))
 
+(defvar user-lisp-directory
+  (user-file "lisp/")
+  "Directory beneath which per-user Emacs lisp files are placed.")
+
 (defun add-to-load-path (lib-dir)
   "Add LIB-DIR and all subdirectories to `load-path' with
 `normal-top-level-add-subdirs-to-load-path' (if available)."
@@ -31,11 +35,31 @@
       (let ((default-directory lib-dir))
         (normal-top-level-add-subdirs-to-load-path))))
 
-(add-to-load-path (user-file "lisp"))
+(add-to-load-path user-lisp-directory)
+
+(setq generated-autoload-file
+      (expand-file-name "loaddefs.el" user-lisp-directory))
+
+(when (file-exists-p generated-autoload-file)
+  (load generated-autoload-file t))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Libraries
+
+(defun update-my-autoloads ()
+  "Call `update-autoloads-from-directories' on `user-lisp-directory' to write
+`generated-autoload-file', and load it.  Do this whenever manually adding a new
+library to `user-lisp-directory' to ensure its autoloads are picked up."
+  (interactive)
+  (require 'autoload)
+  (when (not (file-exists-p generated-autoload-file))
+    (make-directory user-lisp-directory t)
+    (with-temp-buffer (write-file generated-autoload-file)))
+  ;; TODO: make this recurse into subdirs?
+  (update-directory-autoloads user-lisp-directory)
+  (byte-compile-file generated-autoload-file)
+  (load generated-autoload-file t))
 
 (defmacro with-library (symbol &rest body)
   (let ((err (gensym)))
