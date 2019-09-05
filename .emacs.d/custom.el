@@ -14,6 +14,9 @@
  '(default-input-method "latin-1-prefix")
  '(delete-old-versions t)
  '(fill-column 80)
+ '(git-commit-known-pseudo-headers
+   (quote
+    ("Signed-off-by" "Acked-by" "Cc" "Reported-by" "Tested-by" "Reviewed-by" "Summary" "Test Plan" "Reviewers" "Subscribers" "JIRA Issues")) nil nil "Adding headings used by 'arc diff'")
  '(global-font-lock-mode t nil (font-lock))
  '(htmlize-css-name-prefix "htmlize-")
  '(htmlize-html-major-mode (quote html-mode))
@@ -67,4 +70,6 @@
  '(diff-changed-face ((nil (:foreground "darkgreen"))))
  '(diff-removed ((t (:inherit diff-changed :foreground "red"))))
  '(diff-removed-face ((t (:inherit diff-changed :foreground "red"))))
+ '(git-commit-comment-face ((t (:inherit font-lock-comment-face))))
+ '(git-commit-overlong-summary-face ((t (:inherit font-lock-warning-face))))
  '(markdown-code-face ((t (:inherit nil)))))
