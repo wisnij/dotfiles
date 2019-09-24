@@ -18,6 +18,7 @@
    (quote
     ("Signed-off-by" "Acked-by" "Cc" "Reported-by" "Tested-by" "Reviewed-by" "Summary" "Test Plan" "Reviewers" "Subscribers" "JIRA Issues")) nil nil "Adding headings used by 'arc diff'")
  '(global-font-lock-mode t nil (font-lock))
+ '(groovy-indent-offset 2)
  '(htmlize-css-name-prefix "htmlize-")
  '(htmlize-html-major-mode (quote html-mode))
  '(ido-default-buffer-method (quote selected-window))
