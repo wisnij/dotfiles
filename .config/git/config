@@ -38,6 +38,7 @@
 	branch = false
 	diff = diff-highlight | less +g +/^diff --silent
 	history = diff-highlight | less +g "+/^commit\\ [0-9a-f]+" --silent
+	show = diff-highlight | less +g +/^diff --silent
 [pretty]
 	fuller-compact = format:"%C(bold yellow)commit %H%Creset%C(auto)%d%nAuthor:    %aN <%aE>, %ad%nCommitter: %cN <%cE>, %cd%n%n%w(0,4,4)%B"
 	oneline-date = tformat:"%C(yellow)%h%Creset %C(cyan)%cd%Creset %C(magenta)%aN%Creset %s%C(auto)%d"
