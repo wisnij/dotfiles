@@ -38,31 +38,49 @@ persistent_history_append_log () {
 PROMPT_COMMAND="persistent_history_append_log;$PROMPT_COMMAND"
 
 phistory () {
-    local OPTION OPTARG OPTIND search recall
-    while getopts 'g:r:' OPTION; do
+    local OPTION OPTARG OPTIND fuzzy search recall
+    if [[ $# -eq 0 ]]; then
+        fuzzy=1
+    fi
+    while getopts 'fg:r:' OPTION; do
         case $OPTION in
+            f) fuzzy=1 ;;
             g) search=$OPTARG ;;
             r) recall=$OPTARG ;;
         esac
     done
     shift $(($OPTIND - 1))
 
-    if [[ -n $recall ]]; then
-        local entry=$(grep "^ *$recall " $PERSISTENT_HISTORY_FILE)
-        if [[ -z $entry ]]; then
-            echo "history entry $recall not found"
-            return 1
-        elif [[ $entry =~ ^\ *[0-9]+\ +\[[^\]]+\]\ +(.*)$ ]]; then
+    local entry
+    if [[ -n $fuzzy ]]; then
+        if entry=$(fzf --tac --no-sort "$@" <$PERSISTENT_HISTORY_FILE); then :; else
+            return $?
+        fi
+    elif [[ -n $recall ]]; then
+        if entry=$(grep "^ *$recall " $PERSISTENT_HISTORY_FILE); then :; else
+            local status=$?
+            echo "history entry $recall not found" >&2
+            return $status
+        fi
+    elif [[ -n $search ]]; then
+        grep "$search" "$@" $PERSISTENT_HISTORY_FILE
+        return $?
+    elif [[ $@ =~ ^[0-9] ]]; then
+        tail -n "$@" $PERSISTENT_HISTORY_FILE
+    else
+        tail "$@" $PERSISTENT_HISTORY_FILE
+    fi
+
+    if [[ -n $entry ]]; then
+        if [[ $entry =~ ^\ *[0-9]+\ +\[[^\]]+\]\ +(.*)$ ]]; then
             local command="${BASH_REMATCH[1]}"
             echo "recalling command: $command"
             history -s "$command"
         else
-            echo "malformed history entry: $entry"
+            echo "malformed history entry: '$entry'" >&2
             return 2
         fi
-    elif [[ -n $search ]]; then
-        grep "$search" $PERSISTENT_HISTORY_FILE "$@"
-    else
-        tail -n ${1:-10} $PERSISTENT_HISTORY_FILE
     fi
 }
+
+alias fh='phistory -f'
