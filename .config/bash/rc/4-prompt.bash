@@ -5,7 +5,7 @@ _titlebar_prompt () {
             echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD/$HOME/\~}\007"
             ;;
         screen*)
-            echo -ne "\033k$(echo ${PWD/$HOME/\~} | sed -re 's/^.+(.{17})$/...\1/')\033\\"
+            echo -ne "\033k$(echo ${PWD/$HOME/\~} | sed -E -e 's/^.+(.{17})$/...\1/')\033\\"
             ;;
     esac
 }
