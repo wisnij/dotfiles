@@ -2,7 +2,11 @@
 
 xrdb .Xresources
 xhost +
-urxvt -ls &
+
+if type -t tmux >/dev/null; then
+    tmux="-e tmux"
+fi
+urxvt -ls $tmux &
 
 if [[ -f .startxwinrc-local ]]; then
     source .startxwinrc-local
