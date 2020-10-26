@@ -433,6 +433,9 @@ value should be a list in the format accepted by `font-lock-add-keywords'.")
                 (darwin "Inconsolata-11"))))
     (set-frame-font font t t)))
 
+;; only show menu bar in GUI
+(menu-bar-mode (if window-system 1 0))
+
 ;; make scratch buffer unkillable
 (defun unkillable-scratch-buffer ()
   "Instead of killing *scratch*, just delete its contents and
