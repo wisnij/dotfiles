@@ -77,6 +77,8 @@ library to `user-lisp-directory' to ensure its autoloads are picked up."
     "Don't save package-selected-packages to `custom-file' at all."
     nil)
   (advice-add 'package--save-selected-packages :around #'package--disable-save-selected-packages)
+  (add-to-list 'package-archives
+               '("melpa" . "https://melpa.org/packages/") t)
   (package-initialize))
 
 ;; color theme

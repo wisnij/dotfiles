@@ -37,10 +37,6 @@
  '(kill-whole-line t)
  '(p4-default-diff-options "-dNu")
  '(p4-verbose nil)
- '(package-archives
-   (quote
-    (("gnu" . "http://elpa.gnu.org/packages/")
-     ("melpa" . "http://melpa.org/packages/"))))
  '(read-quoted-char-radix 16)
  '(save-abbrevs (quote silently))
  '(scroll-bar-mode (quote right))
