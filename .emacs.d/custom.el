@@ -47,7 +47,6 @@
  '(size-indication-mode t)
  '(slime-startup-animation nil)
  '(sort-fold-case t)
- '(sql-product (quote mysql))
  '(tool-bar-mode nil nil (tool-bar))
  '(transient-mark-mode t)
  '(truncate-partial-width-windows t)
