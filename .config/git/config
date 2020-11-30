@@ -32,6 +32,8 @@
 	oldNormal = red
 [color]
 	ui = always
+[color.grep]
+	filename = magenta
 [commit]
 	verbose = true
 [core]
