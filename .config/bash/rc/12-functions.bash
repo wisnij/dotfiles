@@ -95,11 +95,6 @@ perlmake () {
 }
 
 
-taillog () {
-    tail -F "$@" | timestamp
-}
-
-
 timestamp () {
     local line
     while IFS= read -r line; do
