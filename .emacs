@@ -87,8 +87,14 @@ library to `user-lisp-directory' to ensure its autoloads are picked up."
     (load (user-file "colors.el"))
     (color-theme-wisniewski)))
 
-;; disambiguate buffer names with <dirname>
-(with-library uniquify)
+;; For https://github.com/rafl/git-commit-mode
+(with-library git-commit
+  (add-to-list 'auto-mode-alist
+               '("new-commit" . git-commit-mode))
+  (add-hook 'git-commit-mode-hook 'turn-on-auto-fill)
+  (add-hook 'git-commit-mode-hook
+            (lambda ()
+              (setq fill-column 72))))
 
 ;; buffer switching
 (with-library ido
@@ -98,20 +104,14 @@ library to `user-lisp-directory' to ensure its autoloads are picked up."
       (interactive)
       (ido-initiate-auto-merge (current-buffer)))))
 
+(with-library typopunct)
+
+;; disambiguate buffer names with <dirname>
+(with-library uniquify)
+
 ;; window numbering
 (with-library window-numbering
   (window-numbering-mode t))
-
-(with-library typopunct)
-
-;; For https://github.com/rafl/git-commit-mode
-(with-library git-commit
-  (add-to-list 'auto-mode-alist
-               '("new-commit" . git-commit-mode))
-  (add-hook 'git-commit-mode-hook 'turn-on-auto-fill)
-  (add-hook 'git-commit-mode-hook
-            (lambda ()
-              (setq fill-column 72))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
