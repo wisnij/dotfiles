@@ -93,7 +93,13 @@ _bash_prompt () {
     done
 
     # final prompt char
-    PS1="$PS1 $prompt "
+    local sep
+    if [[ $COLUMNS -lt 140 ]]; then
+        sep="\n"
+    else
+        sep=" "
+    fi
+    PS1="$PS1$sep$prompt "
 }
 
 _prompt () {
