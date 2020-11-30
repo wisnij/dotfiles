@@ -18,7 +18,7 @@ bak () {
 
 bar () {
     local n=${1:-2}
-    perl -le "print '#' x $COLUMNS for 1..$n"
+    perl -le "print(qq(\e[1;33m) . ('#' x $COLUMNS) . qq(\e[0m)) for 1..$n"
 }
 
 
