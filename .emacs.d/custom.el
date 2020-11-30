@@ -21,6 +21,7 @@
  '(groovy-indent-offset 2)
  '(htmlize-css-name-prefix "htmlize-")
  '(htmlize-html-major-mode (quote html-mode))
+ '(ido-auto-merge-delay-time most-positive-fixnum)
  '(ido-default-buffer-method (quote selected-window))
  '(ido-default-file-method (quote selected-window))
  '(ido-enable-flex-matching t)

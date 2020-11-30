@@ -92,7 +92,11 @@ library to `user-lisp-directory' to ensure its autoloads are picked up."
 
 ;; buffer switching
 (with-library ido
-  (ido-mode 1))
+  (ido-mode 1)
+  (define-key ido-file-dir-completion-map (kbd "C-c f")
+    (lambda ()
+      (interactive)
+      (ido-initiate-auto-merge (current-buffer)))))
 
 ;; window numbering
 (with-library window-numbering
