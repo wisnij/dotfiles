@@ -346,7 +346,8 @@ default).  Otherwise set VAR to INIT (0 by default)."
   "Save current buffer in visited file if modified. Don't clean
 up whitespace even if `auto-cleanup-whitespace' is in effect."
   (interactive "p")
-  (let ((auto-cleanup-whitespace nil))
+  (let ((auto-cleanup-whitespace nil)
+        (require-final-newline nil))
     (save-buffer arg)))
 
 
