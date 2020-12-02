@@ -87,6 +87,9 @@ library to `user-lisp-directory' to ensure its autoloads are picked up."
     (load (user-file "colors.el"))
     (color-theme-wisniewski)))
 
+(with-library eyebrowse
+  (eyebrowse-mode 1))
+
 ;; For https://github.com/rafl/git-commit-mode
 (with-library git-commit
   (add-to-list 'auto-mode-alist
