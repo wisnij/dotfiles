@@ -350,7 +350,6 @@ up whitespace even if `auto-cleanup-whitespace' is in effect."
         (require-final-newline nil))
     (save-buffer arg)))
 
-
 ;; fuck CPerl mode
 (with-library perl-mode
   (defalias 'cperl-mode 'perl-mode)
@@ -461,6 +460,11 @@ mark it as unmodified."
 (with-library visual-fill-column
   (add-hook 'visual-line-mode-hook 'visual-fill-column-mode))
 
+;; save custom files with 'foo rather than (quote foo)
+(advice-add 'custom-save-all :around
+            (lambda (orig)
+              (let ((print-quoted t))
+                (funcall orig))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Finish up
