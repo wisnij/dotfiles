@@ -19,6 +19,8 @@
 	s = show --patch --compact-summary --ignore-space-change --ignore-space-at-eol --pretty=fuller-compact
 	stashed = !git stash list --patch --color | diff-highlight | less "+/^stash@.*"
 	update = add --update --verbose
+[branch]
+	autoSetupRebase = always
 [color "diff"]
 	commit = bold yellow
 	frag = yellow
