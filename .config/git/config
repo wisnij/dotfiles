@@ -50,6 +50,7 @@
 	oneline-date = tformat:"%C(yellow)%h%Creset %C(cyan)%cd%Creset %C(magenta)%aN%Creset %s%C(auto)%d"
 [pull]
 	ff = only
+	rebase = true
 [push]
 	default = current
 [rebase]
