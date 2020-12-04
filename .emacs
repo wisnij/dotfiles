@@ -87,7 +87,23 @@ library to `user-lisp-directory' to ensure its autoloads are picked up."
     (load (user-file "colors.el"))
     (color-theme-wisniewski)))
 
+;; window configs
 (with-library eyebrowse
+  (let ((map eyebrowse-mode-map))
+    (define-key map (kbd "C-<tab>") 'eyebrowse-next-window-config)
+    (define-key map (kbd "C-S-<tab>") 'eyebrowse-prev-window-config)
+    (define-key map (kbd "C-M-t") 'eyebrowse-create-window-config)
+    (define-key map (kbd "C-M-w") 'eyebrowse-close-window-config)
+    (dotimes (i 9)
+      (let ((n (number-to-string (+ i 1))))
+        (define-key map (kbd (concat "C-" n)) (intern (concat "eyebrowse-switch-to-window-config-" n)))))
+    (when (equal system-type 'darwin)
+      ;; set iTerm-like Cmd-#
+      (define-key map (kbd "s-t") 'eyebrowse-create-window-config)
+      (define-key map (kbd "s-w") 'eyebrowse-close-window-config)
+      (dotimes (i 9)
+        (let ((n (number-to-string (+ i 1))))
+          (define-key map (kbd (concat "s-" n)) (intern (concat "eyebrowse-switch-to-window-config-" n)))))))
   (eyebrowse-mode 1))
 
 ;; For https://github.com/rafl/git-commit-mode
@@ -142,7 +158,7 @@ library to `user-lisp-directory' to ensure its autoloads are picked up."
 (global-set-key (kbd "<delete>") 'delete-char)
 (global-set-key (kbd "C-<next>") 'next-user-buffer)
 (global-set-key (kbd "C-<prior>") 'previous-user-buffer)
-(global-set-key (kbd "C-<tab>") 'indent-relative)
+(global-set-key (kbd "C-M-<tab>") 'indent-relative)
 (global-set-key (kbd "C-s-m") 'toggle-frame-maximized)
 (global-set-key (kbd "C-S-w") 'kill-rectangle)
 (global-set-key (kbd "C-S-y") 'yank-rectangle)
