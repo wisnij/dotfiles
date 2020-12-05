@@ -173,6 +173,7 @@ won't inhibit a second open paren."
 (global-set-key (kbd "C-<next>") 'next-user-buffer)
 (global-set-key (kbd "C-<prior>") 'previous-user-buffer)
 (global-set-key (kbd "C-M-<tab>") 'indent-relative)
+(global-set-key (kbd "ESC <tab>") 'indent-relative)
 (global-set-key (kbd "C-s-m") 'toggle-frame-maximized)
 (global-set-key (kbd "C-S-w") 'kill-rectangle)
 (global-set-key (kbd "C-S-y") 'yank-rectangle)
