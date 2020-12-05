@@ -81,6 +81,20 @@ library to `user-lisp-directory' to ensure its autoloads are picked up."
                '("melpa" . "https://melpa.org/packages/") t)
   (package-initialize))
 
+;; auto-paired quotes/parens
+(with-library elec-pair
+  (electric-pair-mode 1)
+  (defun my-electric-pair-inhibit (char)
+    "Improved version of `electric-pair-default-inhibit' which
+won't inhibit a second open paren."
+    (or (and electric-pair-preserve-balance
+             (electric-pair-inhibit-if-helps-balance char))
+        ;; don't pair when the same char is next
+        (eq char (char-after))
+        ;; don't pair next to a word
+        (eq (char-syntax (following-char)) ?w)))
+  (setq electric-pair-inhibit-predicate #'my-electric-pair-inhibit))
+
 ;; color theme
 (let ((color-theme-obsolete nil))
   (with-library color-theme
