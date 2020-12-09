@@ -38,6 +38,7 @@
  '(kill-whole-line t)
  '(p4-default-diff-options "-dNu")
  '(p4-verbose nil)
+ '(python-fill-docstring-style 'pep-257-nn)
  '(read-quoted-char-radix 16)
  '(save-abbrevs 'silently)
  '(scroll-bar-mode 'right)
