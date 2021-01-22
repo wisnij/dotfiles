@@ -13,6 +13,7 @@
 	gg = "!f(){ git ls-files | sort | xargs grep -E \"$@\"; };f"
 	graph = log --graph --pretty=oneline-date --date=relative --date-order
 	g     = log --graph --pretty=oneline-date --date=relative --date-order --all
+	land = merge --squash --ff
 	history = log --patch  --compact-summary --ignore-space-change --ignore-space-at-eol --pretty=fuller-compact
 	hm = history master..
 	puff = pull --ff --ff-only
