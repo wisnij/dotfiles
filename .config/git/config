@@ -18,7 +18,7 @@
 	hm = history master..
 	puff = pull --ff --ff-only
 	s = show --patch --compact-summary --ignore-space-change --ignore-space-at-eol --pretty=fuller-compact
-	stashed = !git stash list --patch --color | diff-highlight | less "+/^stash@.*"
+	stashed = !git stash list --patch --color | diff-highlight | less-find-pattern "^stash@.*"
 	update = add --update --verbose
 [branch]
 	autoSetupRebase = always
@@ -40,14 +40,17 @@
 [commit]
 	verbose = true
 [core]
-	pager = less
+	pager = cat
 [merge]
 	ff = false
 [pager]
 	branch = false
-	diff = diff-highlight | less "+/^diff"
+	changes = less
+	diff = diff-highlight | less-find-pattern "^diff"
+	g = less
+	graph = less
 	history = diff-highlight | less "+/^commit\\ [0-9a-f]+"
-	show = diff-highlight | less "+/^diff"
+	show = diff-highlight | less-find-pattern "^diff"
 [pretty]
 	fuller-compact = format:"%C(bold yellow)commit %H%Creset%C(auto)%d%nAuthor:    %aN <%aE>, %ad%nCommitter: %cN <%cE>, %cd%n%n%w(0,4,4)%B"
 	oneline-date = tformat:"%C(yellow)%h%Creset %C(cyan)%cd%Creset %C(magenta)%aN%Creset %s%C(auto)%d"
