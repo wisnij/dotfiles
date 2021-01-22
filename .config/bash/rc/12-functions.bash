@@ -108,20 +108,6 @@ todo () {
 }
 
 
-waitpid () {
-    local pid=$1
-    local seen=0
-    while [[ -e /proc/$pid ]]; do
-        sleep 1
-        seen=1
-    done
-    if [[ $seen -eq 0 ]]; then
-        echo "process $pid not found"
-        return 2
-    fi
-}
-
-
 writeable() {
     find "$@" -type f -writable '!' -name '*~'
 }
