@@ -87,12 +87,15 @@ library to `user-lisp-directory' to ensure its autoloads are picked up."
   (defun my-electric-pair-inhibit (char)
     "Improved version of `electric-pair-default-inhibit' which
 won't inhibit a second open paren."
-    (or (and electric-pair-preserve-balance
-             (electric-pair-inhibit-if-helps-balance char))
-        ;; don't pair when the same char is next
-        (eq char (char-after))
-        ;; don't pair next to a word
-        (eq (char-syntax (following-char)) ?w)))
+    (or
+     ;; don't pair when the same char is next
+     (eq char (char-after))
+     ;; don't pair next to a word
+     (eq (char-syntax (following-char)) ?w)
+     ;; don't pair if it would reduce balance
+     ;; (NOTE: this test needs to go last because of buffer modification shenanigans)
+     (and electric-pair-preserve-balance
+          (electric-pair-inhibit-if-helps-balance char))))
   (setq electric-pair-inhibit-predicate #'my-electric-pair-inhibit))
 
 ;; color theme
