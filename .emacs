@@ -488,6 +488,7 @@ mark it as unmodified."
         (widen)
         (delete-region (point-min) (point-max))
         (set-buffer-modified-p nil)
+        (fundamental-mode)
         nil)
       t))
 
