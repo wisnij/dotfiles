@@ -1,7 +1,7 @@
 _setup_lessopen () {
-    local hl=$(which lesspipe.sh)
+    local hl=$(which lesspipe.sh 2>/dev/null)
     if [[ -z $hl ]]; then
-        hl=$(which src-hilite-lesspipe.sh)
+        hl=$(which src-hilite-lesspipe.sh 2>/dev/null)
     fi
     if [[ -n $hl ]]; then
         export LESSOPEN="| $hl %s"
