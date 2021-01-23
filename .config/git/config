@@ -41,6 +41,8 @@
 	verbose = true
 [core]
 	pager = cat
+[init]
+	defaultBranch = master
 [merge]
 	ff = false
 [pager]
