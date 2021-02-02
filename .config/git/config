@@ -46,6 +46,7 @@
 [merge]
 	ff = false
 [pager]
+	blame = less
 	branch = false
 	changes = less
 	diff = diff-highlight | less-find-pattern "^diff"
