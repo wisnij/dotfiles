@@ -72,19 +72,30 @@ EXEC                    01;32           # file with execute bit set (+x)
 .swp                    38;5;242
 .tmp                    38;5;242
 
-# build-related files
+# build-related files (yellow-green)
 *Makefile               38;5;155
 .deps                   38;5;155
 .xfer                   38;5;155
 
-# text data
-*README                 01;30;47
-*README.md              01;30;47
-.csv                    38;5;255
-.dat                    38;5;255
-.psv                    38;5;255
-.tsv                    38;5;255
+# text data (white)
+.md                     38;5;255
 .txt                    38;5;255
+*README                 00;30;47
+*README.md              00;30;47
+
+# text formats (light blue)
+.csv                    38;5;195
+.json                   38;5;195
+.psv                    38;5;195
+.rst                    38;5;195
+.tsv                    38;5;195
+.yaml                   38;5;195
+.yml                    38;5;195
+
+.html                   38;5;159
+.sgml                   38;5;159
+.xhtml                  38;5;159
+.xml                    38;5;159
 
 # output (yellow-green)
 .log                    38;5;190
@@ -101,7 +112,7 @@ EXEC                    01;32           # file with execute bit set (+x)
 .sh                     38;5;172
 .zsh                    38;5;172
 
-# C/C++
+# C/C++ (blue)
 .C                      38;5;81
 .H                      38;5;110
 .c                      38;5;81
@@ -114,10 +125,10 @@ EXEC                    01;32           # file with execute bit set (+x)
 .hxx                    38;5;110
 .ii                     38;5;81
 
-# Go
+# Go (blue)
 .go                     38;5;81
 
-# Perl
+# Perl (green)
 *typemap                38;5;42
 *typemap32              38;5;42
 *typemap64              38;5;42
@@ -126,14 +137,14 @@ EXEC                    01;32           # file with execute bit set (+x)
 .pxx                    38;5;81
 .xs                     38;5;81
 
-# Python
+# Python (green)
 .py                     38;5;47
 .pyc                    38;5;47;48;5;238
 
-# Ruby
+# Ruby (green)
 .rb                     38;5;46
 
-# Lisp
+# Lisp (green)
 .el                     38;5;82
 .elc                    38;5;82;48;5;238
 .fasl                   38;5;82;48;5;238
