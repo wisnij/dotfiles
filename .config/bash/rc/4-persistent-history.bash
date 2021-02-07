@@ -39,9 +39,6 @@ PROMPT_COMMAND="persistent_history_append_log;$PROMPT_COMMAND"
 
 phistory () {
     local OPTION OPTARG OPTIND fuzzy search recall
-    if [[ $# -eq 0 ]]; then
-        fuzzy=1
-    fi
     while getopts 'fg:r:' OPTION; do
         case $OPTION in
             f) fuzzy=1 ;;
