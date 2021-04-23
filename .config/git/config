@@ -20,6 +20,8 @@
 	s = show --patch --compact-summary --ignore-space-change --ignore-space-at-eol --pretty=fuller-compact
 	stashed = !git stash list --patch --color | diff-highlight | less-find-pattern "^stash@.*"
 	update = add --update --verbose
+[blame]
+	coloring = repeatedLines
 [branch]
 	autoSetupRebase = always
 [color "diff"]
