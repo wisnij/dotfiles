@@ -16,6 +16,9 @@ _osx_gnu () {
             export PATH="$dir:$PATH"
         fi
     done
+
+    # Re-run ls aliases as its options may have changed
+    _alias_ls
 }
 
 _osx_gnu
