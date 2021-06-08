@@ -43,6 +43,11 @@
 (when (file-exists-p generated-autoload-file)
   (load generated-autoload-file t))
 
+;; custom file
+(setq custom-file (user-file "custom.el"))
+(when (file-exists-p custom-file)
+  (load custom-file))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Libraries
@@ -506,11 +511,6 @@ mark it as unmodified."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Finish up
-
-;; custom file
-(setq custom-file (user-file "custom.el"))
-(when (file-exists-p custom-file)
-  (load custom-file))
 
 ;; per-site settings
 (defvar user-local-init-file
