@@ -1,1 +1,2 @@
 export IPYTHONDIR=$HOME/.config/ipython
+export PYTHONDONTWRITEBYTECODE=1
