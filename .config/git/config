@@ -68,8 +68,6 @@
 	autoSquash = true
 [rerere]
 	enabled = true
-[status]
-	showUntrackedFiles = no
 [user]
 	email = wisnij@gmail.com
 	name = Jim Wisniewski
