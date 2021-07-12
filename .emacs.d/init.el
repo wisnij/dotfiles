@@ -477,6 +477,16 @@ value should be a list in the format accepted by `font-lock-add-keywords'.")
 (dolist (f '(narrow-to-page narrow-to-region upcase-region downcase-region))
   (put f 'disabled nil))
 
+;; GUI frame settings
+(setq default-frame-alist
+      '((vertical-scroll-bars . right)
+        (background-mode . dark)))
+
+(setq window-system-default-frame-alist
+      '(;; macOS
+        (ns . ((ns-appearance . dark)
+               (ns-transparent-titlebar . nil)))))
+
 ;; set default GUI font
 (when window-system
   (let ((font (case system-type
