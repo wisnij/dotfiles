@@ -130,8 +130,13 @@ won't inhibit a second open paren."
 
 ;; For https://github.com/rafl/git-commit-mode
 (with-library git-commit
-  (add-to-list 'auto-mode-alist
-               '("new-commit" . git-commit-mode))
+  (setq auto-mode-alist
+        (append '(("new-commit$" . git-commit-mode)
+                  ("COMMIT_EDITMSG$" . git-commit-mode)
+                  ("NOTES_EDITMSG$" . git-commit-mode)
+                  ("MERGE_MSG$" . git-commit-mode)
+                  ("TAG_EDITMSG$" . git-commit-mode))
+                auto-mode-alist))
   (add-hook 'git-commit-mode-hook 'turn-on-auto-fill)
   (add-hook 'git-commit-mode-hook
             (lambda ()
