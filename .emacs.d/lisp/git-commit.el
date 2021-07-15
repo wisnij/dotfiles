@@ -258,7 +258,7 @@ default comments in git commit messages"
      ("\\`\\(?:\\(?:[[:space:]]*\\|#.*\\)\n\\)*\\(.\\{,50\\}\\)\\(.*?\\)\\(?:\n\\(.*\\)\\)?$"
       (1 'git-commit-summary-face)
       (2 'git-commit-overlong-summary-face)
-      (3 'git-commit-nonempty-second-line-face))
+      (3 'git-commit-nonempty-second-line-face (null 'override) 'laxmatch))
      (,(concat "^\\("
                (regexp-opt git-commit-known-pseudo-headers)
                ":\\)\\(\s.*\\)$")
