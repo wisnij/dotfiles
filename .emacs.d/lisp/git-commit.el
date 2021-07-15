@@ -261,7 +261,7 @@ default comments in git commit messages"
       (3 'git-commit-nonempty-second-line-face (null 'override) 'laxmatch))
      (,(concat "^\\("
                (regexp-opt git-commit-known-pseudo-headers)
-               ":\\)\\(\s.*\\)$")
+               ":\\)\\(\s?.*\\)$")
       (1 'git-commit-known-pseudo-header-face)
       (2 'git-commit-pseudo-header-face))
      ("^\\w[^\s\n]+:\s.*$"
