@@ -1,3 +1,10 @@
+# -*- gitignore -*-
+
+# Emacs backup/temp files
 **/#*
 **/*~
 **/.#*
+
+# ignore anything ending with .gitignore, except `.gitignore` exactly
+*.gitignore
+!.gitignore
