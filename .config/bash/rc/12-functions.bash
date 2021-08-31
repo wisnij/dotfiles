@@ -1,21 +1,3 @@
-# Display or create backup files with datestamps and optional descriptions
-bak () {
-    if [[ $# -eq 0 ]]; then
-        l *.bak
-        return
-    fi
-
-    local file=$1
-    shift
-    local slug
-    if [[ $# -gt 0 ]]; then
-        slug=$(sed -E -e 's/[^A-Za-z0-9_]+/-/g' <<< "-$*")
-    fi
-    local backup="$file.$(date +'%Y%m%d-%H%M%S')$slug.bak"
-    cp -v "$file" "$backup"
-}
-
-
 bar () {
     local n=${1:-2}
     perl -le "print(qq(\e[1;33m) . ('#' x $COLUMNS) . qq(\e[0m)) for 1..$n"
