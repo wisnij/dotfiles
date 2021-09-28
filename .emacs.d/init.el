@@ -371,6 +371,7 @@ default).  Otherwise set VAR to INIT (0 by default)."
 
 (call-if-bound set-language-environment "UTF-8")
 (call-if-bound prefer-coding-system 'utf-8-unix)
+(call-if-bound delete-selection-mode 1)
 
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
