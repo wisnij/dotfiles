@@ -364,11 +364,13 @@ default).  Otherwise set VAR to INIT (0 by default)."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Passive settings
 
-(when (fboundp 'set-language-environment)
-  (set-language-environment "UTF-8"))
+(defmacro call-if-bound (symbol &rest args)
+  "If `SYMBOL' is the name of a bound function, call it with the given `ARGS'."
+  `(when (fboundp ',symbol)
+     (,symbol ,@args)))
 
-(when (fboundp 'prefer-coding-system)
-  (prefer-coding-system 'utf-8-unix))
+(call-if-bound set-language-environment "UTF-8")
+(call-if-bound prefer-coding-system 'utf-8-unix)
 
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
