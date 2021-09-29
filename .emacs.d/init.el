@@ -67,6 +67,7 @@ library to `user-lisp-directory' to ensure its autoloads are picked up."
   (load generated-autoload-file t))
 
 (defmacro with-library (symbol &rest body)
+  (declare (indent 1))
   (let ((err (gensym)))
     `(condition-case ,err
          (progn
@@ -75,7 +76,6 @@ library to `user-lisp-directory' to ensure its autoloads are picked up."
        (error (message (format "with-library: error loading '%s': %S"
                                ',symbol ,err))
               nil))))
-(put 'with-library 'lisp-indent-function 1)
 
 (with-library package
   (defun package--disable-save-selected-packages (&rest dummy)
