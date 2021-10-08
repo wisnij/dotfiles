@@ -10,7 +10,7 @@ export MANPATH="$HOME/usr/share/man:$MANPATH"
 export MANWIDTH=80
 export MYSQL_PS1="\u@\h (\R:\m:\s) \d>\_"
 export PAGER='less'
-export PATH="$HOME/bin:$HOME/usr/bin:$PATH"
+export PATH="$HOME/bin:$HOME/usr/bin:$HOME/.local/bin:$PATH"
 export PERL5LIB="$HOME/usr/lib/perl5:$PERL5LIB"
 export SBCL_HOME="$HOME/usr/lib/sbcl"
 
