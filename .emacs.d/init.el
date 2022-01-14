@@ -187,10 +187,15 @@ won't inhibit a second open paren."
 (global-set-key (kbd "C-<prior>") 'previous-user-buffer)
 (global-set-key (kbd "C-M-<tab>") 'indent-relative)
 (global-set-key (kbd "ESC <tab>") 'indent-relative)
+(global-set-key (kbd "M-<tab>") 'indent-relative)
 (global-set-key (kbd "C-s-m") 'toggle-frame-maximized)
 (global-set-key (kbd "C-S-w") 'kill-rectangle)
 (global-set-key (kbd "C-S-y") 'yank-rectangle)
 (global-set-key (kbd "C-x <backspace>") 'delete-region)
+(global-set-key (kbd "M-<backspace>") 'backward-delete-word)
+(global-set-key (kbd "M-<delete>") 'delete-word)
+(global-set-key (kbd "C-<backspace>") 'backward-delete-word)
+(global-set-key (kbd "C-<delete>") 'delete-word)
 (global-set-key (kbd "M-]") 'goto-matching-paren)
 (global-set-key (kbd "M-g") 'goto-line)
 (global-set-key (kbd "M-Q") 'unfill-paragraph)
@@ -268,6 +273,20 @@ paren."
   (progn
     (delete-region (point) (mark))
     (yank)))
+
+;; Delete word backwards without altering the kill ring
+(defun delete-word (arg)
+  "Delete characters forward until encountering the end of a word.
+With argument ARG, do this that many times."
+  (interactive "p")
+  (delete-region (point) (progn (forward-word arg) (point))))
+
+(defun backward-delete-word (arg)
+  "Delete characters backward until encountering the beginning of a word.
+With argument ARG, do this that many times."
+  (interactive "p")
+  (delete-word (- arg)))
+
 
 (defun unfill-paragraph (&optional region)
   "Takes a multi-line paragraph and makes it into a single line of text."
