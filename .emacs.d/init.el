@@ -385,8 +385,9 @@ default).  Otherwise set VAR to INIT (0 by default)."
 
 (defmacro call-if-bound (symbol &rest args)
   "If `SYMBOL' is the name of a bound function, call it with the given `ARGS'."
-  `(when (fboundp ',symbol)
-     (,symbol ,@args)))
+  `(if (fboundp ',symbol)
+       (,symbol ,@args)
+     (message "call-if-bound: no such function '%s'" ',symbol)))
 
 (call-if-bound set-language-environment "UTF-8")
 (call-if-bound prefer-coding-system 'utf-8-unix)
