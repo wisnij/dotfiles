@@ -73,9 +73,7 @@ library to `user-lisp-directory' to ensure its autoloads are picked up."
          (progn
            (require ',symbol)
            ,@body)
-       (error (message (format "with-library: error loading '%s': %S"
-                               ',symbol ,err))
-              nil))))
+       (error (message "with-library: error loading '%s': %S" ',symbol ,err) nil))))
 
 (with-library package
   (defun package--disable-save-selected-packages (&rest dummy)
