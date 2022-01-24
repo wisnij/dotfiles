@@ -19,6 +19,7 @@
 	my-changes = changes --author wisnij@gmail.com
 	my-history = history --author wisnij@gmail.com
 	puff = pull --ff --ff-only
+	pt = push --set-upstream
 	s = show --patch --compact-summary --ignore-space-change --ignore-space-at-eol --pretty=fuller-compact
 	stashed = !git stash list --patch --color | diff-highlight | less-find-pattern "^stash@.*"
 	update = add --update --verbose
