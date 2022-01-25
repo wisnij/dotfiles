@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# git remaster: REbase onto freshly fetched MASTER
+
+set -eu
+
+branch=$(git branch --show-current)
+if [[ $branch == 'master' ]]; then
+    echo "Already on 'master'" >&2
+    exit 1
+fi
+
+set -x
+git checkout master
+git pull --rebase
+git checkout $branch
+git rebase "$@" master
+git submodule update
