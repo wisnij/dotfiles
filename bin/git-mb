@@ -10,4 +10,4 @@ fi
 
 slug=$(sed -E -e 's/[^A-Za-z0-9_]+/-/g' <<< "$*")
 user=$(git config user.email)
-git checkout -b "${user%%@*}-$(date +%Y%m%d)-$slug"
+git checkout -b "${user%%@*}/$(date +%Y%m%d)-$slug"
