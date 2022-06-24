@@ -31,5 +31,5 @@ backup="$file.$datestamp$slug.bak"
 if $move; then
     mv -iv "$file" "$backup"
 else
-    cp -iv "$file" "$backup"
+    cp -ipv "$file" "$backup"
 fi
