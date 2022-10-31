@@ -516,7 +516,10 @@ value should be a list in the format accepted by `font-lock-add-keywords'.")
                 ;; use Inconsolata on Windows, where .Xresources has no effect
                 (windows-nt "Inconsolata-11")
                 ;; use Inconsolata on Mac
-                (darwin "Inconsolata-11"))))
+                (darwin "Inconsolata-11")
+                ;; use larger Inconsolata on Linux, I guess to offset 4k scaling?
+                (gnu/linux "Inconsolata-20")
+                )))
     (set-frame-font font t t)))
 
 ;; only show menu bar in GUI
