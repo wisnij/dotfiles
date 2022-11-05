@@ -1,9 +1,9 @@
 configuration {
-/*	modi: "window,run,ssh";*/
+	modi: "run,window,ssh,keys";
 /*	width: 50;*/
 /*	lines: 15;*/
 /*	columns: 1;*/
-/*	font: "mono 12";*/
+	font: "Inconsolata 14";
 /*	bw: 1;*/
 /*	location: 0;*/
 /*	padding: 5;*/
@@ -26,16 +26,16 @@ configuration {
 /*	disable-history: false;*/
 /*	ignored-prefixes: "";*/
 	sort: true;
-	sorting-method: "levenshtein";
+	sorting-method: "fzf";
 /*	case-sensitive: false;*/
 /*	cycle: true;*/
-/*	sidebar-mode: false;*/
+	sidebar-mode: true;
 /*	eh: 1;*/
 /*	auto-select: false;*/
 /*	parse-hosts: false;*/
 /*	parse-known-hosts: true;*/
 /*	combi-modi: "window,run";*/
-/*	matching: "normal";*/
+	matching: "fuzzy";
 /*	tokenize: true;*/
 /*	m: "-5";*/
 /*	line-margin: 2;*/
@@ -45,7 +45,7 @@ configuration {
 /*	hide-scrollbar: false;*/
 /*	fullscreen: false;*/
 	fake-transparency: true;
-/*	dpi: -1;*/
+	dpi: 1;
 /*	threads: 0;*/
 /*	scrollbar-width: 8;*/
 /*	scroll-method: 0;*/
