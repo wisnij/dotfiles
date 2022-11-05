@@ -94,7 +94,7 @@ _bash_prompt () {
 
     # final prompt char
     local sep
-    if [[ $COLUMNS -lt 140 ]]; then
+    if [[ $COLUMNS -lt 120 ]]; then
         sep="\n"
     else
         sep=" "
