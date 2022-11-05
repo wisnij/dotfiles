@@ -26,14 +26,21 @@ if $verbose; then
 else
     time $cmd "$@"
 fi
+
 status=$?
+if [[ $status -eq 0 ]]; then
+    success=true
+else
+    success=false
+fi
 
 end_date=$(date +'%Y-%m-%d %H:%M:%S %z')
 echo -e "start\t$start_date" >&2
 echo -e "end\t$end_date" >&2
 
 if [[ $TERM_PROGRAM == 'iTerm.app' ]]; then
-    if [[ $status -eq 0 ]]; then
+    # iTerm on a Mac
+    if $success; then
         sound=default
         msg="success"
     else
@@ -48,12 +55,36 @@ if [[ $TERM_PROGRAM == 'iTerm.app' ]]; then
 
     terminal-notifier -title "$cmd" -message "$msg" -activate com.googlecode.iterm2 "${extra[@]}"
 else
+    # some other kind of terminal
     if $play_sound; then
-        echo -n $'\a' >&2
-        if [[ $status -ne 0 ]]; then
-            sleep .25; echo -n $'\a' >&2
-            sleep .25; echo -n $'\a' >&2
+        if type -t paplay >/dev/null; then
+            # we can play sounds through PulseAudio
+            if $success; then
+                paplay $HOME/.local/share/sounds/success &
+            else
+                paplay $HOME/.local/share/sounds/failure &
+            fi
+        else
+            # just ring the bell
+            echo -n $'\a' >&2
+            if [[ $status -ne 0 ]]; then
+                sleep .25; echo -n $'\a' >&2
+                sleep .25; echo -n $'\a' >&2
+            fi
         fi
+    fi
+
+    if type -t notify-send >/dev/null; then
+        # pop up a notification box
+        if $success; then
+            msg="success"
+            icon=terminal
+        else
+            msg="failed, status $status"
+            icon=error
+        fi
+
+        notify-send "$cmd" "$msg" -i $icon
     fi
 fi
 
