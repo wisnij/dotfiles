@@ -1,4 +1,4 @@
 <Multi_key> <Multi_key> <l> <o> <d> : "ಠ_ಠ" # look of disapproval
 <Multi_key> <Multi_key> <l> <o> <l> : "¯\\_(ツ)_/¯" # i dunno lol
-<Multi_key> <[> <]> <O> : "⎄" U2384 # COMPOSITION SYMBOL
-<Multi_key> <[> <]> <o> : "⎄" U2384 # COMPOSITION SYMBOL
+<Multi_key> <bracketleft> <bracketright> <O> : "⎄" U2384 # COMPOSITION SYMBOL
+<Multi_key> <bracketleft> <bracketright> <o> : "⎄" U2384 # COMPOSITION SYMBOL
