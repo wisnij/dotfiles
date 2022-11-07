@@ -43,6 +43,7 @@
 [color.grep]
 	filename = magenta
 [commit]
+	gpgSign = true
 	verbose = true
 [core]
 	pager = cat
@@ -62,10 +63,13 @@
 [pretty]
 	fuller-compact = format:"%C(bold yellow)commit %H%Creset%C(auto)%d%nAuthor:    %aN <%aE>, %ad%nCommitter: %cN <%cE>, %cd%n%n%w(0,4,4)%B"
 	oneline-date = tformat:"%C(yellow)%h%Creset %C(cyan)%cd%Creset %C(magenta)%aN%Creset %s%C(auto)%d"
+[protocol]
+	version = 2
 [pull]
 	ff = only
 	rebase = true
 [push]
+	gpgSign = if-asked
 	default = current
 [rebase]
 	autoSquash = true
@@ -73,8 +77,11 @@
 	enabled = true
 [status]
 	showUntrackedFiles = all
+[tag]
+	gpgSign = true
 [user]
 	email = wisnij@gmail.com
 	name = Jim Wisniewski
+	signingKey = 88FCEA8D986E4990
 [include]
 	path = config-local
