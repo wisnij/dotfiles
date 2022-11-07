@@ -4,6 +4,7 @@
 **/#*
 **/*~
 **/.#*
+.markdown-preview.html
 
 # ignore anything ending with .gitignore, except `.gitignore` exactly
 *.gitignore
