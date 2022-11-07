@@ -60,8 +60,8 @@
 	diff = diff-highlight | less-find-pattern "^diff"
 	g = less
 	graph = less
-	history = diff-highlight | less-find-pattern "^commit\\ [0-9a-f]+"
-	hf = diff-highlight | less-find-pattern "^commit\\ [0-9a-f]+"
+	history = diff-highlight | less "+/^commit\\ [0-9a-f]+"
+	hf = diff-highlight | less "+/^commit\\ [0-9a-f]+"
 	show = diff-highlight | less-find-pattern "^diff"
 [pretty]
 	fuller-compact = format:"%C(bold yellow)commit %H%Creset%C(auto)%d%nAuthor:    %aN <%aE>, %ad%nCommitter: %cN <%cE>, %cd%n%n%w(0,4,4)%B"
