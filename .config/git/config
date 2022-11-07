@@ -86,5 +86,7 @@
 	email = wisnij@gmail.com
 	name = Jim Wisniewski
 	signingKey = 88FCEA8D986E4990
+################################################################################
+# keep this at the end
 [include]
 	path = config-local
