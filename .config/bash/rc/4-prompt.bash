@@ -1,11 +1,11 @@
 _titlebar_prompt () {
     # set the window titlebar if we're in a term which can do that
     case $TERM in
-        xterm*|rxvt*)
-            echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD/$HOME/\~}\007"
+        xterm*|rxvt*|alacritty*)
+            echo -ne "\033]2;${USER}@${HOSTNAME}: ${PWD/$HOME/\~}\007"
             ;;
-        screen*)
-            echo -ne "\033k$(echo ${PWD/$HOME/\~} | sed -E -e 's/^.+(.{17})$/...\1/')\033\\"
+        screen*) # probably actually tmux
+            echo -ne "\033]2;${PWD/$HOME/\~}\007"
             ;;
     esac
 }
