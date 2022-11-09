@@ -57,12 +57,13 @@ _bash_prompt () {
 
     # git branch and status; __git_ps1 from git/contrib/completion/git-prompt.sh
     if type -t __git_ps1 >/dev/null; then
+        GIT_PS1_HIDE_IF_PWD_IGNORED=true
+        GIT_PS1_SHOWCOLORHINTS=true
         GIT_PS1_SHOWDIRTYSTATE=true
         GIT_PS1_SHOWSTASHSTATE=true
         GIT_PS1_SHOWUNTRACKEDFILES=true
         GIT_PS1_SHOWUPSTREAM="auto"
-        GIT_PS1_HIDE_IF_PWD_IGNORED=true
-        GIT_PS1_SHOWCOLORHINTS=true
+        GIT_PS1_STATESEPARATOR=''
 
         local old_PS1=$PS1
         PS1=''
