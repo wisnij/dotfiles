@@ -1,7 +1,7 @@
 unset PROMPT_COMMAND
 
 export COLUMNS
-export HISTCONTROL='ignoredups'
+export HISTCONTROL='ignoredups:ignorespace'
 export HISTFILESIZE=200000
 export HISTSIZE=100000
 export INPUTRC="$HOME/.config/readline/inputrc"
