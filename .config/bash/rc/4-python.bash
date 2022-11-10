@@ -5,3 +5,4 @@ export PYTHONDONTWRITEBYTECODE=1
 # still assume 'python' means py2
 alias python=python3
 alias pydoc=pydoc3
+alias ipython=ipython3
