@@ -111,4 +111,4 @@ _prompt () {
 PROMPT_COMMAND="_prompt;$PROMPT_COMMAND"
 
 export PS0_TIMESTAMP_FILE="/tmp/bash.$$.last_cmd_start"
-PS0='$(date +%s > $PS0_TIMESTAMP_FILE)'
+PS0='$(date +%s > "$PS0_TIMESTAMP_FILE")'
