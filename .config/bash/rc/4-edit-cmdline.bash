@@ -14,4 +14,7 @@ _edit_without_executing() {
     command rm -f "$tmpf"
 }
 
-bind -x '"\C-x\C-e":_edit_without_executing'
+if [[ ${BASH_VERSINFO[0]} -ge 4 ]]; then
+    # custom editing with READLINE_* was only introduced in bash 4.0
+    bind -x '"\C-x\C-e":_edit_without_executing'
+fi
