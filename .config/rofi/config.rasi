@@ -1,5 +1,5 @@
 configuration {
-	modi: "run,window,ssh,keys";
+	modi: "combi,run,window,keys";
 /*	width: 50;*/
 /*	lines: 15;*/
 /*	columns: 1;*/
@@ -25,7 +25,7 @@ configuration {
 /*	drun-display-format: "{name} [<span weight='light' size='small'><i>({generic})</i></span>]";*/
 /*	disable-history: false;*/
 /*	ignored-prefixes: "";*/
-	sort: true;
+	sort: false;
 	sorting-method: "fzf";
 /*	case-sensitive: false;*/
 /*	cycle: true;*/
@@ -68,7 +68,7 @@ configuration {
 /*	display-run: ;*/
 /*	display-ssh: ;*/
 /*	display-drun: ;*/
-/*	display-combi: ;*/
+	display-combi: "select";
 /*	display-keys: ;*/
 /*	kb-primary-paste: "Control+V,Shift+Insert";*/
 /*	kb-secondary-paste: "Control+v,Insert";*/
