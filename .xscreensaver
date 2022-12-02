@@ -1,5 +1,5 @@
 # XScreenSaver Preferences File
-# Written by xscreensaver-demo 5.45 for wisnij on Wed Nov 30 22:29:08 2022.
+# Written by xscreensaver-settings 6.02 for wisnij on Thu Dec  1 20:13:21 2022.
 # https://www.jwz.org/xscreensaver/
 
 timeout:	0:10:00
@@ -10,18 +10,13 @@ passwdTimeout:	0:00:30
 visualID:	default
 installColormap:    True
 verbose:	False
-timestamp:	True
 splash:		True
 splashDuration:	0:00:05
 demoCommand:	xscreensaver-demo
-prefsCommand:	
 nice:		10
-memoryLimit:	0
 fade:		False
 unfade:		False
 fadeSeconds:	0:00:01
-fadeTicks:	20
-captureStderr:	True
 ignoreUninstalledPrograms:False
 font:		*-medium-r-*-140-*-m-*
 dpmsEnabled:	False
@@ -42,6 +37,7 @@ textLiteral:	XScreenSaver
 textFile:	
 textProgram:	fortune
 textURL:	https://planet.debian.org/rss20.xml
+dialogTheme:	default
 
 programs:								      \
 -				maze -root				    \n\
@@ -286,15 +282,10 @@ programs:								      \
 - GL: 				gibson -root				    \n\
 - GL: 				headroom -root				    \n\
 - GL: 				sphereeversion -root			    \n\
+-				binaryhorizon -root			    \n\
+-				marbling -root				    \n\
 
 
-pointerPollTime:    0:00:05
 pointerHysteresis:  10
-windowCreationTimeout:0:00:30
-initialDelay:	0:00:00
-GetViewPortIsFullOfLies:False
-procInterrupts:	True
-xinputExtensionDev: False
-overlayStderr:	True
 authWarningSlack:   20
 
