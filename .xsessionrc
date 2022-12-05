@@ -1,13 +1,15 @@
 #!/bin/sh
 
+export PATH="$HOME/bin:$HOME/usr/bin:$HOME/.local/bin:$PATH"
+
+# Adjust GTK/QT app scaling with custom DPI setting = 192 in xfce settings
+# May also want to set xft-dpi=192 in lightdm greeter
+export GDK_DPI_SCALE=0.5
+export QT_AUTO_SCREEN_SCALE_FACTOR=1
+
 xkbhome=$HOME/.config/xkb
 if [ -r $xkbhome/keymap.xkb ]; then
     # if using ibus, may need to set "Use system keyboard layout" to have this
     # take effect properly
     xkbcomp -I$xkbhome $xkbhome/keymap.xkb $DISPLAY
 fi
-
-# Adjust GTK/QT app scaling with custom DPI setting = 192 in xfce settings
-# May also want to set xft-dpi=192 in lightdm greeter
-export GDK_DPI_SCALE=0.5
-export QT_AUTO_SCREEN_SCALE_FACTOR=1
