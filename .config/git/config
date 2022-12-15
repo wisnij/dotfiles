@@ -53,6 +53,8 @@
 	pretty = fuller-compact
 [init]
 	defaultBranch = master
+[log]
+	date = format-local:%a %b %e %Y %T %z
 [merge]
 	ff = false
 [pager]
