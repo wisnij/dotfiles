@@ -14,6 +14,7 @@
  '(default-input-method "latin-1-prefix")
  '(delete-old-versions t)
  '(eyebrowse-new-workspace t)
+ '(eyebrowse-switch-back-and-forth t)
  '(eyebrowse-wrap-around t)
  '(fill-column 80)
  '(git-commit-known-pseudo-headers
