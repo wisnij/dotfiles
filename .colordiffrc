@@ -1,7 +1,1 @@
-banner=no
-color_patches=no
-plain=normal
-newtext=darkcyan
-oldtext=darkred
-diffstuff=darkyellow
-cvsstuff=darkgreen
+.config/colordiff/colordiffrc
