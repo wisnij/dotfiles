@@ -4,11 +4,10 @@ The dotfiles are stored in separate branches and intended to be managed by [vcsh
 
 ```bash
 # common settings
-vcsh clone -b common https://github.com/wisnij/dotfiles.git dotfiles
+vcsh clone -b common git@github.com:wisnij/dotfiles.git dotfiles
 
 # system-specific settings (optional)
-vcsh clone -b cygwin https://github.com/wisnij/dotfiles.git dotfiles-cygwin
-vcsh clone -b linux  https://github.com/wisnij/dotfiles.git dotfiles-linux
-vcsh clone -b osx    https://github.com/wisnij/dotfiles.git dotfiles-osx
+vcsh clone -b linux  git@github.com:wisnij/dotfiles.git dotfiles-linux
+vcsh clone -b osx    git@github.com:wisnij/dotfiles.git dotfiles-osx
 # ...
 ```
