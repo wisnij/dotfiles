@@ -14,6 +14,12 @@ export PATH="$HOME/bin:$HOME/usr/bin:$HOME/.local/bin:$PATH"
 export PERL5LIB="$HOME/usr/lib/perl5:$PERL5LIB"
 export SBCL_HOME="$HOME/usr/lib/sbcl"
 
+# These are the defaults; exported here for easy reference
+export XDG_CACHE_HOME=$HOME/.cache
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_DATA_HOME=$HOME/.local/share
+export XDG_STATE_HOME=$HOME/.local/state
+
 if type -t emacs >/dev/null; then
     EDITOR='emacs -nw'
 else
