@@ -12,7 +12,7 @@ import sys
 from typing import List, Tuple
 
 
-CANDIDATE_INIT_FILES = ["~/.config/tmux.conf", "~/.tmux.conf"]
+CANDIDATE_INIT_FILES = ["~/.config/tmux/tmux.conf", "~/.config/tmux.conf", "~/.tmux.conf"]
 
 
 class InitFile(Enum):
