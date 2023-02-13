@@ -71,4 +71,4 @@ XTerm*toolBar:		false
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! local settings
 
-#include ".Xresources-local"
+#include ".config/X11/Xresources-local"
