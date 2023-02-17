@@ -6,6 +6,10 @@
 **/.#*
 .markdown-preview.html
 
+# Mac/Windows folder metadata
+.DS_Store
+desktop.ini
+
 # ignore anything ending with .gitignore, except `.gitignore` exactly
 *.gitignore
 !.gitignore
