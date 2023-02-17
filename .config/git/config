@@ -20,6 +20,7 @@
 	hm = history master..
 	my-changes = changes --author wisnij@gmail.com
 	my-history = history --author wisnij@gmail.com
+	pp = pull --prune
 	puff = pull --ff --ff-only
 	pt = push --set-upstream
 	s = show --patch --compact-summary --ignore-space-change --ignore-space-at-eol
