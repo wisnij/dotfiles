@@ -1,3 +1,4 @@
+# see https://github.com/google/mozc/issues/201#issuecomment-803289142
 engines {
   name : "mozc-jp"
   longname : "Mozc"
