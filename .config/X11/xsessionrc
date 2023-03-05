@@ -13,3 +13,6 @@ if [ -r $xkbhome/keymap.xkb ]; then
     # take effect properly
     xkbcomp -I$xkbhome $xkbhome/keymap.xkb $DISPLAY
 fi
+
+# Restart IBus after login to fix menu position
+(sleep 1; ibus restart) &
