@@ -299,6 +299,18 @@ With argument ARG, do this that many times."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Miscellaneous functions
 
+(defun chr (num-or-str &optional base)
+  "Return a string containing the character represented by NUM-OR-STR.
+If the argument is a string, convert it to a number according to Emacs integer
+literal syntax if it starts with #, or `string-to-number' in the specified BASE
+(16 by default)."
+  (char-to-string
+   (cond ((numberp num-or-str) num-or-str)
+         ((stringp num-or-str)
+          (if (eq (string-to-char num-or-str) ?#)
+              (read num-or-str)
+            (string-to-number num-or-str (or base 16)))))))
+
 (defun sort-words (reverse beg end)
   "Sort words in region alphabetically, in REVERSE if negative.
 Prefixed with negative \\[universal-argument], sorts in reverse.
