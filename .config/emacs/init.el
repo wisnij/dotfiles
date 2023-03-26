@@ -142,9 +142,10 @@ won't inhibit a second open paren."
             (lambda ()
               (setq fill-column 72))))
 
-;; buffer switching
+;; ido
 (with-library ido
   (ido-mode 1)
+  (ido-everywhere 1)
   (define-key ido-file-dir-completion-map (kbd "C-c f")
     (lambda ()
       (interactive)
