@@ -150,6 +150,8 @@ won't inhibit a second open paren."
     (lambda ()
       (interactive)
       (ido-initiate-auto-merge (current-buffer)))))
+(with-library ido-grid-mode
+  (ido-grid-mode 1))
 
 (with-library typopunct)
 
