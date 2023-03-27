@@ -46,6 +46,7 @@
 [color.grep]
 	filename = magenta
 [commit]
+	cleanup = scissors
 	gpgSign = true
 	verbose = true
 [core]
