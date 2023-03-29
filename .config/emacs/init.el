@@ -120,7 +120,7 @@ won't inhibit a second open paren."
         (define-key map (kbd (concat "C-" n)) (intern (concat "eyebrowse-switch-to-window-config-" n)))))
     (when (equal system-type 'darwin)
       ;; set iTerm-like Cmd-#
-      (define-key map (kbd "M-s-t") 'eyebrowse-create-named-window-config)
+      (define-key map (kbd "s-T") 'eyebrowse-create-named-window-config)
       (define-key map (kbd "s-t") 'eyebrowse-create-window-config)
       (define-key map (kbd "s-w") 'eyebrowse-close-window-config)
       (dotimes (i 9)
