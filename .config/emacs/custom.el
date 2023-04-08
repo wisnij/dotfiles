@@ -55,6 +55,7 @@
  '(typopunct-buffer-language 'english)
  '(uniquify-buffer-name-style 'post-forward-angle-brackets nil (uniquify))
  '(version-control t)
+ '(visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
  '(x-stretch-cursor t))
 
 (custom-set-faces
