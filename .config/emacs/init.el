@@ -557,7 +557,9 @@ mark it as unmodified."
 
 ;; wrap lines at fill-column in visual line mode
 (with-library visual-fill-column
-  (add-hook 'visual-line-mode-hook 'visual-fill-column-mode))
+  (add-hook 'visual-line-mode-hook
+            (lambda ()
+              (visual-fill-column-mode (if visual-line-mode 1 -1)))))
 
 ;; save custom files with 'foo rather than (quote foo)
 (advice-add 'custom-save-all :around
