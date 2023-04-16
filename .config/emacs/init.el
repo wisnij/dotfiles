@@ -416,6 +416,18 @@ default).  Otherwise set VAR to INIT (0 by default)."
 
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
+(add-hook 'org-mode-hook 'visual-line-mode)
+
+;; turn off auto-fill in visual line mode
+(add-hook 'visual-line-mode-hook
+          (lambda ()
+            ;; auto-fill-mode might be enabled or disabled by default depending
+            ;; on major mode.  I always want it off when entering visual line
+            ;; mode so I don't get hard line breaks, but if I *leave* visual
+            ;; line mode, especially temporarily, I probably want to preserve
+            ;; the existing long lines, and auto-fill should remain turned off
+            (auto-fill-mode -1)))
+
 ;; clean whitespace when saving
 (defvar auto-cleanup-whitespace t
   "Whether `cleanup-whitespace' runs automatically when saving a buffer.")
