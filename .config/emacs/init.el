@@ -110,19 +110,19 @@ won't inhibit a second open paren."
 ;; window configs
 (with-library eyebrowse
   (let ((map eyebrowse-mode-map))
-    (define-key map (kbd "C-<tab>") 'eyebrowse-next-window-config)
-    (define-key map (kbd "C-S-<tab>") 'eyebrowse-prev-window-config)
-    (define-key map (kbd "C-M-S-t") 'eyebrowse-create-named-window-config)
-    (define-key map (kbd "C-M-t") 'eyebrowse-create-window-config)
-    (define-key map (kbd "C-M-w") 'eyebrowse-close-window-config)
+    (define-key map (kbd "C-<tab>") #'eyebrowse-next-window-config)
+    (define-key map (kbd "C-S-<tab>") #'eyebrowse-prev-window-config)
+    (define-key map (kbd "C-M-S-t") #'eyebrowse-create-named-window-config)
+    (define-key map (kbd "C-M-t") #'eyebrowse-create-window-config)
+    (define-key map (kbd "C-M-w") #'eyebrowse-close-window-config)
     (dotimes (i 9)
       (let ((n (number-to-string (+ i 1))))
         (define-key map (kbd (concat "C-" n)) (intern (concat "eyebrowse-switch-to-window-config-" n)))))
     (when (equal system-type 'darwin)
       ;; set iTerm-like Cmd-#
-      (define-key map (kbd "s-T") 'eyebrowse-create-named-window-config)
-      (define-key map (kbd "s-t") 'eyebrowse-create-window-config)
-      (define-key map (kbd "s-w") 'eyebrowse-close-window-config)
+      (define-key map (kbd "s-T") #'eyebrowse-create-named-window-config)
+      (define-key map (kbd "s-t") #'eyebrowse-create-window-config)
+      (define-key map (kbd "s-w") #'eyebrowse-close-window-config)
       (dotimes (i 9)
         (let ((n (number-to-string (+ i 1))))
           (define-key map (kbd (concat "s-" n)) (intern (concat "eyebrowse-switch-to-window-config-" n)))))))
@@ -137,7 +137,7 @@ won't inhibit a second open paren."
                   ("MERGE_MSG$" . git-commit-mode)
                   ("TAG_EDITMSG$" . git-commit-mode))
                 auto-mode-alist))
-  (add-hook 'git-commit-mode-hook 'turn-on-auto-fill)
+  (add-hook 'git-commit-mode-hook #'turn-on-auto-fill)
   (add-hook 'git-commit-mode-hook
             (lambda ()
               (setq fill-column 72))))
@@ -191,36 +191,36 @@ won't inhibit a second open paren."
 ;; translate key with leftCmd to rightCmd equivalent
 (define-key key-translation-map [C-s-268632077] (kbd "C-s-m"))
 
-(global-set-key (kbd "<delete>") 'delete-char)
-(global-set-key (kbd "C-<next>") 'next-user-buffer)
-(global-set-key (kbd "C-<prior>") 'previous-user-buffer)
-(global-set-key (kbd "C-M-<tab>") 'indent-relative)
-(global-set-key (kbd "ESC <tab>") 'indent-relative)
-(global-set-key (kbd "M-<tab>") 'indent-relative)
-(global-set-key (kbd "C-s-m") 'toggle-frame-maximized)
-(global-set-key (kbd "C-S-w") 'kill-rectangle)
-(global-set-key (kbd "C-S-y") 'yank-rectangle)
-(global-set-key (kbd "C-x <backspace>") 'delete-region)
-(global-set-key (kbd "M-<backspace>") 'backward-delete-word)
-(global-set-key (kbd "M-<delete>") 'delete-word)
-(global-set-key (kbd "C-<backspace>") 'backward-delete-word)
-(global-set-key (kbd "C-<delete>") 'delete-word)
-(global-set-key (kbd "M-]") 'goto-matching-paren)
-(global-set-key (kbd "M-g") 'goto-line)
-(global-set-key (kbd "M-Q") 'unfill-paragraph)
-(global-set-key (kbd "M-s") 'next-frame-window)
-(global-set-key (kbd "M-S") 'previous-frame-window)
-(global-set-key (kbd "M-y") 'yank-to-region)
-(global-set-key (kbd "s-<down>") 'next-frame-window)
+(global-set-key (kbd "<delete>") #'delete-char)
+(global-set-key (kbd "C-<next>") #'next-user-buffer)
+(global-set-key (kbd "C-<prior>") #'previous-user-buffer)
+(global-set-key (kbd "C-M-<tab>") #'indent-relative)
+(global-set-key (kbd "ESC <tab>") #'indent-relative)
+(global-set-key (kbd "M-<tab>") #'indent-relative)
+(global-set-key (kbd "C-s-m") #'toggle-frame-maximized)
+(global-set-key (kbd "C-S-w") #'kill-rectangle)
+(global-set-key (kbd "C-S-y") #'yank-rectangle)
+(global-set-key (kbd "C-x <backspace>") #'delete-region)
+(global-set-key (kbd "M-<backspace>") #'backward-delete-word)
+(global-set-key (kbd "M-<delete>") #'delete-word)
+(global-set-key (kbd "C-<backspace>") #'backward-delete-word)
+(global-set-key (kbd "C-<delete>") #'delete-word)
+(global-set-key (kbd "M-]") #'goto-matching-paren)
+(global-set-key (kbd "M-g") #'goto-line)
+(global-set-key (kbd "M-Q") #'unfill-paragraph)
+(global-set-key (kbd "M-s") #'next-frame-window)
+(global-set-key (kbd "M-S") #'previous-frame-window)
+(global-set-key (kbd "M-y") #'yank-to-region)
+(global-set-key (kbd "s-<down>") #'next-frame-window)
 (global-set-key (kbd "s-<left>") (lambda () (interactive) (other-frame -1)))
-(global-set-key (kbd "s-<right>") 'other-frame)
-(global-set-key (kbd "s-<up>") 'previous-frame-window)
+(global-set-key (kbd "s-<right>") #'other-frame)
+(global-set-key (kbd "s-<up>") #'previous-frame-window)
 
-(global-set-key (kbd "C-x C-b") 'buffer-menu)
+(global-set-key (kbd "C-x C-b") #'buffer-menu)
 (global-set-key (kbd "C-b")
                 (if (fboundp 'ido-switch-buffer)
-                    'ido-switch-buffer
-                    'buffer-menu))
+                    #'ido-switch-buffer
+                    #'buffer-menu))
 
 ;; Keybinding functions
 (defun switch-to-buffer-num (arg)
@@ -414,9 +414,9 @@ default).  Otherwise set VAR to INIT (0 by default)."
 (call-if-bound prefer-coding-system 'utf-8-unix)
 (call-if-bound delete-selection-mode 1)
 
-(add-hook 'text-mode-hook 'turn-on-auto-fill)
+(add-hook 'text-mode-hook #'turn-on-auto-fill)
 
-(add-hook 'org-mode-hook 'visual-line-mode)
+(add-hook 'org-mode-hook #'visual-line-mode)
 
 ;; turn off auto-fill in visual line mode
 (add-hook 'visual-line-mode-hook
@@ -494,7 +494,7 @@ up whitespace even if `auto-cleanup-whitespace' is in effect."
   (add-hook h
             (lambda ()
               (set (make-local-variable lisp-indent-function)
-                   'common-lisp-indent-function))))
+                   #'common-lisp-indent-function))))
 
 ;; Visible tabs
 (defface visible-whitespace-face
@@ -520,7 +520,7 @@ value should be a list in the format accepted by `font-lock-add-keywords'.")
             (font-lock-add-keywords
              nil '(("\\<\\(\\(BUG\\|FIXME\\|NOSUBMIT\\|TODO\\|XXX\\)\\(([^)]*)\\)?\\)" 1 font-lock-warning-face t)))))
 
-(add-hook 'text-mode-hook 'turn-on-font-lock)
+(add-hook 'text-mode-hook #'turn-on-font-lock)
 
 ;; frame title
 (setq frame-title-format
@@ -571,7 +571,7 @@ mark it as unmodified."
         nil)
       t))
 
-(add-hook 'kill-buffer-query-functions 'unkillable-scratch-buffer)
+(add-hook 'kill-buffer-query-functions #'unkillable-scratch-buffer)
 
 ;; save custom files with 'foo rather than (quote foo)
 (advice-add 'custom-save-all :around
