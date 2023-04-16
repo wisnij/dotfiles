@@ -170,57 +170,30 @@ won't inhibit a second open paren."
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Keybindings
+;; Miscellaneous functions
 
-;; C-arrow
-(define-key function-key-map "\eOa" [C-up])
-(define-key function-key-map "\eOb" [C-down])
-(define-key function-key-map "\eOc" [C-right])
-(define-key function-key-map "\eOd" [C-left])
+(defun chr (num-or-str &optional base)
+  "Return a string containing the character represented by NUM-OR-STR.
+If the argument is a string, convert it to a number according to Emacs integer
+literal syntax if it starts with #, or `string-to-number' in the specified BASE
+(16 by default)."
+  (char-to-string
+   (cond ((numberp num-or-str) num-or-str)
+         ((stringp num-or-str)
+          (if (eq (string-to-char num-or-str) ?#)
+              (read num-or-str)
+            (string-to-number num-or-str (or base 16)))))))
 
-;; M-arrow
-(define-key function-key-map "\e[1;9A" [M-up])
-(define-key function-key-map "\e[1;9B" [M-down])
-(define-key function-key-map "\e[1;9C" [M-right])
-(define-key function-key-map "\e[1;9D" [M-left])
+(defmacro incf* (var &optional step init)
+  "If VAR is already bound, increment its value by STEP (1 by
+default).  Otherwise set VAR to INIT (0 by default)."
+  `(if (boundp ',var)
+       (incf ,var ,(or step 1))
+       (setq ,var ,(or init 0))))
 
-;; C-PgUp/PgDown
-(define-key function-key-map "\e[5^" [C-prior])
-(define-key function-key-map "\e[6^" [C-next])
 
-;; translate key with leftCmd to rightCmd equivalent
-(define-key key-translation-map [C-s-268632077] (kbd "C-s-m"))
-
-(global-set-key (kbd "<delete>") #'delete-char)
-(global-set-key (kbd "C-<next>") #'next-user-buffer)
-(global-set-key (kbd "C-<prior>") #'previous-user-buffer)
-(global-set-key (kbd "C-M-<tab>") #'indent-relative)
-(global-set-key (kbd "ESC <tab>") #'indent-relative)
-(global-set-key (kbd "M-<tab>") #'indent-relative)
-(global-set-key (kbd "C-s-m") #'toggle-frame-maximized)
-(global-set-key (kbd "C-S-w") #'kill-rectangle)
-(global-set-key (kbd "C-S-y") #'yank-rectangle)
-(global-set-key (kbd "C-x <backspace>") #'delete-region)
-(global-set-key (kbd "M-<backspace>") #'backward-delete-word)
-(global-set-key (kbd "M-<delete>") #'delete-word)
-(global-set-key (kbd "C-<backspace>") #'backward-delete-word)
-(global-set-key (kbd "C-<delete>") #'delete-word)
-(global-set-key (kbd "M-]") #'goto-matching-paren)
-(global-set-key (kbd "M-g") #'goto-line)
-(global-set-key (kbd "M-Q") #'unfill-paragraph)
-(global-set-key (kbd "M-s") #'next-frame-window)
-(global-set-key (kbd "M-S") #'previous-frame-window)
-(global-set-key (kbd "M-y") #'yank-to-region)
-(global-set-key (kbd "s-<down>") #'next-frame-window)
-(global-set-key (kbd "s-<left>") (lambda () (interactive) (other-frame -1)))
-(global-set-key (kbd "s-<right>") #'other-frame)
-(global-set-key (kbd "s-<up>") #'previous-frame-window)
-
-(global-set-key (kbd "C-x C-b") #'buffer-menu)
-(global-set-key (kbd "C-b")
-                (if (fboundp 'ido-switch-buffer)
-                    #'ido-switch-buffer
-                    #'buffer-menu))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Commands
 
 ;; Keybinding functions
 (defun switch-to-buffer-num (arg)
@@ -296,29 +269,12 @@ With argument ARG, do this that many times."
   (interactive "p")
   (delete-word (- arg)))
 
-
 (defun unfill-paragraph (&optional region)
   "Takes a multi-line paragraph and makes it into a single line of text."
   (interactive (progn (barf-if-buffer-read-only) '(t)))
   (let ((fill-column (point-max))
         (emacs-lisp-docstring-fill-column t))
     (fill-paragraph nil region)))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Miscellaneous functions
-
-(defun chr (num-or-str &optional base)
-  "Return a string containing the character represented by NUM-OR-STR.
-If the argument is a string, convert it to a number according to Emacs integer
-literal syntax if it starts with #, or `string-to-number' in the specified BASE
-(16 by default)."
-  (char-to-string
-   (cond ((numberp num-or-str) num-or-str)
-         ((stringp num-or-str)
-          (if (eq (string-to-char num-or-str) ?#)
-              (read num-or-str)
-            (string-to-number num-or-str (or base 16)))))))
 
 (defun sort-words (reverse beg end)
   "Sort words in region alphabetically, in REVERSE if negative.
@@ -351,13 +307,6 @@ See `sort-regexp-fields'."
         (if (forward-word 1)
             (setq n (1+ n)))))
     (message "%3d %3d %3d" (count-lines start end) n (- end start))))
-
-(defmacro incf* (var &optional step init)
-  "If VAR is already bound, increment its value by STEP (1 by
-default).  Otherwise set VAR to INIT (0 by default)."
-  `(if (boundp ',var)
-       (incf ,var ,(or step 1))
-       (setq ,var ,(or init 0))))
 
 (with-library longlines
   (defun longlines-toggle-hard-newlines ()
@@ -578,6 +527,59 @@ mark it as unmodified."
             (lambda (orig)
               (let ((print-quoted t))
                 (funcall orig))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Keybindings
+
+;; C-arrow
+(define-key function-key-map "\eOa" [C-up])
+(define-key function-key-map "\eOb" [C-down])
+(define-key function-key-map "\eOc" [C-right])
+(define-key function-key-map "\eOd" [C-left])
+
+;; M-arrow
+(define-key function-key-map "\e[1;9A" [M-up])
+(define-key function-key-map "\e[1;9B" [M-down])
+(define-key function-key-map "\e[1;9C" [M-right])
+(define-key function-key-map "\e[1;9D" [M-left])
+
+;; C-PgUp/PgDown
+(define-key function-key-map "\e[5^" [C-prior])
+(define-key function-key-map "\e[6^" [C-next])
+
+;; translate key with leftCmd to rightCmd equivalent
+(define-key key-translation-map [C-s-268632077] (kbd "C-s-m"))
+
+(global-set-key (kbd "<delete>") #'delete-char)
+(global-set-key (kbd "C-<next>") #'next-user-buffer)
+(global-set-key (kbd "C-<prior>") #'previous-user-buffer)
+(global-set-key (kbd "C-M-<tab>") #'indent-relative)
+(global-set-key (kbd "ESC <tab>") #'indent-relative)
+(global-set-key (kbd "M-<tab>") #'indent-relative)
+(global-set-key (kbd "C-s-m") #'toggle-frame-maximized)
+(global-set-key (kbd "C-S-w") #'kill-rectangle)
+(global-set-key (kbd "C-S-y") #'yank-rectangle)
+(global-set-key (kbd "C-x <backspace>") #'delete-region)
+(global-set-key (kbd "M-<backspace>") #'backward-delete-word)
+(global-set-key (kbd "M-<delete>") #'delete-word)
+(global-set-key (kbd "C-<backspace>") #'backward-delete-word)
+(global-set-key (kbd "C-<delete>") #'delete-word)
+(global-set-key (kbd "M-]") #'goto-matching-paren)
+(global-set-key (kbd "M-g") #'goto-line)
+(global-set-key (kbd "M-Q") #'unfill-paragraph)
+(global-set-key (kbd "M-s") #'next-frame-window)
+(global-set-key (kbd "M-S") #'previous-frame-window)
+(global-set-key (kbd "M-y") #'yank-to-region)
+(global-set-key (kbd "s-<down>") #'next-frame-window)
+(global-set-key (kbd "s-<left>") (lambda () (interactive) (other-frame -1)))
+(global-set-key (kbd "s-<right>") #'other-frame)
+(global-set-key (kbd "s-<up>") #'previous-frame-window)
+
+(global-set-key (kbd "C-x C-b") #'buffer-menu)
+(global-set-key (kbd "C-b")
+                (if (fboundp 'ido-switch-buffer)
+                    #'ido-switch-buffer
+                    #'buffer-menu))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Finish up
