@@ -308,13 +308,6 @@ See `sort-regexp-fields'."
             (setq n (1+ n)))))
     (message "%3d %3d %3d" (count-lines start end) n (- end start))))
 
-(with-library longlines
-  (defun longlines-toggle-hard-newlines ()
-    "Toggle visibility of hard newlines."
-    (interactive)
-    (when (bound-and-true-p longlines-mode)
-      (longlines-show-hard-newlines longlines-showing))))
-
 (defun untabify-buffer ()
   "Convert all tabs in buffer to multiple spaces, preserving columns."
   (interactive)
