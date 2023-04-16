@@ -178,11 +178,12 @@ If the argument is a string, convert it to a number according to Emacs integer
 literal syntax if it starts with #, or `string-to-number' in the specified BASE
 (16 by default)."
   (char-to-string
-   (cond ((numberp num-or-str) num-or-str)
+   (cond ((characterp num-or-str) num-or-str)
          ((stringp num-or-str)
           (if (eq (string-to-char num-or-str) ?#)
               (read num-or-str)
-            (string-to-number num-or-str (or base 16)))))))
+            (string-to-number num-or-str (or base 16))))
+         (t (error "chr: not a number or string: %S" num-or-str)))))
 
 (defmacro incf* (var &optional step init)
   "If VAR is already bound, increment its value by STEP (1 by
