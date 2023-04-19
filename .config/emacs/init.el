@@ -196,6 +196,24 @@ default).  Otherwise set VAR to INIT (0 by default)."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Commands
 
+(defun derived-modes (mode)
+  "Return a list of the ancestor modes that MODE is derived from.
+When called interactively, display a message showing the ancestor
+modes."
+  (interactive
+   ;; TODO: prompt for modes
+   ;;(list (completing-read "Mode name: " '("TODO: modes") nil t nil nil major-mode))
+   (list major-mode))
+  (let ((modes (list mode))
+        (parent nil))
+    (while (setq parent (get mode 'derived-mode-parent))
+      (push parent modes)
+      (setq mode parent))
+    (setq modes (nreverse modes))
+    (when (interactive-p)
+      (message "%S" modes))
+    modes))
+
 ;; Keybinding functions
 (defun switch-to-buffer-num (arg)
   "Switch to the previous buffer.  With a numeric arg, n, switch to the nth
