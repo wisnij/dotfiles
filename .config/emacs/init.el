@@ -357,7 +357,10 @@ See `sort-regexp-fields'."
 (call-if-bound prefer-coding-system 'utf-8-unix)
 (call-if-bound delete-selection-mode 1)
 
+(add-hook 'text-mode-hook #'flyspell-mode)
 (add-hook 'text-mode-hook #'turn-on-auto-fill)
+
+(add-hook 'prog-mode-hook #'flyspell-prog-mode)
 
 (add-hook 'org-mode-hook #'visual-line-mode)
 
