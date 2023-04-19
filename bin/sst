@@ -58,15 +58,15 @@ def parse_args(args: List[str] = None) -> Tuple[argparse.Namespace, List[str]]:
 
 def main() -> int:
     opts, ssh_opts = parse_args()
-    ssh_optstring = " ".join(ssh_opts)
 
     if opts.list_sessions:
-        return list_sessions(opts, ssh_optstring)
+        return list_sessions(opts, ssh_opts)
     else:
-        return new_session(opts, ssh_optstring)
+        return new_session(opts, ssh_opts)
 
 
-def list_sessions(opts: argparse.Namespace, ssh_optstring: str) -> int:
+def list_sessions(opts: argparse.Namespace, ssh_opts: List[str]) -> int:
+    ssh_optstring = " ".join(ssh_opts)
     status, output = subprocess.getstatusoutput(f"ssh {ssh_optstring} {opts.host} 'tmux list-sessions'")
     print(output)
     if "error connecting" in output or "no server running" in output:
@@ -75,7 +75,7 @@ def list_sessions(opts: argparse.Namespace, ssh_optstring: str) -> int:
     return status
 
 
-def new_session(opts: argparse.Namespace, ssh_optstring) -> int:
+def new_session(opts: argparse.Namespace, ssh_opts: List[str]) -> int:
     if opts.init_config:
         init_config(opts)
 
@@ -84,9 +84,11 @@ def new_session(opts: argparse.Namespace, ssh_optstring) -> int:
     if opts.session:
         attach_cmd += f" -t {opts.session}"
 
-    return os.system(f"""
-        ssh {ssh_optstring} -t {opts.host} "{attach_cmd} || tmux new-session -s '{new_session_name}'"
-    """.strip())
+    result = subprocess.run(
+        ["ssh", *ssh_opts, "-t", opts.host, f"{attach_cmd} || tmux new-session -s '{new_session_name}'"]
+    )
+
+    return result.returncode
 
 
 def init_config(opts: argparse.Namespace) -> None:
