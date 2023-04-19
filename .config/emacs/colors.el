@@ -48,7 +48,7 @@
     (font-lock-comment-delimiter-face (:foreground red))
     (font-lock-comment-face (:foreground orange))
     (font-lock-constant-face (:foreground ltcyan))
-    (font-lock-doc-face (:inherit font-lock-comment-face))
+    (font-lock-doc-face (:inherit font-lock-string-face))
     (font-lock-function-name-face (:foreground blue))
     (font-lock-keyword-face (:foreground cyan))
     (font-lock-negation-char-face (:inherit font-lock-keyword-face))
