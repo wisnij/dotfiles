@@ -1,3 +1,8 @@
+<Multi_key> <apostrophe> <1> : "′" U2032 # PRIME
+<Multi_key> <apostrophe> <2> : "″" U2033 # DOUBLE PRIME
+<Multi_key> <apostrophe> <3> : "‴" U2034 # TRIPLE PRIME
+<Multi_key> <apostrophe> <4> : "⁗" U2057 # QUADRUPLE PRIME
+
 <Multi_key> <Multi_key> <l> <o> <d> : "ಠ_ಠ" # look of disapproval
 <Multi_key> <Multi_key> <l> <o> <l> : "¯\\_(ツ)_/¯" # i dunno lol
 <Multi_key> <bracketleft> <bracketright> <O> : "⎄" U2384 # COMPOSITION SYMBOL
