@@ -11,6 +11,14 @@
   - tried <https://github.com/nxjosephofficial/primevideo-linux> initially, but
     Chrome 104 doesn't work anymore
 
+## Acceptable workaround
+
+- IBus popup-menu appears in the upper left corner of the screen, instead of by
+  the taskbar icon
+  - acceptable workaround: `(sleep 1; ibus restart) &` in `xsessionrc`
+- VLC displays no video picture in always-on-top mode
+  - workaround: use WM always-on-top feature
+
 ## Fixed issues
 
 - 4k monitor scaling
@@ -27,6 +35,3 @@
   - set "Use system keyboard layout" in ibus config
 - Japanese input method (via Mozc) doesn't work in Emacs
   - `apt install emacs-mozc`
-- IBus popup-menu appears in the upper left corner of the screen, instead of by
-  the taskbar icon
-  - acceptable workaround: `(sleep 1; ibus restart) &` in `xsessionrc`
