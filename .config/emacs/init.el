@@ -1,7 +1,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Basics
 
-(require 'cl)
 (defvar emacs-load-start (current-time)
   "The `current-time' when .emacs started loading.")
 
@@ -509,15 +508,16 @@ value should be a list in the format accepted by `font-lock-add-keywords'.")
 
 ;; set default GUI font
 (when window-system
-  (let ((font (case system-type
+  (let ((font (cond
                 ;; use Inconsolata on Windows, where .Xresources has no effect
-                (windows-nt "Inconsolata-11")
+                ((eq system-type 'windows-nt) "Inconsolata-11")
                 ;; use Inconsolata on Mac
-                (darwin "Inconsolata-11")
+                ((eq system-type 'darwin) "Inconsolata-11")
                 ;; after adjusting for 4k DPI settings
-                (gnu/linux "Inconsolata-9")
+                ((eq system-type 'gnu/linux) "Inconsolata-9")
                 )))
-    (set-frame-font font t t)))
+    (when font
+      (set-frame-font font t t))))
 
 ;; only show menu bar in GUI
 (menu-bar-mode (if window-system 1 0))
