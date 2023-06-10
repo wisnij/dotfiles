@@ -47,6 +47,9 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
+(setq custom-theme-directory (user-file "themes/"))
+(load-theme 'wisnij :no-confirm)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Libraries
@@ -99,12 +102,6 @@ won't inhibit a second open paren."
      (and electric-pair-preserve-balance
           (electric-pair-inhibit-if-helps-balance char))))
   (setq electric-pair-inhibit-predicate #'my-electric-pair-inhibit))
-
-;; color theme
-(let ((color-theme-obsolete nil))
-  (with-library color-theme
-    (load (user-file "colors.el"))
-    (color-theme-wisniewski)))
 
 ;; window configs
 (with-library eyebrowse
