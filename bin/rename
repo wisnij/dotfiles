@@ -62,7 +62,8 @@ ENDHELP;
 
 my @actions;
 my $interactive = 1;
-my ($all, $count, $fullpath, $global, $reverse, $test, $verbose);
+my $verbose = 1;
+my ($all, $count, $fullpath, $global, $reverse, $test);
 
 GetOptions
     'a|all'          => \$all,
@@ -74,14 +75,12 @@ GetOptions
     'p|full-path'    => \$fullpath,
     'r|reverse'      => \$reverse,
     't|test'         => \$test,
-    'v|verbose'      => \$verbose,
+    'v|verbose!'     => \$verbose,
 
     'help'     => sub { print $HELPMSG; exit },
     'helplong' => sub { exec 'perldoc', $0
                             or die "$PN: couldn't exec perldoc: $!\n" }
 or die $USAGEMSG;
-
-$verbose = 1 if $all or $test;
 
 
 ################################  Main program  ################################
