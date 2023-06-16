@@ -376,8 +376,6 @@ See `sort-regexp-fields'."
 
 (add-hook 'prog-mode-hook #'flyspell-prog-mode)
 
-(add-hook 'org-mode-hook #'visual-line-mode)
-
 ;; turn off auto-fill in visual line mode
 (add-hook 'visual-line-mode-hook
           (lambda ()
