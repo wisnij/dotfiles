@@ -41,6 +41,7 @@
  '(kill-read-only-ok t)
  '(kill-whole-line t)
  '(org-agenda-files (list org-directory))
+ '(org-log-done 'time)
  '(org-todo-keywords '((sequence "TODO" "STARTED" "DONE")))
  '(p4-default-diff-options "-dNu")
  '(p4-verbose nil)
