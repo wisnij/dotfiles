@@ -159,7 +159,7 @@ won't inhibit a second open paren."
   (window-numbering-mode t))
 
 (with-library visual-fill-column
-  ;; wrap lines at fill-column in visual line mode
+  ;; wrap lines at fill-column in visual line mode, rather than window width
   (add-hook 'visual-line-mode-hook
             (lambda ()
               (visual-fill-column-mode (if visual-line-mode 1 -1)))))
@@ -382,7 +382,7 @@ See `sort-regexp-fields'."
             ;; auto-fill-mode might be enabled or disabled by default depending
             ;; on major mode.  I always want it off when entering visual line
             ;; mode so I don't get hard line breaks, but if I *leave* visual
-            ;; line mode, especially temporarily, I probably want to preserve
+            ;; line mode (especially temporarily) I probably want to preserve
             ;; the existing long lines, and auto-fill should remain turned off
             (auto-fill-mode -1)))
 
