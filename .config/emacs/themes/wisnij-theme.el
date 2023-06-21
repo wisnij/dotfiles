@@ -3,11 +3,12 @@
 
 (apply #'custom-theme-set-faces 'wisnij
        (let ((black    "#000000")
-             (dkgray   "#303030")
-             (dimgray  "#585858")
-             (gray     "#808080")
-             (midgray  "#a8a8a8")
-             (ltgray   "#dadada")
+             (bggray   "#1c1c1c") ;; 10%
+             (dkgray   "#303030") ;; 18%
+             (dimgray  "#585858") ;; 34%
+             (gray     "#808080") ;; 50%
+             (midgray  "#a8a8a8") ;; 65%
+             (ltgray   "#dadada") ;; 85%
              (white    "#ffffff")
              (red      "#ff0000")
              (dkbrown  "#af5f00")
@@ -37,13 +38,13 @@
            (cursor ((t (:background ,white))))
            (error ((t (:foreground ,red :weight bold))))
            (escape-glyph ((t (:foreground ,dkcyan :background ,dkgray))))
-           (fill-column-indicator ((t (:foreground ,dkgray))))
-           (fringe ((t (:background ,dkgray))))
+           (fill-column-indicator ((t (:foreground ,bggray))))
+           (fringe ((t (:background ,bggray))))
            (header-line ((t (:inherit (mode-line) :box nil :foreground ,ltgray :background ,dkgray))))
            (header-line-highlight ((t (:inherit mode-line-highlight))))
            (highlight ((t (:background ,dkyellow))))
            (homoglyph ((t (:inherit (escape-glyph)))))
-           (isearch ((t (:foreground ,white :background ,green))))
+           (isearch ((t (:foreground ,black :background ,green))))
            (isearch-fail ((t (:inherit (error)))))
            (lazy-highlight ((t (:foreground ,white :background ,magenta))))
            (line-number ((t (:foreground ,dimgray))))
