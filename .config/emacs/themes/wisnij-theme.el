@@ -113,9 +113,9 @@
            (diff-refine-removed ((t (:background ,bgred))))
 
            ;; git commit mode
-           (git-commit-comment-face ((t (:inherit font-lock-comment-face))))
-           (git-commit-nonempty-second-line-face ((t (:inherit error))))
-           (git-commit-overlong-summary-face ((t (:inherit error))))
+           (git-commit-comment-face ((t (:inherit (font-lock-comment-face)))))
+           (git-commit-nonempty-second-line-face ((t (:inherit (error)))))
+           (git-commit-overlong-summary-face ((t (:inherit (error)))))
 
            ;; markdown mode
            (markdown-code-face ((t (:inherit nil))))
