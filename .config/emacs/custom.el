@@ -10,6 +10,7 @@
  '(backward-delete-char-untabify-method nil)
  '(c-default-style "wisnij")
  '(case-fold-search t)
+ '(clean-buffer-list-delay-general 7)
  '(column-number-mode t)
  '(default-input-method "latin-1-prefix")
  '(delete-old-versions t)
