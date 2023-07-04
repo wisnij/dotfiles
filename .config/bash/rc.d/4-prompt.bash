@@ -5,7 +5,7 @@ _titlebar_prompt () {
             echo -ne "\033]2;${USER}@${HOSTNAME}: ${PWD/$HOME/\~}\007"
             ;;
         screen*) # probably actually tmux
-            echo -ne "\033]2;${PWD/$HOME/\~}\007"
+            echo -ne "\033]2;$PWD\007"
             ;;
     esac
 }
