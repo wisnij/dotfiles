@@ -5,20 +5,7 @@ _mac_titlebar_prompt () {
             ;;
     esac
 
-    local dir=$PWD
-    if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-        dir=$(basename $(git rev-parse --show-toplevel))
-    else
-        if [[ ${BASH_VERSINFO} -ge 4 ]]; then
-            dir="${dir/$HOME/\~}"
-        else
-            dir="${dir/$HOME/~}"
-        fi
-        if [[ $TERM_PROGRAM == 'iTerm.app' ]]; then
-            # shorten to fit in tabs
-            dir=$(sed -E -e 's/([^\/])[^\/]*\//\1\//g' <<<"$dir")
-        fi
-    fi
+    local dir=$(dir-title -s)
     echo -ne "\033];$dir\007"
 }
 
