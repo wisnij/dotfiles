@@ -270,7 +270,8 @@ paren."
 
 ;; Overwrite yank
 (defun yank-to-region ()
-  "Replace the current region with the text in the kill ring.  The state of the kill ring is unchanged."
+  "Replace the current region with the text in the kill ring.
+The state of the kill ring is unchanged."
   (interactive)
   (progn
     (delete-region (point) (mark))
@@ -308,7 +309,8 @@ See `sort-regexp-fields'."
   (sort-regexp-fields reverse "\\w+" "\\&" beg end))
 
 (defun wc nil
-  "Count the number of lines, words and characters in the region or buffer with `wc'."
+  "Count the number of lines, words and characters in the region
+or buffer with `wc'."
   (interactive)
   (let ((start (if mark-active (region-beginning) (point-min)))
         (end   (if mark-active (region-end)       (point-max)))
