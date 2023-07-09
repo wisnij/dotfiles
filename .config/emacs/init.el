@@ -183,10 +183,13 @@ literal syntax if it starts with #, or `string-to-number' in the specified BASE
 
 (defmacro incf* (var &optional step init)
   "If VAR is already bound, increment its value by STEP (1 by
-default).  Otherwise set VAR to INIT (0 by default)."
-  `(if (boundp ',var)
-       (incf ,var ,(or step 1))
-       (setq ,var ,(or init 0))))
+default).  Otherwise set VAR to INIT (STEP by default)."
+  `(let* ((val (if (boundp ',var) ,var nil))
+          (step (or ,step 1))
+          (init (or ,init step)))
+     (setq ,var (if (null val)
+                    init
+                  (+ val step)))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
