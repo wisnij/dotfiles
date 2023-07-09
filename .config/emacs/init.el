@@ -360,6 +360,15 @@ See `sort-regexp-fields'."
   (interactive "*")
   (uniquify-lines (point-min) (point-max)))
 
+(defun query-replace-regexp* ()
+  "Convenience wrapper for `query-replace-regexp'.
+
+Binds a variable COUNT to nil, which can be used for incrementing
+numbers in `\\,()' replacements (see e.g. `incf*')."
+  (interactive)
+  (let (count)
+    (call-interactively #'query-replace-regexp)))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Passive settings
@@ -567,6 +576,7 @@ mark it as unmodified."
 (global-set-key (kbd "<delete>") #'delete-char)
 (global-set-key (kbd "C-<next>") #'next-user-buffer)
 (global-set-key (kbd "C-<prior>") #'previous-user-buffer)
+(global-set-key (kbd "C-M-%") #'query-replace-regexp*)
 (global-set-key (kbd "C-M-<tab>") #'indent-relative)
 (global-set-key (kbd "ESC C-<tab>") #'indent-relative)
 (global-set-key (kbd "C-s-m") #'toggle-frame-maximized)
