@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Basics
 
@@ -366,8 +368,10 @@ See `sort-regexp-fields'."
 Binds a variable COUNT to nil, which can be used for incrementing
 numbers in `\\,()' replacements (see e.g. `incf*')."
   (interactive)
-  (let (count)
-    (call-interactively #'query-replace-regexp)))
+  (let ()
+    (defvar count)
+    (let (count)
+      (call-interactively #'query-replace-regexp))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
