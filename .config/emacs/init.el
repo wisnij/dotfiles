@@ -66,7 +66,7 @@ library to `user-lisp-directory' to ensure its autoloads are picked up."
     (make-directory user-lisp-directory t)
     (with-temp-buffer (write-file generated-autoload-file)))
   ;; TODO: make this recurse into subdirs?
-  (update-directory-autoloads user-lisp-directory)
+  (make-directory-autoloads user-lisp-directory generated-autoload-file)
   (byte-compile-file generated-autoload-file)
   (load generated-autoload-file t))
 
@@ -211,7 +211,7 @@ modes."
       (push parent modes)
       (setq mode parent))
     (setq modes (nreverse modes))
-    (when (interactive-p)
+    (when (called-interactively-p 'interactive)
       (message "%S" modes))
     modes))
 
