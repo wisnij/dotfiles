@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (deftheme default-dark
   "Default Emacs colors on a black background.")
 

@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (deftheme wisnij
     "Based on standard graphical Emacs colors, but snapped to 256-color palette.")
 
