@@ -26,13 +26,13 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     lines = run(
-        ["git", "for-each-ref", "--format=%(refname) %(objectname:short)", "refs/heads/", "refs/remotes/"]
+        ["git", "for-each-ref", "--format=%(objectname:short) %(refname)", "refs/heads/", "refs/remotes/"]
     ).splitlines()
 
     branches = defaultdict(lambda: defaultdict(str))
     for line in lines:
         remote = None
-        ref, commit = line.split()
+        commit, ref = line.split(maxsplit=1)
         if ref.startswith("refs/heads/"):
             branch = re.sub("^refs/heads/", "", ref)
         elif ref.startswith("refs/remotes/origin/"):
