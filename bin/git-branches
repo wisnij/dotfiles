@@ -85,7 +85,7 @@ if __name__ == "__main__":
     ]
 
     padding = "  "
-    row_fmt = padding.join(["{{:>{}}}"] + ["{{:{}}}"] * (len(columns) - 1)).format(*widths)
+    row_fmt = padding.join(["{{:>{}}}"] + ["{{:{}}}"] * (len(columns) - 2) + ["{{}}"]).format(*widths)
     bar_fmt = padding.join(["{{:-<{}}}"] * len(columns)).format(*widths)
 
     print(row_fmt.format(*columns))
