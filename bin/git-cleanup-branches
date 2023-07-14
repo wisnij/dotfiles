@@ -1,0 +1,182 @@
+#!/usr/bin/env python3
+"""Prompt to remove unneeded local branches."""
+
+from collections import defaultdict
+from datetime import datetime
+import os
+import re
+import subprocess
+import sys
+
+MAYBE = "?"
+
+
+def run(args, **kwargs):
+    kwargs.setdefault("stdout", subprocess.PIPE)
+    kwargs.setdefault("stderr", subprocess.DEVNULL)
+    kwargs.setdefault("check", True)
+
+    result = subprocess.run(args, **kwargs)
+    if kwargs["stdout"]:
+        return result.stdout.decode()
+    else:
+        return result
+
+
+if __name__ == "__main__":
+    # Figure out the default branch
+    master = None
+    for branch in ("master", "main"):
+        if run(["git", "rev-parse", "--verify", branch], check=False):
+            master = branch
+            break
+    else:
+        raise RuntimeError("no master/main branch detected!")
+
+    # Get info on all commits merged to master
+    merged_lines = run(["git", "rev-list", "--no-commit-header", "--format=%h\t%cI\t%s", master]).splitlines()
+
+    merged_commits = {}
+    for line in merged_lines:
+        commit, iso_date, subject = line.split("\t", maxsplit=2)
+        merged_commits[commit] = {
+            "commit": commit,
+            "date": datetime.fromisoformat(iso_date),
+            "subject": subject,
+        }
+
+    # Get info on branches
+    foreach_fields = [
+        "%(objectname:short)",
+        "%(refname:lstrip=2)",
+        "%(committerdate:iso-strict)",
+        "%(contents:subject)",
+    ]
+
+    ref_lines = run(["git", "for-each-ref", "--format=" + "\t".join(foreach_fields), "refs/heads"]).splitlines()
+
+    branches = {}
+    for line in ref_lines:
+        commit, branch, iso_date, subject = line.split("\t", maxsplit=len(foreach_fields) - 1)
+        date = datetime.fromisoformat(iso_date)
+
+        merged = commit in merged_commits
+        if not merged:
+            for merged_commit in merged_commits.values():
+                if merged_commit["date"] > date and (
+                    merged_commit["subject"] == subject
+                    or merged_commit["subject"] == f"Merge branch '{branch}' into '{master}'"
+                ):
+                    merged = MAYBE
+
+        branches[branch] = {
+            "commit": commit,
+            "date": date,
+            "merged": merged,
+            "branch": branch,
+            "subject": subject,
+        }
+
+    candidate_branches = {b for b in branches if b != master}
+    if not candidate_branches:
+        print("No outstanding local branches", file=sys.stderr)
+        exit()
+
+    merged_branches = {b for b in candidate_branches if branches[b]["merged"] is True}
+    maybe_merged_branches = {b for b in candidate_branches if branches[b]["merged"] == MAYBE}
+
+    # Format output table
+    rows = [
+        [
+            "",
+            "",
+            master,
+            branches[master]["commit"],
+            branches[master]["date"].strftime("%F %T"),
+            branches[master]["subject"],
+        ],
+    ]
+
+    index = 0
+    branch_numbers = {}
+    for branch in sorted(candidate_branches):
+        index += 1
+        branch_numbers[index] = branch
+
+        branch_info = branches[branch]
+        merged = branch_info["merged"]
+        if not merged:
+            merged_col = ""
+        elif merged is True:
+            merged_col = "yes"
+        else:
+            merged_col = merged
+
+        rows.append(
+            [
+                str(index),
+                merged_col,
+                branch,
+                branch_info["commit"],
+                branch_info["date"].strftime("%F %T"),
+                branch_info["subject"],
+            ],
+        )
+
+    columns = ["#", "mgd", "branch", "commit", "commit date", "commit subject"]
+    widths = [
+        max(len(columns[i]), max(len(row[i]) for row in rows))
+        for i in range(len(columns))
+    ]
+
+    padding = "  "
+    row_fmt = padding.join(["{{:>{}}}"] + ["{{:{}}}"] * (len(columns) - 2) + ["{{}}"]).format(*widths)
+    bar_fmt = padding.join(["{{:-<{}}}"] * len(columns)).format(*widths)
+
+    print(row_fmt.format(*columns))
+    print(bar_fmt.format(*([""] * len(columns))))
+    for row in rows:
+        print(row_fmt.format(*row))
+
+    # Get user selection
+    print()
+    user_selections = input("Branches to clean up [(m)erged, (M)aybe merged, (A)ll, #]: ") or "m"
+
+    cleanup_branches = set()
+    for entry in re.split(r"[^a-zA-Z0-9]+", user_selections):
+        if entry == "A":
+            cleanup_branches = candidate_branches
+            break
+        elif entry == "m":
+            cleanup_branches |= merged_branches
+        elif entry == "M":
+            cleanup_branches |= merged_branches | maybe_merged_branches
+        elif entry.isdigit():
+            index = int(entry)
+            if index in branch_numbers:
+                cleanup_branches.add(branch_numbers[index])
+            else:
+                print(f"No branch with number {index}!", file=sys.stderr)
+                exit(2)
+        else:
+            print(f"Unrecognized entry: {entry!r}", file=sys.stderr)
+            exit(2)
+
+    if not cleanup_branches:
+        print("No branches selected!", file=sys.stderr)
+        exit(1)
+
+    print()
+    print("Selected branches:")
+    for branch in sorted(cleanup_branches):
+        print(f"    {branch}")
+
+    print()
+    confirmation = input(f"Remove these branches? [y/N]: ")
+    if confirmation.lower().startswith("y"):
+        subprocess.run(
+            ["git", "branch", "--delete", "--force", "--verbose"] + sorted(cleanup_branches),
+            check=True,
+        )
+    else:
+        print("No branches removed.")
