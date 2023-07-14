@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# git mb: Make Branch with the provided arguments
+# git make-branch: make a well-named branch with the provided arguments
 
 set -eu -o pipefail
 
