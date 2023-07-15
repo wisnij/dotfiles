@@ -12,4 +12,5 @@ desktop.ini
 
 # ignore anything ending with .gitignore, except `.gitignore` exactly
 *.gitignore
+*.gitignore.*
 !.gitignore
