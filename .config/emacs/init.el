@@ -106,25 +106,51 @@ won't inhibit a second open paren."
   (setq electric-pair-inhibit-predicate #'my-electric-pair-inhibit))
 
 ;; window configs
-(with-library eyebrowse
-  (let ((map eyebrowse-mode-map))
-    (define-key map (kbd "C-<tab>") #'eyebrowse-next-window-config)
-    (define-key map (kbd "C-S-<tab>") #'eyebrowse-prev-window-config)
-    (define-key map (kbd "C-M-S-t") #'eyebrowse-create-named-window-config)
-    (define-key map (kbd "C-M-t") #'eyebrowse-create-window-config)
-    (define-key map (kbd "C-M-w") #'eyebrowse-close-window-config)
-    (dotimes (i 9)
-      (let ((n (number-to-string (+ i 1))))
-        (define-key map (kbd (concat "C-" n)) (intern (concat "eyebrowse-switch-to-window-config-" n)))))
-    (when (equal system-type 'darwin)
-      ;; set iTerm-like Cmd-#
-      (define-key map (kbd "s-T") #'eyebrowse-create-named-window-config)
-      (define-key map (kbd "s-t") #'eyebrowse-create-window-config)
-      (define-key map (kbd "s-w") #'eyebrowse-close-window-config)
+(with-library tab-bar
+  (global-set-key (kbd "C-M-S-t") (lambda ()
+                                    (interactive)
+                                    (tab-bar-new-tab)
+                                    (call-interactively #'tab-bar-rename-tab)))
+  (global-set-key (kbd "C-M-t") #'tab-bar-new-tab)
+  (global-set-key (kbd "C-M-w") #'tab-bar-close-tab)
+  (setq tab-bar-close-button-show nil)
+  (setq tab-bar-format
+        (if (display-graphic-p)
+            '(tab-bar-format-menu-bar tab-bar-format-history tab-bar-format-tabs tab-bar-separator)
+          '(tab-bar-format-tabs tab-bar-separator)))
+  (setq tab-bar-new-tab-choice "*scratch*")
+  (setq tab-bar-select-tab-modifiers
+        (if (equal system-type 'darwin)
+            ;; set iTerm-like Cmd-#
+            '(super)
+          '(control)))
+  (setq tab-bar-tab-hints t)
+  (when (not (display-graphic-p))
+    (setq tab-bar-show 1))
+  (tab-bar-mode 1)
+  (tab-bar-history-mode 1)
+  (menu-bar-mode -1))
+
+(when (not (fboundp 'tab-bar-mode))
+  (with-library eyebrowse
+    (let ((map eyebrowse-mode-map))
+      (define-key map (kbd "C-<tab>") #'eyebrowse-next-window-config)
+      (define-key map (kbd "C-S-<tab>") #'eyebrowse-prev-window-config)
+      (define-key map (kbd "C-M-S-t") #'eyebrowse-create-named-window-config)
+      (define-key map (kbd "C-M-t") #'eyebrowse-create-window-config)
+      (define-key map (kbd "C-M-w") #'eyebrowse-close-window-config)
       (dotimes (i 9)
         (let ((n (number-to-string (+ i 1))))
-          (define-key map (kbd (concat "s-" n)) (intern (concat "eyebrowse-switch-to-window-config-" n)))))))
-  (eyebrowse-mode 1))
+          (define-key map (kbd (concat "C-" n)) (intern (concat "eyebrowse-switch-to-window-config-" n)))))
+      (when (equal system-type 'darwin)
+        ;; set iTerm-like Cmd-#
+        (define-key map (kbd "s-T") #'eyebrowse-create-named-window-config)
+        (define-key map (kbd "s-t") #'eyebrowse-create-window-config)
+        (define-key map (kbd "s-w") #'eyebrowse-close-window-config)
+        (dotimes (i 9)
+          (let ((n (number-to-string (+ i 1))))
+            (define-key map (kbd (concat "s-" n)) (intern (concat "eyebrowse-switch-to-window-config-" n)))))))
+    (eyebrowse-mode 1)))
 
 ;; For https://github.com/rafl/git-commit-mode
 (with-library git-commit
@@ -533,8 +559,9 @@ value should be a list in the format accepted by `font-lock-add-keywords'.")
     (when font
       (set-frame-font font t t))))
 
-;; only show menu bar in GUI
-(menu-bar-mode (if window-system 1 0))
+;; don't show menu bar in terminal mode
+(when (not (display-graphic-p))
+  (menu-bar-mode -1))
 
 ;; make scratch buffer unkillable
 (defun unkillable-scratch-buffer ()
