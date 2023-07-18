@@ -88,6 +88,10 @@ library to `user-lisp-directory' to ensure its autoloads are picked up."
                '("melpa" . "https://melpa.org/packages/") t)
   (package-initialize))
 
+
+(with-library desktop
+  (add-hook 'desktop-save-hook #'clean-inactive-buffers))
+
 ;; auto-paired quotes/parens
 (with-library elec-pair
   (electric-pair-mode 1)
@@ -186,23 +190,6 @@ with `tab-bar-rename-tab'."
 (with-library ido-grid-mode
   (ido-grid-mode 1))
 
-(with-library midnight
-  (defun clean-inactive-buffers ()
-    "Kill old inactive buffers that have not been displayed recently.
-This is a convenience wrapper around `clean-buffer-list' which
-will avoid killing any buffer currently open in a window in any
-tab (as determined by `active-buffer-list')."
-    (interactive)
-    (require 'midnight)
-    (let* ((active-buffers (active-buffer-list))
-           (active-buffer-names (mapcar #'buffer-name active-buffers))
-           (clean-buffer-list-kill-never-buffer-names (append active-buffer-names
-                                                              clean-buffer-list-kill-never-buffer-names)))
-      (clean-buffer-list))
-    (message nil))
-  (with-library desktop
-    (add-hook 'desktop-save-hook #'clean-inactive-buffers)))
-
 (with-library typopunct)
 
 ;; disambiguate buffer names with <dirname>
@@ -270,9 +257,30 @@ an asterisk or space."
                   (push buffer active-buffers))))))))
     (delete-dups (reverse active-buffers))))
 
+(defun refresh-active-buffer-display-times ()
+  "Set `buffer-display-time' to the `current-time' for all buffers
+currently open in any window, so they will not be killed by
+`clean-buffer-list'."
+  (let ((now (current-time)))
+    (dolist (buffer (active-buffer-list))
+      (with-current-buffer buffer
+        (message "Updating %S buffer-display-time to %s"
+                 buffer (format-time-string "%F %T" now))
+        (setq buffer-display-time now)))))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Commands
+
+(defun clean-inactive-buffers ()
+  "Kill old inactive buffers that have not been displayed recently.
+This is a convenience wrapper around `clean-buffer-list' which
+will avoid killing any buffer currently open in a window in any
+tab (as determined by `active-buffer-list')."
+  (interactive)
+  (refresh-active-buffer-display-times)
+  (clean-buffer-list)
+  (message nil))
 
 (defun derived-modes (mode)
   "Return a list of the ancestor modes that MODE is derived from.
