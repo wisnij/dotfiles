@@ -267,7 +267,7 @@ an asterisk or space."
                              (or (string-prefix-p " " buffer-name)
                                  (string-prefix-p "*" buffer-name)))
                   (push buffer active-buffers))))))))
-    active-buffers))
+    (delete-dups active-buffers)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
