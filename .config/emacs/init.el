@@ -186,6 +186,23 @@ with `tab-bar-rename-tab'."
 (with-library ido-grid-mode
   (ido-grid-mode 1))
 
+(with-library midnight
+  (defun clean-inactive-buffers ()
+    "Kill old inactive buffers that have not been displayed recently.
+This is a convenience wrapper around `clean-buffer-list' which
+will avoid killing any buffer currently open in a window in any
+tab (as determined by `tab-bar-active-buffers')."
+    (interactive)
+    (require 'midnight)
+    (let* ((active-buffers (tab-bar-active-buffers))
+           (active-buffer-names (mapcar #'buffer-name active-buffers))
+           (clean-buffer-list-kill-never-buffer-names (append active-buffer-names
+                                                              clean-buffer-list-kill-never-buffer-names)))
+      (clean-buffer-list))
+    (message nil))
+  (with-library desktop
+    (add-hook 'desktop-save-hook #'clean-inactive-buffers)))
+
 (with-library typopunct)
 
 ;; disambiguate buffer names with <dirname>
@@ -255,19 +272,6 @@ an asterisk or space."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Commands
-
-(defun clean-inactive-buffers ()
-  "Kill old inactive buffers that have not been displayed recently.
-This is a convenience wrapper around `clean-buffer-list' which
-will avoid killing any buffer currently open in a window in any
-tab (as determined by `tab-bar-active-buffers')."
-  (interactive)
-  (let* ((active-buffers (tab-bar-active-buffers))
-         (active-buffer-names (mapcar #'buffer-name active-buffers))
-         (clean-buffer-list-kill-never-buffer-names (append active-buffer-names
-                                                            clean-buffer-list-kill-never-buffer-names)))
-    (clean-buffer-list))
-  (message nil))
 
 (defun derived-modes (mode)
   "Return a list of the ancestor modes that MODE is derived from.
