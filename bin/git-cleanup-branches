@@ -140,7 +140,7 @@ if __name__ == "__main__":
 
     # Get user selection
     print()
-    user_selections = input("Branches to clean up [(m)erged, (M)aybe merged, (A)ll, #]: ") or "m"
+    user_selections = input("Branches to clean up [(m)erged, (M)aybe merged, (A)ll, (q)uit, #]: ") or "m"
 
     cleanup_branches = set()
     for entry in re.split(r"[^a-zA-Z0-9]+", user_selections):
@@ -151,6 +151,8 @@ if __name__ == "__main__":
             cleanup_branches |= merged_branches
         elif entry == "M":
             cleanup_branches |= merged_branches | maybe_merged_branches
+        elif entry == "q":
+            exit()
         elif entry.isdigit():
             index = int(entry)
             if index in branch_numbers:
