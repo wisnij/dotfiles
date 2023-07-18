@@ -107,12 +107,20 @@ won't inhibit a second open paren."
 
 ;; window configs
 (with-library tab-bar
-  (global-set-key (kbd "C-M-S-t") (lambda ()
-                                    (interactive)
-                                    (tab-bar-new-tab)
-                                    (call-interactively #'tab-bar-rename-tab)))
+  (defun tab-bar-new-named-tab ()
+    "Create a new tab with `tab-bar-new-tab' and immediately name it
+with `tab-bar-rename-tab'."
+    (interactive)
+    (tab-bar-new-tab)
+    (call-interactively #'tab-bar-rename-tab))
+  (global-set-key (kbd "C-M-S-t") #'tab-bar-new-named-tab)
   (global-set-key (kbd "C-M-t") #'tab-bar-new-tab)
   (global-set-key (kbd "C-M-w") #'tab-bar-close-tab)
+  (when (equal system-type 'darwin)
+    ;; use Cmd on Mac
+    (global-set-key (kbd "s-T") #'tab-bar-new-named-tab)
+    (global-set-key (kbd "s-t") #'tab-bar-new-tab)
+    (global-set-key (kbd "s-w") #'tab-bar-close-tab))
   (setq tab-bar-close-button-show nil)
   (setq tab-bar-format
         (if (display-graphic-p)
