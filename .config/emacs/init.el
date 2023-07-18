@@ -127,6 +127,7 @@ with `tab-bar-rename-tab'."
             '(tab-bar-format-menu-bar tab-bar-format-history tab-bar-format-tabs tab-bar-separator)
           '(tab-bar-format-tabs tab-bar-separator)))
   (setq tab-bar-new-tab-choice "*scratch*")
+  (setq tab-bar-new-tab-to 'rightmost)
   (setq tab-bar-select-tab-modifiers
         (if (equal system-type 'darwin)
             ;; set iTerm-like Cmd-#
