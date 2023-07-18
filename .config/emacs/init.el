@@ -228,9 +228,46 @@ default).  Otherwise set VAR to INIT (STEP by default)."
                     init
                   (+ val step)))))
 
+(defun tab-bar-active-buffers (&optional exclude-special)
+  "Return a list of all buffers currently open in at least one tab.
+If EXCLUDE-SPECIAL is true, omits buffers whose names start with
+an asterisk or space."
+  (message "tab-bar-active-buffers:")
+  (let (active-buffers)
+    (dolist (frame (frame-list))
+      (message "  frame %S" frame)
+      (with-selected-frame frame
+        (dolist (tab (tab-bar-tabs frame))
+          (message "    tab %S" (cdr (assq 'name tab)))
+          (let ((window-state (if (eq (car tab) 'current-tab)
+                                  (window-state-get)
+                                (cdr (assq 'ws tab)))))
+            (dolist (buffer-or-name (window-state-buffers window-state))
+              (let* ((buffer (get-buffer buffer-or-name))
+                     (buffer-name (buffer-name buffer)))
+                (message "      buffer %S" buffer-name)
+                (unless (and exclude-special
+                             (or (string-prefix-p " " buffer-name)
+                                 (string-prefix-p "*" buffer-name)))
+                  (push buffer active-buffers))))))))
+    active-buffers))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Commands
+
+(defun clean-inactive-buffers ()
+  "Kill old inactive buffers that have not been displayed recently.
+This is a convenience wrapper around `clean-buffer-list' which
+will avoid killing any buffer currently open in a window in any
+tab (as determined by `tab-bar-active-buffers')."
+  (interactive)
+  (let* ((active-buffers (tab-bar-active-buffers))
+         (active-buffer-names (mapcar #'buffer-name active-buffers))
+         (clean-buffer-list-kill-never-buffer-names (append active-buffer-names
+                                                            clean-buffer-list-kill-never-buffer-names)))
+    (clean-buffer-list))
+  (message nil))
 
 (defun derived-modes (mode)
   "Return a list of the ancestor modes that MODE is derived from.
