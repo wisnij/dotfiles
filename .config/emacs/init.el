@@ -120,7 +120,7 @@ with `tab-bar-rename-tab'."
   (global-set-key (kbd "C-M-S-t") #'tab-bar-new-named-tab)
   (global-set-key (kbd "C-M-t") #'tab-bar-new-tab)
   (global-set-key (kbd "C-M-w") #'tab-bar-close-tab)
-  (when (equal system-type 'darwin)
+  (when (eq system-type 'darwin)
     ;; use Cmd on Mac
     (global-set-key (kbd "s-T") #'tab-bar-new-named-tab)
     (global-set-key (kbd "s-t") #'tab-bar-new-tab)
@@ -133,7 +133,7 @@ with `tab-bar-rename-tab'."
   (setq tab-bar-new-tab-choice "*scratch*")
   (setq tab-bar-new-tab-to 'rightmost)
   (setq tab-bar-select-tab-modifiers
-        (if (equal system-type 'darwin)
+        (if (eq system-type 'darwin)
             ;; set iTerm-like Cmd-#
             '(super)
           '(control)))
@@ -158,7 +158,7 @@ with `tab-bar-rename-tab'."
       (dotimes (i 9)
         (let ((n (number-to-string (+ i 1))))
           (define-key map (kbd (concat "C-" n)) (intern (concat "eyebrowse-switch-to-window-config-" n)))))
-      (when (equal system-type 'darwin)
+      (when (eq system-type 'darwin)
         ;; set iTerm-like Cmd-#
         (define-key map (kbd "s-T") #'eyebrowse-create-named-window-config)
         (define-key map (kbd "s-t") #'eyebrowse-create-window-config)
