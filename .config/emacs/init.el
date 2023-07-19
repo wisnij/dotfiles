@@ -142,7 +142,10 @@ with `tab-bar-rename-tab'."
     (setq tab-bar-show 1))
   (tab-bar-mode 1)
   (tab-bar-history-mode 1)
-  (menu-bar-mode -1))
+  ;; save on window space by disabling menu-bar-mode, except on Mac where it
+  ;; goes into the OS menu bar anyway
+  (when (not (eq system-type 'darwin))
+    (menu-bar-mode -1)))
 
 (when (not (fboundp 'tab-bar-mode))
   (with-library eyebrowse
