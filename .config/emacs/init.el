@@ -573,7 +573,7 @@ value should be a list in the format accepted by `font-lock-add-keywords'.")
 (add-hook 'font-lock-mode-hook
           (lambda ()
             (standard-display-ascii
-             ?\t (cond ((null window-system)       ">\t")
+             ?\t (cond ((not (display-graphic-p))  ">\t")
                        ((> emacs-major-version 21) "\xBB\t")
                        (t                          "\x08BB\t")))
             (font-lock-add-keywords nil visible-whitespace-characters)))
@@ -609,7 +609,7 @@ value should be a list in the format accepted by `font-lock-add-keywords'.")
                (ns-transparent-titlebar . nil)))))
 
 ;; set default GUI font
-(when window-system
+(when (display-graphic-p)
   (let ((font (cond
                 ;; use Inconsolata on Windows, where .Xresources has no effect
                 ((eq system-type 'windows-nt) "Inconsolata-11")
