@@ -124,7 +124,7 @@
 
            ;; tab bar mode
            (tab-bar ((t (:background ,bggray))))
-           (tab-bar-tab ((t (:inherit (tab-bar) :background ,dimgray :foreground ,white :weight bold))))
+           (tab-bar-tab ((t (:inherit (tab-bar) :background ,dimgray :foreground ,white))))
            (tab-bar-tab-inactive ((t (:inherit (tab-bar) :background ,dkgray))))
 
            )))
