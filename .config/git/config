@@ -27,7 +27,6 @@
 	pt = push --set-upstream
 	s = show --patch --compact-summary --ignore-space-change --ignore-space-at-eol
 	st = status --short --branch
-	stu = status --short --branch --untracked-files=normal
 	stashed = !git stash list --patch --color | diff-highlight | less-find-pattern "^stash@.*"
 	update = add --update --verbose
 [blame]
@@ -88,6 +87,8 @@
 	autoSquash = true
 [rerere]
 	enabled = true
+[status]
+	showUntrackedFiles = all
 [tag]
 	gpgSign = true
 [user]
