@@ -125,19 +125,15 @@ with `tab-bar-rename-tab'."
     (global-set-key (kbd "s-T") #'tab-bar-new-named-tab)
     (global-set-key (kbd "s-t") #'tab-bar-new-tab)
     (global-set-key (kbd "s-w") #'tab-bar-close-tab))
-  (setq tab-bar-close-button-show nil)
   (setq tab-bar-format
         (if (display-graphic-p)
             '(tab-bar-format-menu-bar tab-bar-format-history tab-bar-format-tabs tab-bar-separator)
           '(tab-bar-format-tabs tab-bar-separator)))
-  (setq tab-bar-new-tab-choice "*scratch*")
-  (setq tab-bar-new-tab-to 'rightmost)
   (setq tab-bar-select-tab-modifiers
         (if (eq system-type 'darwin)
             ;; set iTerm-like Cmd-#
             '(super)
           '(control)))
-  (setq tab-bar-tab-hints t)
   (when (not (display-graphic-p))
     (setq tab-bar-show 1))
   (tab-bar-mode 1)
