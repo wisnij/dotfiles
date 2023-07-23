@@ -4,7 +4,10 @@ $include /etc/inputrc
 
 ## Variables
 
+set colored-stats On
 set editing-mode emacs
+set mark-symlinked-directories On
+set show-all-if-ambiguous On
 
 ## Key bindings
 
