@@ -1,0 +1,94 @@
+#!/usr/bin/env python3
+"""Show local git branches and remote branches matching given patterns."""
+
+import argparse
+from collections import defaultdict
+import re
+import subprocess
+import sys
+
+
+def run(args, **kwargs):
+    kwargs.setdefault("stdout", subprocess.PIPE)
+    kwargs.setdefault("stderr", subprocess.DEVNULL)
+    kwargs.setdefault("check", True)
+
+    result = subprocess.run(args, **kwargs)
+    if kwargs["stdout"]:
+        return result.stdout.decode()
+    else:
+        return result
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("patterns", nargs="*", help="show remote branches matching these regular expressions")
+    args = parser.parse_args()
+
+    lines = run(
+        ["git", "for-each-ref", "--format=%(objectname:short) %(refname)", "refs/heads/", "refs/remotes/"]
+    ).splitlines()
+
+    branches = defaultdict(lambda: defaultdict(str))
+    for line in lines:
+        remote = None
+        commit, ref = line.split(maxsplit=1)
+        if ref.startswith("refs/heads/"):
+            branch = re.sub("^refs/heads/", "", ref)
+        elif ref.startswith("refs/remotes/origin/"):
+            remote = "origin"
+            branch = re.sub("^refs/remotes/origin/", "", ref)
+            if branch not in branches and not any(re.search(p, branch) for p in args.patterns):
+                continue
+        else:
+            print(f"Warning: unrecognized ref type: {ref}", file=sys.stderr)
+            continue
+
+        branches[branch][remote or "local"] = commit
+
+        if not remote:
+            count = run(f"git rev-list --count --left-right remotes/origin/{branch}...{branch}".split(), check=False)
+            if count:
+                left, right = map(int, count.split())
+                if left == 0 and right == 0:
+                    # same as upstream
+                    status = "="
+                elif left == 0:
+                     # ahead of upstream
+                    status = f">{right}"
+                elif right == 0:
+                    # behind upstream
+                    status = f"<{left}"
+                else:
+                    # diverged
+                    status = f"<{left} >{right}"
+
+                branches[branch]["status"] = status
+
+    rows = []
+    for branch in sorted(branches.keys()):
+        info = branches[branch]
+        rows.append(
+            [
+                info.get("status", ""),
+                branch,
+                info.get("local", ""),
+                info.get("origin", ""),
+            ],
+        )
+
+    # Format output table
+    columns = ["  ", "branch", "local", "origin"]
+    widths = [
+        max(len(columns[i]), max(len(row[i]) for row in rows))
+        for i in range(len(columns))
+    ]
+
+    padding = "  "
+    row_fmt = padding.join(["{{:>{}}}"] + ["{{:{}}}"] * (len(columns) - 2) + ["{{}}"]).format(*widths)
+    bar_fmt = padding.join(["{{:-<{}}}"] * len(columns)).format(*widths)
+
+    print(row_fmt.format(*columns))
+    print(bar_fmt.format(*([""] * len(columns))))
+    for row in rows:
+        print(row_fmt.format(*row))

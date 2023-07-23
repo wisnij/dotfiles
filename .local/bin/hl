@@ -1,0 +1,32 @@
+#!/usr/bin/perl
+# Highlight input lines matching a regex
+
+use strict;
+use warnings;
+
+use Term::ANSIColor qw(colored);
+use Getopt::Long qw(:config gnu_getopt);
+
+
+my $ignore_case = 1;
+my $bell = 0;
+GetOptions(
+    'b|bell!'        => \$bell,
+    'i|ignore-case!' => \$ignore_case,
+) or die "$0: bad arguments\n";
+
+my @patterns = @ARGV;
+die "Usage: $0 [OPTION...] PATTERN...\n"
+    if not @patterns;
+
+my $patterns = join '|', map { "(?:$_)" } @patterns;
+my $regex = $ignore_case
+    ? qr/$patterns/oi
+    : qr/$patterns/o;
+
+while (defined(my $line = <STDIN>)) {
+    if ($line =~ s/($regex)/colored($1, 'bold red')/eg) {
+        print "\a" if $bell;
+    };
+    print $line;
+}

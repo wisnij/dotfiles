@@ -1,0 +1,116 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+my @attrs  = qw(normal bright dim italic underscore blink rapid_blink reverse hidden strike);
+my @colors = qw(black red green yellow blue magenta cyan white);
+
+my $normal = "\e[0m";
+my $fg_offset = 30;
+my $bg_offset = 40;
+
+print "current \$TERM: $ENV{TERM}\n";
+
+print "\n";
+print "  Usage: \\e[*;**(;**)m\n";
+print "Default: \\e[0m\n";
+print "\n";
+
+for my $attr ( 0 .. $#attrs )
+{
+    (my $name = $attrs[$attr]) =~ tr/_/ /;
+    my $spec = "$attr;**;**";
+    my $ctrl = "\e[${attr}m";
+    printf "%-11s <%s%s%s>\n", $name, $ctrl, $spec, $normal;
+}
+
+print "\n";
+
+# Foreground header row
+print ' ' x 10;
+printf "  %7s ", $_ for @colors;
+print "\n";
+
+for my $bg ( 0 .. $#colors )
+{
+    my $bgn = $bg + $bg_offset;
+    print "\n";
+
+    for my $attr ( 0, 1 )
+    {
+        # Background header col
+        printf "%-10s", ($attr == 0 ? "on_$colors[$bg]" : '');
+
+        for my $fg ( 0 .. $#colors )
+        {
+            my $fgn = $fg + $fg_offset;
+            my $spec = "$attr;$fgn;$bgn";
+            my $ctrl = "\e[${spec}m";
+            print " $ctrl $spec $normal";
+        }
+
+        print "\n";
+    }
+}
+
+print "\n";
+
+# first the system ones:
+print "256 colors: fg \\e[38;5;**m, bg \\e[48;5;**m\n\n";
+
+print "System colors: 0-7, 8-15\n";
+
+print "\e[48;5;${_}m  " for 0 .. 7;
+print "$normal\n";
+
+print "\e[48;5;${_}m  " for 8 .. 15;
+print "$normal\n\n";
+
+# now the color cube
+print "Color cube, 6x6x6: 16-231\n";
+for my $red ( 0 .. 5 )
+{
+    for my $green ( 0 .. 5 )
+    {
+        for my $blue ( 0 .. 5 )
+        {
+            my $color = 16 + ($red * 36) + ($green * 6) + $blue;
+            print "\e[48;5;${color}m  ";
+        }
+
+        print "$normal ";
+    }
+
+    print "\n";
+}
+
+print "\n";
+
+# now the grayscale ramp
+print "Grayscale ramp: 232-255\n";
+
+print "\e[48;5;${_}m  " for 232 .. 255;
+print "$normal\n\n";
+
+# true colors (adapted from https://gist.github.com/XVilka/8346728)
+print "True colors: fg \\e[38;2;RRR;GGG;BBBm, bg \\e[48;2;RRR;GGG;BBBm\n";
+my $columns = $ENV{COLUMNS} || 80;
+
+for my $complement (0, 1)
+{
+    for my $col ( 0 .. $columns - 1 )
+    {
+        my $r = 255 - ($col * 255/$columns);
+        my $g = ($col * 510/$columns);
+        my $b = ($col * 255/$columns);
+        $g = 510 - $g if $g > 255;
+
+        $complement and $_ = 255 - $_
+            for $r, $g, $b;
+
+        printf( "\e[48;2;%d;%d;%dm ", $r, $g, $b );
+    }
+
+    print "$normal\n";
+}

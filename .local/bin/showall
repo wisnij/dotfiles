@@ -1,0 +1,85 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use Encode qw(decode);
+use Term::ANSIColor;
+use Getopt::Long qw(:config gnu_getopt);
+
+
+my $usage = <<"EOF;";
+Usage: $0 [OPTION]... [FILE]...
+Print the contents of the FILE(s) with nonprinting characters escaped
+
+  -c, --[no-]char-escapes  [don't] show nonprinting characters as ^ escapes (e.g. ^M == \\r)
+  -e, --encoding=ENC       use ENC as the input text encoding
+  -L, --no-line-ends       don't show line ends with \$
+  -T, --no-show-tabs       don't show tabs as \\t
+  -u, --unicode            use UTF-8 as the input text encoding
+      --[no-]colors        [don't] highlight control chars with color
+EOF;
+
+my ($char_escapes, $encoding);
+my $line_ends = 1;
+my $show_color = 1;
+my $show_tabs = 1;
+GetOptions(
+    'c|char-escapes!' => \$char_escapes,
+    'e|encoding=s'    => \$encoding,
+    'L'               => sub { $line_ends = 0 },
+    'line-ends!'      => \$line_ends,
+    'T'               => sub { $show_tabs = 0 },
+    'show-tabs!'      => \$show_tabs,
+    'u|unicode'       => sub { $encoding = 'UTF-8' },
+    'colors!'         => \$show_color,
+    'help|h|?'        => sub { print $usage; exit },
+) or die "error parsing options\n";
+
+sub hl
+{
+    my ($str) = @_;
+    return $str if not $show_color;
+    return colored( $str, 'cyan' );
+}
+
+sub esc_char
+{
+    my ($char) = @_;
+    return hl '\e' if $char eq "\e";
+    return hl '\r' if $char eq "\r";
+    return ($show_tabs ? hl '\t' : $char) if $char eq "\t";
+
+    my $ord = ord $char;
+    my $format = ($ord > 0xff) ? 'U+%04X' : '%02X';
+    return hl sprintf "<$format>", $ord;
+}
+
+
+$| = 1;
+while( defined( my $line = <> ) )
+{
+    $line = decode($encoding, $line)
+        if $encoding;
+
+    # nonprinting control characters (except newline)
+    if( $char_escapes )
+    {
+        $line =~ s/([\x00-\x09\x0B-\x1F])/hl   '<^' . chr( ord($1)       + 64 ) . '>' /eg;
+        $line =~ s/([\x80-\x9F])/         hl '<M-^' . chr( ord($1) - 128 + 64 ) . '>' /eg;
+        $line =~ s/([\xA0-\xFE])/         hl '<M-'  . chr( ord($1) - 128 )      . '>' /eg;
+
+        # special cases
+        $line =~ s/\x7F/hl '<^?>'/eg;
+        $line =~ s/\xFF/hl '<M-^?>'/eg;
+    }
+    else
+    {
+        $line =~ s/([^\x0A\x20-\x7E])/esc_char( $1 )/eg;
+    }
+
+    # mark line ends
+    $line =~ s/$/hl '$'/e if $line_ends and $line =~ /\n\Z/;
+
+    print $line;
+}

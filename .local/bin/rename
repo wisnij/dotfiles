@@ -1,0 +1,339 @@
+#!/usr/bin/perl
+# rename -- rename files flexibly with Perl expressions
+#
+# Copyright (C) 2007 Jim Wisniewski (wisnij@gmail.com).
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+# details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program.  If not, see <http://www.gnu.org/licenses/>.
+
+use strict;
+use warnings;
+
+use File::Basename;
+use File::Spec::Functions ':ALL';
+use Getopt::Long qw/:config gnu_getopt/;
+use Safe;
+
+###########################  Function declarations  ############################
+
+sub do_rename( $$ );
+sub overwrite( $$ );
+
+##############################  Global constants  ##############################
+
+my $PN = basename $0;
+
+my $USAGE = "Usage: $PN [OPTION]... FROM TO FILE...\n" .
+            "       $PN [OPTION]... -e SCRIPT [...] FILE...\n";
+my $USAGEMSG = $USAGE . "Try `$PN --help' for more information.\n";
+
+my $HELPMSG = $USAGE . <<'ENDHELP;';
+In simple mode, rename FILE(s) by replacing the first occurrence of FROM with TO
+in the filename(s).  In extended mode, treat the SCRIPTs as Perl commands to run
+in order to modify the filename(s).
+
+  -a, --all                 show all filenames, even if unchanged
+  -c, --count               print the number of files renamed
+  -e, --expression=SCRIPT   add the script to the commands to be executed
+  -f, --force               never prompt before overwriting
+  -g, --global              replace all occurrences of FROM (simple mode only)
+  -i, --interactive         prompt before overwrite
+  -p, --full-path           operate on the entire file path, not the base name
+  -r, --reverse             rename files in last-to-first order
+  -t, --test                print results, but do not actually rename files
+  -v, --verbose             explain what is being done
+      --help                display this help and exit
+      --helplong            display manual page and exit
+
+Report bugs to <wisnij@gmail.com>.
+ENDHELP;
+
+
+##############################  Process options  ###############################
+
+my @actions;
+my $interactive = 1;
+my $verbose = 1;
+my ($all, $count, $fullpath, $global, $reverse, $test);
+
+GetOptions
+    'a|all'          => \$all,
+    'c|count'        => \$count,
+    'e|expression=s' => \@actions,
+    'f|force'        => sub { $interactive = 0 },
+    'g|global'       => \$global,
+    'i|interactive'  => \$interactive,
+    'p|full-path'    => \$fullpath,
+    'r|reverse'      => \$reverse,
+    't|test'         => \$test,
+    'v|verbose!'     => \$verbose,
+
+    'help'     => sub { print $HELPMSG; exit },
+    'helplong' => sub { exec 'perldoc', $0
+                            or die "$PN: couldn't exec perldoc: $!\n" }
+or die $USAGEMSG;
+
+
+################################  Main program  ################################
+
+die $USAGEMSG unless @ARGV > (@actions ? 0 : 2);
+
+my ($from, $to);
+unless( @actions )
+{
+    $from = quotemeta shift @ARGV;
+    $to   =           shift @ARGV;
+}
+
+my $max = 0;
+foreach( @ARGV )
+{
+    my $len = length;
+    $max = $len if $max < $len;
+}
+
+@ARGV = reverse @ARGV if $reverse;
+
+# Only used to provide the user code with its own namespace.  We can't have them
+# mucking with our variables!
+my $comp;
+if( @actions )
+{
+    $comp = new Safe;
+    $comp->deny_only();
+}
+
+my $total = 0;
+foreach my $path ( @ARGV )
+{
+    my ($vol, $dirs, $file);
+    if( $fullpath ) { $file = $path }
+    else            { ($vol, $dirs, $file) = splitpath $path; }
+
+    for( $file )
+    {
+        if( @actions )
+        {
+            foreach my $script ( @actions )
+            {
+                no strict;
+                no warnings;
+                $comp->reval( $script );
+                die "$PN: evaluation error: $@" if $@;
+            }
+        }
+        else
+        {
+            if( $global ) { s/$from/$to/og; }
+            else          { s/$from/$to/o;  }
+        }
+    }
+
+    my $new = ($fullpath or not defined $dirs or $dirs eq curdir)
+        ? $file
+        : catpath( $vol, $dirs, $file );
+
+    do_rename $path, $new;
+}
+
+print "$total file", $total == 1 ? '' : 's', " renamed.\n" if $count;
+
+exit;
+
+############################  Function definitions  ############################
+
+sub do_rename( $$ )
+{
+    my ($old, $new) = @_;
+    my $same = $old eq $new;
+
+    return undef if $same and not $all;
+
+    unless( $test or $same )
+    {
+        warn( "$PN: `$old': No such file or directory\n" ), return undef
+            unless -e $old;
+
+        return undef
+            if -e $new and $interactive and not overwrite $old, $new;
+
+        rename $old, $new
+            or warn( "$PN: renaming `$old' to `$new' failed: $!\n" ), next;
+    }
+
+    if( $verbose )
+    {
+        print "`$old'";
+        print ' ' x ($max - length $old), " -> `$new'" if not $same;
+        print "\n";
+    }
+
+    ++$total unless $same;
+}
+
+
+sub overwrite( $$ )
+{
+    my ($old, $new) = @_;
+    print "overwrite `$old' with `$new'? ";
+
+    my $answer = '' . <STDIN>;
+    print "\n" if length $answer == 0;
+    return $answer =~ /^y/i;
+}
+
+__END__
+
+###############################  Documentation  ################################
+
+=head1 NAME
+
+rename - rename files flexibly with Perl expressions
+
+=head1 SYNOPSIS
+
+B<rename> [I<OPTION>]... I<FROM> I<TO> I<FILE>...
+
+B<rename> [I<OPTION>]... B<-e> I<SCRIPT> [...] I<FILE>...
+
+=head1 DESCRIPTION
+
+In simple mode, rename I<FILE>(s) by replacing the first occurrence of I<FROM>
+with I<TO> in the filename(s).  In extended mode, treat the I<SCRIPT>s as Perl
+commands to run in order to modify the filename(s).  Within the commands, the
+filename is accessed and modified (implicitly or explicitly) through the
+variable C<$_>.
+
+The expressions are run in a separate namespace, and may define new variables as
+needed without affecting the functioning of the rest of the program.
+B<However>, the program does not attempt to protect you from yourself.  If you
+give C<unlink $_> as an expression, the B<-t> option will not prevent your files
+from being deleted.  To be safe, only use functions or code which modify C<$_>
+and do not directly make any changes to the filesystem.
+
+=head1 OPTIONS
+
+=over 7
+
+=item B<-a>, B<--all>
+
+Display all filenames, even ones for which the indicated operations produce no
+change.  The default is to skip unaltered filenames.  Implies B<-v>.
+
+=item B<-c>, B<--count>
+
+After completion, print the number of files renamed (or with B<-t>, the number
+that would have been renamed).  This option only counts the number of files on
+which an actual file rename is (or would be) performed; unaltered filenames as
+displayed with B<-a> do not contribute to the total.
+
+=item B<-e> I<SCRIPT>, B<--expression>=I<SCRIPT>
+
+Enable extended mode by adding I<SCRIPT> to the list of Perl commands to be
+applied to the filenames.  If more than one I<SCRIPT> is specified they will be
+applied in the order they appear on the command line.
+
+=item B<-f>, B<--force>
+
+Do not prompt on overwrite.  The opposite of B<-i>.
+
+=item B<-g>, B<--global>
+
+Replace all occurrences of I<FROM>, not just the first one.  This option only
+has an effect in simple mode.
+
+=item B<-i>, B<--interactive>
+
+Ask for confirmation if the renamed file would overwrite a previously existing
+one.  The opposite of B<-f>.  This behavior is the default.
+
+=item B<-p>, B<--full-path>
+
+Perform replacements on the entire path to the file exactly as given.  By
+default only the base name of the file is altered.  Note that if you try
+something like C<rename -p -e tr/a/A/ foo/bar/baz>, it will fail unless the
+directory C<bAz> already exists.
+
+=item B<-r>, B<--reverse>
+
+Reverse the order of the filenames specified before processing, so the last one
+that appears on the command line is operated on first, and vice versa.  Useful
+for performing numerical increments; see B<EXAMPLES> for details.
+
+=item B<-t>, B<--test>
+
+Like B<-v>, except the files are not actually renamed.  Useful for seeing what
+the result of the command would be without modifying any files.  The original
+filename is not checked for existence as it would be normally.
+
+=item B<-v>, B<--verbose>
+
+After a successful rename, print the old and new names of the file.
+
+=item B<--help>
+
+Print a usage message listing all available options and exit successfully.
+
+=item B<--helplong>
+
+Display this manual page and exit successfully.
+
+=back
+
+=head1 EXAMPLES
+
+Given the files B<foo1>, ..., B<foo9>, B<foo10>, ..., B<foo278>, the command
+
+       rename foo foo0 foo?
+       rename foo foo0 foo??
+
+will turn them into B<foo001>, ..., B<foo009>, B<foo010>, ..., B<foo278>.  So
+will this, but more flexibly:
+
+       rename -e 's/(\d+)/sprintf "%03d", $1/e' foo*
+
+This form could also be used to re-number the files, by adding a nonzero
+increment to B<sprintf>'s second argument.  Note that if the increment I<dn> is
+positive, file B<foo>[I<n>] would overwrite B<foo>[I<n> + I<dn>] if it came first
+in the list of filenames.  To avoid this, use the B<-r> switch; that way
+higher-numbered files would be renamed first, leaving a gap for lower-numbered
+ones to move up into safely.
+
+To convert filenames to all lowercase letters and replace spaces with
+underscores:
+
+       rename 'tr/A-Z /a-z_/' -- *
+
+The special option C<--> terminates option processing.  It's a good idea to
+protect wildcard expressions with it so a filename beginning with C<-> is not
+misinterpreted as an option.
+
+=head1 AUTHOR
+
+Written by Jim Wisniewski.
+
+=head1 REPORTING BUGS
+
+Report bugs to <wisnij@gmail.com>.
+
+=head1 COPYRIGHT
+
+Copyright (C) 2007 Jim Wisniewski.
+
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+=head1 SEE ALSO
+
+B<perl>(1)
+
+=cut

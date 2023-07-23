@@ -1,0 +1,35 @@
+#!/bin/bash
+# Find and exec the next command of the same name after $1 in $PATH
+
+curr=$1
+shift
+
+case $curr in
+    /*) ;;
+    '')
+        echo "$0: missing arguments"
+        exit 1
+        ;;
+    *)
+        echo "$0: absolute path required, got '$curr'"
+        exit 2
+        ;;
+esac
+
+found=0
+while read cmd; do
+    if [[ $cmd == $curr ]]; then
+        found=1
+        continue
+    elif [[ $found -eq 1 ]]; then
+        next=$cmd
+        break
+    fi
+done < <(which -a $(basename $curr))
+
+if [[ -z $next ]]; then
+    echo "$0: no matches found for '$curr'"
+    exit 3
+fi
+
+exec $next "$@"

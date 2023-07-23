@@ -1,0 +1,46 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use Getopt::Long qw(:config gnu_getopt);
+use Term::ANSIColor qw(colored);
+
+
+my %options = (color => (not exists $ENV{ANSI_COLORS_DISABLED}));
+
+sub color
+{
+    my ($string, $color) = @_;
+    return $string if not $options{color};
+    return colored( $string, $color );
+}
+
+
+sub hl
+{
+    my ($match) = @_;
+    my $code = sprintf '%02X', ord $match;
+    return "<<$code>>" if not $options{color};
+    return color( $code, 'bold red' );
+}
+
+
+################################################################################
+
+GetOptions( 'color!' => \$options{color} )
+    or die "bad arguments";
+
+foreach my $file ( @ARGV )
+{
+    open my $fh, $file or warn( "$0: $file: $!\n" ), next;
+
+    my $colon = color( ':', 'cyan' );
+    while( defined( my $line = <$fh> ) )
+    {
+        next unless $line =~ s/([\x00-\x08\x0c\x0e-\x1f\x7F-\xff])/hl( $1 )/eg;
+        print color( $file, 'magenta' ), $colon, color( $., 'green' ), $colon, $line;
+    }
+
+    close $fh or warn "$0: $file: $!\n";
+}

@@ -1,0 +1,23 @@
+#!/bin/bash
+
+pid_exists () {
+    local pid=$1
+    if [[ -d /proc ]]; then
+        test -e /proc/$pid
+    else
+        lsof -p $pid >/dev/null
+    fi
+}
+
+pid=$1
+seen=0
+
+while pid_exists $pid; do
+    seen=1
+    sleep 1
+done
+
+if [[ $seen -eq 0 ]]; then
+    echo "process $pid not found"
+    exit 2
+fi

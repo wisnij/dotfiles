@@ -1,0 +1,64 @@
+#!/usr/bin/perl
+# adapted from http://stackoverflow.com/questions/1075947/can-i-use-gnu-screen-completely-transparently-automatically
+
+use strict;
+use warnings;
+use Getopt::Long qw(:config bundling require_order);
+
+my $usage = "Usage: $0 [OPTION...] HOST [SESSION_NAME] [SSH_OPTION...]\n";
+my $helpmsg = $usage . <<'EOF;';
+Log into a remote machine and start a screen session named SESSION_NAME.  If a
+session with that name is already running, attach to it.  Defaults to 'default'
+if a name is not specified.
+
+  -l, --list   display the screen sessions available on the login host
+      --help   display this help and exit
+EOF;
+
+my $list;
+GetOptions( 'l|list' => \$list,
+            'help'   => sub { print $helpmsg; exit } )
+    or die $usage . "Try `$0 --help' for more information.\n";
+
+my ($host, $session, @ssh_opts);
+while( @ARGV )
+{
+    my $opt = shift @ARGV;
+    if   ( $opt =~ /^-\w$/ )      { push @ssh_opts, $opt, shift @ARGV }
+    elsif( $opt =~ /^-\w/  )      { push @ssh_opts, $opt }
+    elsif( not defined $host )    { $host = $opt }
+    elsif( not defined $session ) { $session = $opt }
+    else                          { push @ssh_opts, $opt }
+}
+
+die $usage if not defined $host;
+$session ||= 'default';
+my $optstring = join ' ', @ssh_opts;
+
+if( $list )
+{
+    my @lines = split /\n/, qx(ssh $optstring $host screen -list);
+    my %sessions;
+    for my $line ( @lines )
+    {
+        my ($num, $session, $status) = $line =~ /^\s*(\d+)\.(\S+)\s+\(([^\)]*)\)/
+            or next;
+        
+        my ($type) = $status =~ /(attached|detached)/i;
+        warn( "$0: bad screen line: `$line'\n" ), next if not $type;
+        
+        my $desc = "  $session\t($num.$session)";
+        $desc .= "\t[$status]" if $status !~ /^$type$/i;
+        $sessions{$type}{$session} = $desc;
+    }
+    
+    for my $type ( sort keys %sessions )
+    {
+        print uc $type, "\n";
+        print $sessions{$type}{$_}, "\n" for sort keys %{ $sessions{$type} };
+    }
+}
+else
+{
+    system qq(ssh $optstring -t $host "screen -S $session -dr || screen -S $session");
+}

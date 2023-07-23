@@ -1,0 +1,114 @@
+#!/usr/bin/env python3
+"""Log into a remote machine and start a tmux session named SESSION_NAME.  If a
+session with that name is already running, attach to it instead. Defaults to
+'default' if a name is not specified.
+"""
+
+import argparse
+from enum import Enum
+import os
+import subprocess
+import sys
+from typing import List, Tuple
+
+
+CANDIDATE_INIT_FILES = ["~/.config/tmux/tmux.conf", "~/.config/tmux.conf", "~/.tmux.conf"]
+
+
+class InitFile(Enum):
+    DEFAULT = 'DEFAULT'
+
+
+def parse_args(args: List[str] = None) -> Tuple[argparse.Namespace, List[str]]:
+    parser = argparse.ArgumentParser(
+        description=__doc__,
+        usage="%(prog)s [OPTION...] HOST [SESSION_NAME] [SSH_OPTION...]",
+        formatter_class=argparse.RawTextHelpFormatter,
+    )
+
+    parser.add_argument(
+        "host",
+        help="the host name to ssh to",
+        metavar="HOST",
+    )
+
+    parser.add_argument(
+        "session",
+        help="the tmux session to connect to or create",
+        metavar="SESSION_NAME",
+        nargs="?",
+    )
+
+    parser.add_argument(
+        "-i", "--init-config",
+        help="initialize the remote host's ~/.tmux.conf with the local one",
+        metavar="CONFIG_FILE",
+        nargs="?",
+        const=InitFile.DEFAULT,
+    )
+
+    parser.add_argument(
+        "-l", "--list-sessions",
+        help="display the tmux sessions available on the login host",
+        action="store_true",
+    )
+
+    return parser.parse_known_args(args)
+
+
+def main() -> int:
+    opts, ssh_opts = parse_args()
+
+    if opts.list_sessions:
+        return list_sessions(opts, ssh_opts)
+    else:
+        return new_session(opts, ssh_opts)
+
+
+def list_sessions(opts: argparse.Namespace, ssh_opts: List[str]) -> int:
+    ssh_optstring = " ".join(ssh_opts)
+    status, output = subprocess.getstatusoutput(f"ssh {ssh_optstring} {opts.host} 'tmux list-sessions'")
+    print(output)
+    if "error connecting" in output or "no server running" in output:
+        print(f"no tmux sessions found on {opts.host}", file=sys.stderr)
+        return 1
+    return status
+
+
+def new_session(opts: argparse.Namespace, ssh_opts: List[str]) -> int:
+    if opts.init_config:
+        init_config(opts)
+
+    new_session_name = opts.session or "default"
+    attach_cmd = "tmux attach-session"
+    if opts.session:
+        attach_cmd += f" -t {opts.session}"
+
+    result = subprocess.run(
+        ["ssh", *ssh_opts, "-t", opts.host, f"{attach_cmd} || tmux new-session -s '{new_session_name}'"]
+    )
+
+    return result.returncode
+
+
+def init_config(opts: argparse.Namespace) -> None:
+    init_file = None
+
+    if opts.init_config == InitFile.DEFAULT:
+        for candidate_init in CANDIDATE_INIT_FILES:
+            candidate_init = os.path.expanduser(candidate_init)
+            if os.path.exists(candidate_init):
+                init_file = candidate_init
+                break
+        else:
+            print(f"no local tmux init file found", file=sys.stderr)
+    else:
+        init_file = opts.init_config
+
+    if init_file:
+        print(f"Copying {init_file} to {opts.host}", file=sys.stderr)
+        subprocess.run(["scp", init_file, f"{opts.host}:~/.tmux.conf"], check=True)
+
+
+if __name__ == "__main__":
+    sys.exit(main())

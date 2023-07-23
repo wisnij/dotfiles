@@ -1,0 +1,126 @@
+#!/bin/bash
+# Run a command and print timing information and ring the bell when it finishes.
+# If running in iTerm, also pop up a notification banner.
+
+date_format='+%Y-%m-%d %H:%M:%S %z'
+play_sound=true
+verbose=false
+
+while getopts 'qv' opt; do
+    case $opt in
+        q) play_sound=false ;;
+        v) verbose=true ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+if [[ $# -eq 0 ]]; then
+    # ran with no arguments
+    cmd=terminal
+    success=true
+
+    # try to detect when we started running this command
+    if [[ -e $PS0_TIMESTAMP_FILE ]]; then
+        start_timestamp=$(cat "$PS0_TIMESTAMP_FILE")
+        start_date=$(date "$date_format" --date="@$start_timestamp")
+
+        end_timestamp=$(date +%s)
+        secs=$((end_timestamp - start_timestamp))
+        mins=0
+        hours=0
+
+        if [[ $secs -ge 3600 ]]; then hours=$((secs / 3600)); secs=$((secs % 3600)); fi
+        if [[ $secs -ge   60 ]]; then  mins=$((secs /   60)); secs=$((secs %   60)); fi
+
+        if [[ $hours -gt 0 ]]; then
+            elapsed="${hours}h ${mins}m ${secs}s"
+        elif [[ $mins -gt 0 ]]; then
+            elapsed="${mins}m ${secs}s"
+        else
+            elapsed="${secs}s"
+        fi
+
+        echo >&2
+        echo -e "approx\t$elapsed" >&2
+    fi
+else
+    cmd=$1
+    shift
+
+    start_date=$(date "$date_format")
+    if $verbose; then
+        gtime=$(which gtime)
+        if [[ -z $gtime ]]; then
+            gtime=$(which time)
+        fi
+        $gtime --verbose $cmd "$@"
+    else
+        time $cmd "$@"
+    fi
+
+    status=$?
+    if [[ $status -eq 0 ]]; then
+        success=true
+    else
+        success=false
+    fi
+fi
+
+if [[ -n $start_date ]]; then
+    echo -e "start\t$start_date" >&2
+fi
+
+end_date=$(date "$date_format")
+echo -e "end\t$end_date" >&2
+
+if [[ $TERM_PROGRAM == 'iTerm.app' ]]; then
+    # iTerm on a Mac
+    if $success; then
+        sound=default
+        msg="success"
+    else
+        sound=Sosumi
+        msg="failed, status $status"
+    fi
+
+    extra=()
+    if $play_sound; then
+        extra+=(-sound "$sound")
+    fi
+
+    terminal-notifier -title "$cmd" -message "$msg" -activate com.googlecode.iterm2 "${extra[@]}"
+else
+    # some other kind of terminal
+    if $play_sound; then
+        if type -t paplay >/dev/null; then
+            # we can play sounds through PulseAudio
+            if $success; then
+                paplay $HOME/.local/share/sounds/success &
+            else
+                paplay $HOME/.local/share/sounds/failure &
+            fi
+        else
+            # just ring the bell
+            echo -n $'\a' >&2
+            if [[ $status -ne 0 ]]; then
+                sleep .25; echo -n $'\a' >&2
+                sleep .25; echo -n $'\a' >&2
+            fi
+        fi
+    fi
+
+    if type -t notify-send >/dev/null; then
+        # pop up a notification box
+        if $success; then
+            msg="success"
+            icon=terminal
+        else
+            msg="failed, status $status"
+            icon=error
+        fi
+
+        notify-send "$cmd" "$msg" -i $icon
+    fi
+fi
+
+exit $status
