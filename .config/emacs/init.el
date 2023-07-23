@@ -178,16 +178,15 @@ with `tab-bar-rename-tab'."
             (lambda ()
               (setq fill-column 72))))
 
-;; ido
 (with-library ido
   (ido-mode 1)
   (ido-everywhere 1)
   (define-key ido-file-dir-completion-map (kbd "C-c f")
     (lambda ()
       (interactive)
-      (ido-initiate-auto-merge (current-buffer)))))
-(with-library ido-grid-mode
-  (ido-grid-mode 1))
+      (ido-initiate-auto-merge (current-buffer))))
+  (with-library ido-grid-mode
+    (ido-grid-mode 1)))
 
 (with-library popper
   (global-set-key (kbd "C-`") 'popper-toggle-latest)
