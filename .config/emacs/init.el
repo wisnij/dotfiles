@@ -143,27 +143,6 @@ with `tab-bar-rename-tab'."
   (when (not (eq system-type 'darwin))
     (menu-bar-mode -1)))
 
-(when (not (fboundp 'tab-bar-mode))
-  (with-library eyebrowse
-    (let ((map eyebrowse-mode-map))
-      (define-key map (kbd "C-<tab>") #'eyebrowse-next-window-config)
-      (define-key map (kbd "C-S-<tab>") #'eyebrowse-prev-window-config)
-      (define-key map (kbd "C-M-S-t") #'eyebrowse-create-named-window-config)
-      (define-key map (kbd "C-M-t") #'eyebrowse-create-window-config)
-      (define-key map (kbd "C-M-w") #'eyebrowse-close-window-config)
-      (dotimes (i 9)
-        (let ((n (number-to-string (+ i 1))))
-          (define-key map (kbd (concat "C-" n)) (intern (concat "eyebrowse-switch-to-window-config-" n)))))
-      (when (eq system-type 'darwin)
-        ;; set iTerm-like Cmd-#
-        (define-key map (kbd "s-T") #'eyebrowse-create-named-window-config)
-        (define-key map (kbd "s-t") #'eyebrowse-create-window-config)
-        (define-key map (kbd "s-w") #'eyebrowse-close-window-config)
-        (dotimes (i 9)
-          (let ((n (number-to-string (+ i 1))))
-            (define-key map (kbd (concat "s-" n)) (intern (concat "eyebrowse-switch-to-window-config-" n)))))))
-    (eyebrowse-mode 1)))
-
 ;; For https://github.com/rafl/git-commit-mode
 (with-library git-commit
   (setq auto-mode-alist
