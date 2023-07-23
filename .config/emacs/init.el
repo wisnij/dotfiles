@@ -687,7 +687,6 @@ mark it as unmodified."
 (global-set-key (kbd "M-s") #'next-frame-window)
 (global-set-key (kbd "M-S") #'previous-frame-window)
 (global-set-key (kbd "M-SPC") (lambda () (interactive) (cycle-spacing -1 nil 'fast)))
-(global-set-key (kbd "M-y") #'yank-to-region)
 (global-set-key (kbd "s-<down>") #'next-frame-window)
 (global-set-key (kbd "s-<left>") (lambda () (interactive) (other-frame -1)))
 (global-set-key (kbd "s-<right>") #'other-frame)
