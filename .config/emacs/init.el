@@ -109,6 +109,39 @@ won't inhibit a second open paren."
           (electric-pair-inhibit-if-helps-balance char))))
   (setq electric-pair-inhibit-predicate #'my-electric-pair-inhibit))
 
+;; For https://github.com/rafl/git-commit-mode
+(with-library git-commit
+  (setq auto-mode-alist
+        (append '(("new-commit$" . git-commit-mode)
+                  ("COMMIT_EDITMSG$" . git-commit-mode)
+                  ("NOTES_EDITMSG$" . git-commit-mode)
+                  ("MERGE_MSG$" . git-commit-mode)
+                  ("TAG_EDITMSG$" . git-commit-mode))
+                auto-mode-alist))
+  (add-hook 'git-commit-mode-hook #'turn-on-auto-fill)
+  (add-hook 'git-commit-mode-hook
+            (lambda ()
+              (setq fill-column 72))))
+
+(with-library ido
+  (ido-mode 1)
+  (ido-everywhere 1)
+  (define-key ido-file-dir-completion-map (kbd "C-c f")
+    (lambda ()
+      (interactive)
+      (ido-initiate-auto-merge (current-buffer))))
+  (with-library ido-grid-mode
+    (ido-grid-mode 1)))
+
+(with-library popper
+  (global-set-key (kbd "C-`") 'popper-toggle-latest)
+  (global-set-key (kbd "C-M-`") 'popper-toggle-type)
+  (global-set-key (kbd "M-`") 'popper-cycle)
+  (popper-mode 1)
+  ;; For echo-area hints
+  (with-library popper-echo
+    (popper-echo-mode 1)))
+
 ;; window configs
 (with-library tab-bar
   (defun tab-bar-new-named-tab ()
@@ -142,39 +175,6 @@ with `tab-bar-rename-tab'."
   ;; goes into the OS menu bar anyway
   (when (not (eq system-type 'darwin))
     (menu-bar-mode -1)))
-
-;; For https://github.com/rafl/git-commit-mode
-(with-library git-commit
-  (setq auto-mode-alist
-        (append '(("new-commit$" . git-commit-mode)
-                  ("COMMIT_EDITMSG$" . git-commit-mode)
-                  ("NOTES_EDITMSG$" . git-commit-mode)
-                  ("MERGE_MSG$" . git-commit-mode)
-                  ("TAG_EDITMSG$" . git-commit-mode))
-                auto-mode-alist))
-  (add-hook 'git-commit-mode-hook #'turn-on-auto-fill)
-  (add-hook 'git-commit-mode-hook
-            (lambda ()
-              (setq fill-column 72))))
-
-(with-library ido
-  (ido-mode 1)
-  (ido-everywhere 1)
-  (define-key ido-file-dir-completion-map (kbd "C-c f")
-    (lambda ()
-      (interactive)
-      (ido-initiate-auto-merge (current-buffer))))
-  (with-library ido-grid-mode
-    (ido-grid-mode 1)))
-
-(with-library popper
-  (global-set-key (kbd "C-`") 'popper-toggle-latest)
-  (global-set-key (kbd "C-M-`") 'popper-toggle-type)
-  (global-set-key (kbd "M-`") 'popper-cycle)
-  (popper-mode 1)
-  ;; For echo-area hints
-  (with-library popper-echo
-    (popper-echo-mode 1)))
 
 (with-library typopunct)
 
