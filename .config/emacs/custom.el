@@ -46,6 +46,8 @@
  '(org-todo-keywords '((sequence "TODO" "STARTED" "DONE")))
  '(p4-default-diff-options "-dNu")
  '(p4-verbose nil)
+ '(popper-reference-buffers
+   '(help-mode compilation-mode "\\*Messages\\*" "Output\\*$" "\\*Async Shell Command\\*"))
  '(python-fill-docstring-style 'pep-257-nn)
  '(read-quoted-char-radix 16)
  '(save-abbrevs 'silently)

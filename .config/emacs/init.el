@@ -189,6 +189,15 @@ with `tab-bar-rename-tab'."
 (with-library ido-grid-mode
   (ido-grid-mode 1))
 
+(with-library popper
+  (global-set-key (kbd "C-`") 'popper-toggle-latest)
+  (global-set-key (kbd "C-M-`") 'popper-toggle-type)
+  (global-set-key (kbd "M-`") 'popper-cycle)
+  (popper-mode 1)
+  ;; For echo-area hints
+  (with-library popper-echo
+    (popper-echo-mode 1)))
+
 (with-library typopunct)
 
 ;; disambiguate buffer names with <dirname>
