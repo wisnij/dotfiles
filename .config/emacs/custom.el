@@ -62,6 +62,7 @@
  '(typopunct-buffer-language 'english)
  '(uniquify-buffer-name-style 'post-forward-angle-brackets nil (uniquify))
  '(version-control t)
+ '(view-read-only t)
  '(visual-line-fringe-indicators '(empty-line nil))
  '(x-stretch-cursor t))
 (custom-set-faces

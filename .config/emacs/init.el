@@ -679,14 +679,18 @@ mark it as unmodified."
 (global-set-key (kbd "C-S-w") #'kill-rectangle)
 (global-set-key (kbd "C-S-y") #'yank-rectangle)
 (global-set-key (kbd "C-x <backspace>") #'delete-region)
+(global-set-key (kbd "C-x C-l") #'downcase-dwim)
+(global-set-key (kbd "C-x C-u") #'upcase-dwim)
 (global-set-key (kbd "ESC C-<tab>") #'indent-relative)
 (global-set-key (kbd "M-<backspace>") #'backward-delete-word)
 (global-set-key (kbd "M-<delete>") #'delete-word)
 (global-set-key (kbd "M-]") #'goto-matching-paren)
+(global-set-key (kbd "M-c") #'capitalize-dwim)
 (global-set-key (kbd "M-g") #'goto-line)
 (global-set-key (kbd "M-Q") #'unfill-paragraph)
 (global-set-key (kbd "M-s") #'next-frame-window)
 (global-set-key (kbd "M-S") #'previous-frame-window)
+(global-set-key (kbd "M-SPC") (lambda () (interactive) (cycle-spacing -1 nil 'fast)))
 (global-set-key (kbd "M-y") #'yank-to-region)
 (global-set-key (kbd "s-<down>") #'next-frame-window)
 (global-set-key (kbd "s-<left>") (lambda () (interactive) (other-frame -1)))
@@ -698,6 +702,7 @@ mark it as unmodified."
                 (if (fboundp 'ido-switch-buffer)
                     #'ido-switch-buffer
                     #'buffer-menu))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Finish up
