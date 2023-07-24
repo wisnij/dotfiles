@@ -14,6 +14,9 @@ export XDG_CONFIG_HOME=$HOME/.config
 export XDG_DATA_HOME=$HOME/.local/share
 export XDG_STATE_HOME=$HOME/.local/state
 
+# clear this out initially to set in 4-prompt.bash and others
+unset PROMPT_COMMAND
+
 if type -t emacs >/dev/null; then
     EDITOR='emacs -nw'
 else
