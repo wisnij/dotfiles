@@ -62,7 +62,6 @@
  '(tool-bar-mode nil nil (tool-bar))
  '(transient-mark-mode t)
  '(truncate-partial-width-windows nil)
- '(typopunct-buffer-language 'english)
  '(uniquify-buffer-name-style 'post-forward-angle-brackets nil (uniquify))
  '(version-control t)
  '(view-read-only t)

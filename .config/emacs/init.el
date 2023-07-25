@@ -176,8 +176,6 @@ with `tab-bar-rename-tab'."
   (when (not (eq system-type 'darwin))
     (menu-bar-mode -1)))
 
-(with-library typopunct)
-
 ;; disambiguate buffer names with <dirname>
 (with-library uniquify)
 
