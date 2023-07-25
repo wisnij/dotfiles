@@ -667,7 +667,6 @@ mark it as unmodified."
 (global-set-key (kbd "M-<delete>") #'delete-word)
 (global-set-key (kbd "M-]") #'goto-matching-paren)
 (global-set-key (kbd "M-c") #'capitalize-dwim)
-(global-set-key (kbd "M-g") #'goto-line)
 (global-set-key (kbd "M-Q") #'unfill-paragraph)
 (global-set-key (kbd "M-s") #'next-frame-window)
 (global-set-key (kbd "M-S") #'previous-frame-window)
