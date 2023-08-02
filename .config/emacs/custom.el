@@ -8,6 +8,7 @@
  '(ansi-color-for-comint-mode t)
  '(avy-highlight-first t)
  '(avy-keys '(?a ?s ?d ?f ?g ?q ?w ?e ?r ?z ?x ?c ?v))
+ '(avy-style 'pre)
  '(backup-by-copying t)
  '(backward-delete-char-untabify-method nil)
  '(c-default-style "wisnij")
