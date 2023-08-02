@@ -60,7 +60,7 @@
            (line-number-minor-tick ((t (:inherit (line-number)))))
            (link ((t (:foreground ,cyan :underline t))))
            (link-visited ((t (:foreground ,violet :underline t))))
-           (match ((t (:background ,ltblue))))
+           (match ((t (:foreground ,black :background ,ltblue))))
            (minibuffer-prompt ((t (:foreground ,cyan))))
            (mode-line ((t (:foreground ,black :background ,ltgray :box (:line-width -1 :style released-button)))))
            (mode-line-buffer-id ((t (:weight bold))))
