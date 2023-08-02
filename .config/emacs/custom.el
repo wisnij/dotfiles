@@ -6,6 +6,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ansi-color-for-comint-mode t)
+ '(avy-highlight-first t)
+ '(avy-keys '(?a ?s ?d ?f ?g ?q ?w ?e ?r ?z ?x ?c ?v))
  '(backup-by-copying t)
  '(backward-delete-char-untabify-method nil)
  '(c-default-style "wisnij")

@@ -89,6 +89,12 @@ library to `user-lisp-directory' to ensure its autoloads are picked up."
   (package-initialize))
 
 
+(with-library avy
+  (global-set-key (kbd "M-g c") #'avy-goto-char-timer)
+  (global-set-key (kbd "M-g e") #'avy-goto-word-0)
+  (global-set-key (kbd "M-g g") #'avy-goto-line)
+  (global-set-key (kbd "M-g w") #'avy-goto-word-1))
+
 (with-library desktop
   (add-hook 'desktop-save-hook #'clean-inactive-buffers))
 
