@@ -343,14 +343,14 @@ paren."
   (interactive)
   (select-window (previous-window)))
 
-;; Overwrite yank
 (defun yank-to-region ()
-  "Replace the current region with the text in the kill ring.
-The state of the kill ring is unchanged."
+  "Replace the current region with the most recently killed text,
+or just `yank' it at point if the mark is not active.  The state
+of the kill ring is unchanged."
   (interactive)
-  (progn
-    (delete-region (point) (mark))
-    (yank)))
+  (when mark-active
+    (delete-region (point) (mark)))
+  (yank))
 
 ;; Delete word backwards without altering the kill ring
 (defun delete-word (arg)
@@ -668,6 +668,7 @@ mark it as unmodified."
 (global-set-key (kbd "C-x <backspace>") #'delete-region)
 (global-set-key (kbd "C-x C-l") #'downcase-dwim)
 (global-set-key (kbd "C-x C-u") #'upcase-dwim)
+(global-set-key (kbd "C-y") #'yank-to-region)
 (global-set-key (kbd "ESC C-<tab>") #'indent-relative)
 (global-set-key (kbd "M-<backspace>") #'backward-delete-word)
 (global-set-key (kbd "M-<delete>") #'delete-word)
