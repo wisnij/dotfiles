@@ -343,6 +343,21 @@ paren."
   (interactive)
   (select-window (previous-window)))
 
+;; Copy and paste
+(defun kill-region-if-active ()
+  "Kill text with `kill-region' only if the region is active."
+  (interactive)
+  (when (not mark-active)
+    (user-error "%s: The region is not active!" this-command))
+  (call-interactively #'kill-region))
+
+(defun kill-ring-save-if-active ()
+  "Save text with `kill-ring-save' only if the region is active."
+  (interactive)
+  (when (not mark-active)
+    (user-error "%s: The region is not active!" this-command))
+  (call-interactively #'kill-ring-save))
+
 (defun yank-to-region ()
   "Replace the current region with the most recently killed text,
 or just `yank' it at point if the mark is not active.  The state
@@ -666,6 +681,7 @@ mark it as unmodified."
 (global-set-key (kbd "C-s-m") #'toggle-frame-maximized)
 (global-set-key (kbd "C-S-w") #'kill-rectangle)
 (global-set-key (kbd "C-S-y") #'yank-rectangle)
+(global-set-key (kbd "C-w") #'kill-region-if-active)
 (global-set-key (kbd "C-x <backspace>") #'delete-region)
 (global-set-key (kbd "C-x C-l") #'downcase-dwim)
 (global-set-key (kbd "C-x C-u") #'upcase-dwim)
@@ -679,6 +695,7 @@ mark it as unmodified."
 (global-set-key (kbd "M-s") #'next-frame-window)
 (global-set-key (kbd "M-S") #'previous-frame-window)
 (global-set-key (kbd "M-SPC") (lambda () (interactive) (cycle-spacing -1 :preserve-nl-back 'fast)))
+(global-set-key (kbd "M-w") #'kill-ring-save-if-active)
 (global-set-key (kbd "s-<down>") #'next-frame-window)
 (global-set-key (kbd "s-<left>") (lambda () (interactive) (other-frame -1)))
 (global-set-key (kbd "s-<right>") #'other-frame)
