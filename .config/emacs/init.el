@@ -141,8 +141,7 @@ won't inhibit a second open paren."
 
 (with-library popper
   (global-set-key (kbd "C-`") #'popper-toggle-latest)
-  (global-set-key (kbd "C-M-`") #'popper-toggle-type)
-  (global-set-key (kbd "M-`") #'popper-cycle)
+  (global-set-key (kbd "C-M-`") #'popper-cycle)
   (popper-mode 1)
   ;; For echo-area hints
   (with-library popper-echo
