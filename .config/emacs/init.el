@@ -257,6 +257,13 @@ currently open in any window, so they will not be killed by
                  buffer (format-time-string "%F %T" now))
         (setq buffer-display-time now)))))
 
+(defun slugify (str)
+  "Convert STR to a filename-safe slug."
+  (string-trim (replace-regexp-in-string "[^a-z0-9]+" "-"
+                                         (replace-regexp-in-string "[^-_ a-z0-9]+" ""
+                                                                   (downcase str)))
+               "-" "-"))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Commands
