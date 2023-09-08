@@ -59,6 +59,7 @@
  '(slime-startup-animation nil)
  '(sort-fold-case t)
  '(tab-bar-close-button-show nil)
+ '(tab-bar-close-tab-select 'left)
  '(tab-bar-new-tab-choice "*scratch*")
  '(tab-bar-new-tab-to 'rightmost)
  '(tab-bar-tab-hints t)
