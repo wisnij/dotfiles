@@ -240,9 +240,10 @@ an asterisk or space."
               (let* ((buffer (get-buffer buffer-or-name))
                      (buffer-name (buffer-name buffer)))
                 (message "      buffer %S" buffer-name)
-                (unless (and exclude-special
-                             (or (string-prefix-p " " buffer-name)
-                                 (string-prefix-p "*" buffer-name)))
+                (unless (or (null buffer)
+                            (and exclude-special
+                                 (or (string-prefix-p " " buffer-name)
+                                     (string-prefix-p "*" buffer-name))))
                   (push buffer active-buffers))))))))
     (delete-dups (reverse active-buffers))))
 
