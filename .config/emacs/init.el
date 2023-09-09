@@ -174,7 +174,9 @@ with `tab-bar-rename-tab'."
           '(control)))
   (when (not (display-graphic-p))
     (setq tab-bar-show 1))
-  (tab-bar-mode 1)
+  ;; keep tab-bar-mode from clobbering the Menu button with a hamburger icon
+  (let (tab-bar-menu-bar-button)
+    (tab-bar-mode 1))
   (tab-bar-history-mode 1)
   ;; save on window space by disabling menu-bar-mode, except on Mac where it
   ;; goes into the OS menu bar anyway
