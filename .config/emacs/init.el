@@ -277,9 +277,9 @@ This is a convenience wrapper around `clean-buffer-list' which
 will avoid killing any buffer currently open in a window in any
 tab (as determined by `active-buffer-list')."
   (interactive)
-  (refresh-active-buffer-display-times)
-  (clean-buffer-list)
-  (message nil))
+  (let ((inhibit-message t))
+    (refresh-active-buffer-display-times)
+    (clean-buffer-list)))
 
 (defun derived-modes (mode)
   "Return a list of the ancestor modes that MODE is derived from.
@@ -703,7 +703,7 @@ mark it as unmodified."
 (global-set-key (kbd "M-Q") #'unfill-paragraph)
 (global-set-key (kbd "M-s") #'next-frame-window)
 (global-set-key (kbd "M-S") #'previous-frame-window)
-(global-set-key (kbd "M-SPC") (lambda () (interactive) (cycle-spacing -1 :preserve-nl-back 'fast)))
+(global-set-key (kbd "M-SPC") (lambda () (interactive) (cycle-spacing -1)))
 (global-set-key (kbd "M-w") #'kill-ring-save-if-active)
 (global-set-key (kbd "s-<down>") #'next-frame-window)
 (global-set-key (kbd "s-<left>") (lambda () (interactive) (other-frame -1)))
