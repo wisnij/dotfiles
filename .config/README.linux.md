@@ -18,6 +18,11 @@
   - acceptable workaround: `(sleep 1; ibus restart) &` in `xsessionrc`
 - VLC displays no video picture in always-on-top mode
   - workaround: use WM always-on-top feature
+- no X11 bell after starting to use pipewire(?)
+  - installed `libcanberra-pulse`
+  - need to run `systemctl --user restart pipewire` at session start
+  - local sound themes in `~/.local/share/sounds` don't seem to work, updated
+    `/usr/share/sounds/freedesktop/stereo/bell.oga` with my preferred sound
 
 ## Fixed issues
 
