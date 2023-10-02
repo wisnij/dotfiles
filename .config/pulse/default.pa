@@ -1,4 +1,7 @@
 # -*- conf -*-
+# PulseAudio config
+# XXX: possibly not needed anymore now that Debian is using pipewire?
+
 .include /etc/pulse/default.pa
 
 # audible bell
