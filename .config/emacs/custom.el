@@ -60,7 +60,7 @@
  '(sort-fold-case t)
  '(tab-bar-auto-width nil)
  '(tab-bar-close-button-show nil)
- '(tab-bar-close-tab-select 'left)
+ '(tab-bar-close-tab-select 'right)
  '(tab-bar-new-tab-choice "*scratch*")
  '(tab-bar-new-tab-to 'rightmost)
  '(tab-bar-tab-hints t)
