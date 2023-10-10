@@ -158,6 +158,8 @@ with `tab-bar-rename-tab'."
   (global-set-key (kbd "C-M-S-t") #'tab-bar-new-named-tab)
   (global-set-key (kbd "C-M-t") #'tab-bar-new-tab)
   (global-set-key (kbd "C-M-w") #'tab-bar-close-tab)
+  (global-set-key (kbd "C-S-<prior>") #'tab-bar-move-tab-backward)
+  (global-set-key (kbd "C-S-<next>") #'tab-bar-move-tab)
   (when (eq system-type 'darwin)
     ;; use Cmd on Mac
     (global-set-key (kbd "s-T") #'tab-bar-new-named-tab)
