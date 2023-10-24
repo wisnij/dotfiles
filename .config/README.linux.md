@@ -40,3 +40,6 @@
   - set "Use system keyboard layout" in ibus config
 - Japanese input method (via Mozc) doesn't work in Emacs
   - `apt install emacs-mozc`
+- no boot entry for Windows
+  - set `GRUB_DISABLE_OS_PROBER=false` in `/etc/default/grub`
+  - run `sudo update-grub`
