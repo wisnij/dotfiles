@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+
+cancel () {
+    sudo systemctl reboot --when=cancel
+}
+
+sudo grub-reboot 2
+trap cancel INT
+sudo systemctl reboot --when=+5s
+sleep 6s
