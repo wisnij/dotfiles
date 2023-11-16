@@ -477,6 +477,23 @@ numbers in `\\,()' replacements (see e.g. `incf*')."
       (call-interactively #'query-replace-regexp))))
 
 
+(defun split-root-window (size side)
+  "Make a new window adjacent to the frame root window.
+Arguments SIZE and SIDE are interpreted as for `split-window'."
+  (split-window (frame-root-window)
+                (and size (prefix-numeric-value size))
+                side))
+
+(defun split-root-window-below (&optional size)
+  "Split the root window into two windows, one above the other."
+  (interactive "P")
+  (split-root-window size 'below))
+
+(defun split-root-window-right (&optional size)
+  "Split the root window into two side-by-side windows."
+  (interactive "P")
+  (split-root-window size 'right))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Passive settings
 
@@ -696,6 +713,8 @@ mark it as unmodified."
 (global-set-key (kbd "C-x <backspace>") #'delete-region)
 (global-set-key (kbd "C-x C-l") #'downcase-dwim)
 (global-set-key (kbd "C-x C-u") #'upcase-dwim)
+(global-set-key (kbd "C-x M-2") #'split-root-window-below)
+(global-set-key (kbd "C-x M-3") #'split-root-window-right)
 (global-set-key (kbd "C-y") #'yank-to-region)
 (global-set-key (kbd "ESC C-<tab>") #'indent-relative)
 (global-set-key (kbd "M-<backspace>") #'backward-delete-word)
