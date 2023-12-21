@@ -9,9 +9,11 @@ use Getopt::Long qw(:config gnu_getopt);
 
 
 my $ignore_case = 1;
+my $entire_line = 0;
 my $bell = 0;
 GetOptions(
     'b|bell!'        => \$bell,
+    'l|entire-line!' => \$entire_line,
     'i|ignore-case!' => \$ignore_case,
 ) or die "$0: bad arguments\n";
 
@@ -20,6 +22,7 @@ die "Usage: $0 [OPTION...] PATTERN...\n"
     if not @patterns;
 
 my $patterns = join '|', map { "(?:$_)" } @patterns;
+$patterns = "^.*(?:$patterns).*\$" if $entire_line;
 my $regex = $ignore_case
     ? qr/$patterns/oi
     : qr/$patterns/o;
