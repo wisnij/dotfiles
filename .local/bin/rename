@@ -51,6 +51,7 @@ in order to modify the filename(s).
   -r, --reverse             rename files in last-to-first order
   -t, --test                print results, but do not actually rename files
   -v, --verbose             explain what is being done
+  -x, --extensions          include file extensions in replacements
       --help                display this help and exit
       --helplong            display manual page and exit
 
@@ -63,7 +64,7 @@ ENDHELP;
 my @actions;
 my $interactive = 1;
 my $verbose = 1;
-my ($all, $count, $fullpath, $global, $reverse, $test);
+my ($all, $count, $extensions, $fullpath, $global, $reverse, $test);
 
 GetOptions
     'a|all'          => \$all,
@@ -76,6 +77,7 @@ GetOptions
     'r|reverse'      => \$reverse,
     't|test'         => \$test,
     'v|verbose!'     => \$verbose,
+    'x|extensions!'  => \$extensions,
 
     'help'     => sub { print $HELPMSG; exit },
     'helplong' => sub { exec 'perldoc', $0
@@ -119,6 +121,13 @@ foreach my $path ( @ARGV )
     if( $fullpath ) { $file = $path }
     else            { ($vol, $dirs, $file) = splitpath $path; }
 
+    my $ext = '';
+    if( not $extensions )
+    {
+        $file =~ s|(\.[^./]+)$||;
+        $ext = $1 if defined $1;
+    }
+
     for( $file )
     {
         if( @actions )
@@ -137,6 +146,8 @@ foreach my $path ( @ARGV )
             else          { s/$from/$to/o;  }
         }
     }
+
+    $file .= $ext;
 
     my $new = ($fullpath or not defined $dirs or $dirs eq curdir)
         ? $file
@@ -278,6 +289,13 @@ filename is not checked for existence as it would be normally.
 =item B<-v>, B<--verbose>
 
 After a successful rename, print the old and new names of the file.
+
+=item B<-x>, B<--extensions>
+
+Include the file extension, if any, when performing replacements on the
+filename.  File extensions are defined as a period followed by any number of
+non-period characters at the end of a filename.  The default is to exclude
+extensions from alteration.
 
 =item B<--help>
 
