@@ -56,6 +56,9 @@
 	pager = cat
 [format]
 	pretty = fuller-compact
+[grep]
+	lineNumber = true
+	patternType = perl
 [init]
 	defaultBranch = master
 [log]
