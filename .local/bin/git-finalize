@@ -1,0 +1,39 @@
+#!/bin/bash
+# git finalize: pull master and remove a local branch after the remote branch is merged and deleted
+
+set -eu -o pipefail
+
+BRIGHT=$'\e[1m'
+NORMAL=$'\e[0m'
+
+master='master'
+if git show-ref --verify --quiet refs/heads/main; then
+    master='main'
+fi
+
+branch=$(git branch --show-current)
+if [[ $branch == $master ]]; then
+    echo "Already on '$master'" >&2
+    exit 1
+fi
+
+show_context () {
+    echo
+    git g --color=always | \
+        awk 'BEGIN {FS="\n"} {print NR, $1}' | \
+        grep -C10 -E "(^1 )|$branch" | \
+        sed -re 's/^[0-9]+ //'
+    echo
+}
+
+git checkout $master
+git pull --prune
+show_context
+
+read -p "Remove ${BRIGHT}${branch}${NORMAL} [y/N]? " answer
+if [[ -z $answer || ${answer:0:1} != "y" ]]; then
+    exit 1
+fi
+
+git branch --delete --force --verbose "$branch"
+show_context
