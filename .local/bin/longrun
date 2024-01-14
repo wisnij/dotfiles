@@ -92,7 +92,7 @@ if [[ $TERM_PROGRAM == 'iTerm.app' ]]; then
 else
     # some other kind of terminal
     if $play_sound; then
-        if type -t paplay >/dev/null; then
+        if [[ -n $DISPLAY ]] && type -t paplay >/dev/null; then
             # we can play sounds through PulseAudio
             if $success; then
                 paplay $HOME/.local/share/sounds/success &
@@ -109,7 +109,7 @@ else
         fi
     fi
 
-    if type -t notify-send >/dev/null; then
+    if [[ -n $DISPLAY ]] && type -t notify-send >/dev/null; then
         # pop up a notification box
         if $success; then
             msg="success"
