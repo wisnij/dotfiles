@@ -43,3 +43,5 @@
 - no boot entry for Windows
   - set `GRUB_DISABLE_OS_PROBER=false` in `/etc/default/grub`
   - run `sudo update-grub`
+- audio not switching to wireless USB headphones automatically when turned on
+  - added `load-module module-switch-on-connect` to `~/.config/pulse/default.pa`
