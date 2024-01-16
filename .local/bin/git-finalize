@@ -1,7 +1,18 @@
 #!/bin/bash
-# git finalize: pull master and remove a local branch after the remote branch is merged and deleted
+# git finalize: pull master and remove a local branch after the remote branch is merged
 
 set -eu -o pipefail
+
+confirm () {
+    local prompt=$1
+    local answer
+    read -p "$prompt [y/N] " answer
+    if [[ -n $answer && ${answer:0:1} == "y" ]]; then
+        return 0
+    fi
+
+    return 1
+}
 
 BRIGHT=$'\e[1m'
 NORMAL=$'\e[0m'
@@ -30,10 +41,22 @@ git checkout $master
 git pull --prune
 show_context
 
-read -p "Remove ${BRIGHT}${branch}${NORMAL} [y/N]? " answer
-if [[ -z $answer || ${answer:0:1} != "y" ]]; then
+# look for remote branch now, as upstream tracking info will be lost when we delete the local branch
+upstream_ref=$(git rev-parse --verify --quiet --symbolic-full-name "${branch}@{upstream}" || true)
+
+if ! confirm "Remove ${BRIGHT}${branch}${NORMAL}?"; then
     exit 1
 fi
 
 git branch --delete --force --verbose "$branch"
+
+# check for lingering remote branch
+if [[ -n $upstream_ref ]]; then
+    upstream_branch=${upstream_ref#refs/remotes/}
+    if confirm "Remove upstream ${BRIGHT}${upstream_branch}${NORMAL}?"; then
+        remote=${upstream_branch%%/*}
+        git push "$remote" --delete --verbose "$branch"
+    fi
+fi
+
 show_context
