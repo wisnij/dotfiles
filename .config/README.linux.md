@@ -10,6 +10,8 @@
 - no HD Amazon Prime video
   - tried <https://github.com/nxjosephofficial/primevideo-linux> initially, but
     Chrome 104 doesn't work anymore
+- tty console looks worse after installing Nvidia drivers
+  - setting `GRUB_GFXMODE=1280x1024` in `/etc/default/grub` helps slightly
 
 ## Acceptable workaround
 
@@ -45,3 +47,5 @@
   - run `sudo update-grub`
 - audio not switching to wireless USB headphones automatically when turned on
   - added `load-module module-switch-on-connect` to `~/.config/pulse/default.pa`
+- video tearing during VLC playback
+  - installed `nvidia-detect` and then `nvidia-driver`
