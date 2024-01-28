@@ -2,9 +2,6 @@
 
 ## TODO
 
-- can't sleep/suspend
-  - "suspend" still responds to keyboard/mouse input
-  - "hibernate"/"hybrid sleep" end immediately, and mouse doesn't work afterwards
 - screen stays blank after auto-off
   - current workaround: switch to virtual terminal and back with Ctrl-Alt-F1/F7
 - no HD Amazon Prime video
@@ -25,6 +22,13 @@
   - need to run `systemctl --user restart pipewire` at session start
   - local sound themes in `~/.local/share/sounds` don't seem to work, updated
     `/usr/share/sounds/freedesktop/stereo/bell.oga` with my preferred sound
+- can't sleep/suspend
+  - "suspend" still responds to keyboard/mouse input
+  - "hibernate"/"hybrid sleep" end immediately, and mouse doesn't work afterwards
+  - [2024-01-18] hibernate appears to be working after increasing swap partition to size
+    of physical memory
+    - suspend/hybrid sleep still don't work - afterwards screen remains blank,
+      no response to keyboard input
 
 ## Fixed issues
 
