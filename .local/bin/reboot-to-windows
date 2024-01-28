@@ -1,11 +1,14 @@
 #!/bin/bash
-set -e
+set -eu -o pipefail
 
-cancel () {
-    sudo systemctl reboot --when=cancel
-}
+sudo -v
+for n in `seq 5`; do
+    ((r = 6 - $n))
+    echo -ne "\rRebooting in $r..."
+    sleep 1
+done
+echo
 
+set -x
 sudo grub-reboot 2
-trap cancel INT
-sudo systemctl reboot --when=+5s
-sleep 6s
+sudo systemctl reboot
