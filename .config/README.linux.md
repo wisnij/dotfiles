@@ -25,10 +25,16 @@
 - can't sleep/suspend
   - "suspend" still responds to keyboard/mouse input
   - "hibernate"/"hybrid sleep" end immediately, and mouse doesn't work afterwards
-  - [2024-01-18] hibernate appears to be working after increasing swap partition to size
-    of physical memory
-    - suspend/hybrid sleep still don't work - afterwards screen remains blank,
-      no response to keyboard input
+  - [2024-01-18] hibernate appears to be working after increasing swap partition
+    to size of physical memory
+    - however still wakes upon keyboard input
+      - fixed(?): add this to `/etc/tmpfiles.d/disable-usb-wake.conf` (see <https://unix.stackexchange.com/a/662778>)
+
+            #Type  Path               Mode  UID  GID  Age  Argument
+            w      /proc/acpi/wakeup  -     -    -    -    XHC
+
+    - suspend/hybrid sleep still don't work at all - afterwards screen remains
+      blank, no response to keyboard input
 
 ## Fixed issues
 
