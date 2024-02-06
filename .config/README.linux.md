@@ -59,3 +59,8 @@
   - added `load-module module-switch-on-connect` to `~/.config/pulse/default.pa`
 - video tearing during VLC playback
   - installed `nvidia-detect` and then `nvidia-driver`
+- "Recent" in Thunar's tree view
+  - disable with:
+
+        > ~/.local/share/recently-used.xbel
+        sudo chattr +i ~/.local/share/recently-used.xbel
