@@ -269,6 +269,33 @@ currently open in any window, so they will not be killed by
                                                                    (downcase str)))
                "-" "-"))
 
+(defun parse-srt-time (timestamp)
+  "Parse an SRT subtitle timestamp of the form HH:MM:SS,mmm.
+Returns the total number of seconds it represents as a float.
+For example:
+
+    (parse-srt-time \"01:23:45,678\") => 5025.678"
+  (when (string-match "\\([0-9]\\{2\\}\\):\\([0-9]\\{2\\}\\):\\([0-9]\\{2\\}\\),\\([0-9]\\{3\\}\\)" timestamp)
+    (let ((hour (string-to-number (match-string 1 timestamp)))
+          (min  (string-to-number (match-string 2 timestamp)))
+          (sec  (string-to-number (match-string 3 timestamp)))
+          (msec (string-to-number (match-string 4 timestamp))))
+      (+ (* 60 60 hour)
+         (* 60 min)
+         sec
+         (/ msec 1000.0)))))
+
+(defun format-srt-time (float-seconds)
+  "Format a float number of seconds into an SRT subtitle timestamp
+of the form HH:MM:SS,mmm.  For example:
+
+    (format-srt-time 5025.678) => \"01:23:45,678\""
+  (let* ((s (truncate float-seconds))
+         (ms (* 1000 (- float-seconds s))))
+    (concat (format-seconds "%.2h:%.2m:%.2s" s)
+            ","
+            (number-to-string (round ms)))))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Commands
