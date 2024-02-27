@@ -1,0 +1,31 @@
+#!/bin/bash
+# NordVPN wrapper script
+
+if [[ $# -lt 1 ]]; then
+    date
+    nordvpn status
+    echo
+    nordvpn settings
+    exit
+fi
+
+cmd=$1
+shift
+
+case $cmd in
+    d | disconnect)
+        nordvpn set killswitch 0
+        ;;
+esac
+
+nordvpn "$cmd" "$@"
+
+case $cmd in
+    c | connect)
+        nordvpn set killswitch 1
+        nordvpn status
+        ;;
+    d | disconnect)
+        nordvpn status
+        ;;
+esac
