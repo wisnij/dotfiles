@@ -1,11 +1,35 @@
 #!/bin/bash
 # NordVPN wrapper script
+set -eu -o pipefail
+
+NORMAL=$'\e[0m'
+BRIGHT=$'\e[1m'
+RED=$'\e[31m'
+GREEN=$'\e[32m'
+
+colorize () {
+    while IFS= read -r line; do
+        line=${line##*$'\r'}
+        k=${line%%: *}
+        v=${line##*: }
+        if [[ $v == "enabled" ]]; then
+            v="${GREEN}$v${NORMAL}"
+        elif [[ $v == "disabled" ]]; then
+            v="${RED}$v${NORMAL}"
+        fi
+        echo "${BRIGHT}$k${NORMAL}: $v"
+    done
+}
+
+status () {
+    nordvpn status | colorize
+    echo
+    nordvpn settings | colorize
+}
 
 if [[ $# -lt 1 ]]; then
     date
-    nordvpn status
-    echo
-    nordvpn settings
+    status
     exit
 fi
 
@@ -23,9 +47,6 @@ nordvpn "$cmd" "$@"
 case $cmd in
     c | connect)
         nordvpn set killswitch 1
-        nordvpn status
-        ;;
-    d | disconnect)
-        nordvpn status
+        status
         ;;
 esac
