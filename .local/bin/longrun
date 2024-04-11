@@ -76,7 +76,10 @@ echo -e "end\t$end_date" >&2
 if [[ $TERM_PROGRAM == 'iTerm.app' ]]; then
     # iTerm on a Mac
     if $success; then
-        sound=default
+        # TODO: "default" used to produce the three rising tone doo-doo-DOO sound, but now makes
+        # some kind of sonar-like ping.  Setting this to the empty string appears to restore the old
+        # sound.  Would be nice to have a proper name for it though
+        sound=""
         msg="success"
     else
         sound=Sosumi
