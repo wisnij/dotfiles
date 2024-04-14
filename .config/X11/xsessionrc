@@ -23,10 +23,5 @@ if systemctl --user is-enabled pipewire >/dev/null; then
     systemctl --user restart pipewire
 fi
 
-# Automount USB drives
-if type -t udiskie >/dev/null; then
-    udiskie &
-fi
-
 # Restart IBus after login to fix menu position
 (sleep 1; ibus restart) &
