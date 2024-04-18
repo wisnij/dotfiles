@@ -15,6 +15,7 @@ confirm () {
 }
 
 BRIGHT=$'\e[1m'
+RED=$'\e[31m'
 NORMAL=$'\e[0m'
 
 master='master'
@@ -37,12 +38,19 @@ show_context () {
     echo
 }
 
+old_upstream_ref=$(git rev-parse --verify --quiet --symbolic-full-name "${branch}@{upstream}" || true)
+
 git checkout $master
 git pull --prune
 show_context
 
 # look for remote branch now, as upstream tracking info will be lost when we delete the local branch
 upstream_ref=$(git rev-parse --verify --quiet --symbolic-full-name "${branch}@{upstream}" || true)
+
+if [[ -n $old_upstream_ref && -z $upstream_ref ]]; then
+    echo "Remote branch ${BRIGHT}${RED}${old_upstream_ref#refs/remotes/}${NORMAL} has been deleted"
+    echo
+fi
 
 if ! confirm "Remove ${BRIGHT}${branch}${NORMAL}?"; then
     exit 1
