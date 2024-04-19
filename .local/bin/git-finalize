@@ -61,6 +61,7 @@ git branch --delete --force --verbose "$branch"
 # check for lingering remote branch
 if [[ -n $upstream_ref ]]; then
     upstream_branch=${upstream_ref#refs/remotes/}
+    echo
     if confirm "Remove upstream ${BRIGHT}${upstream_branch}${NORMAL}?"; then
         remote=${upstream_branch%%/*}
         git push "$remote" --delete --verbose "$branch"
