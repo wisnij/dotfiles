@@ -3,6 +3,10 @@
 
 set -eu -o pipefail
 
+BRIGHT=$'\e[1m'
+RED=$'\e[31m'
+NORMAL=$'\e[0m'
+
 base_dir=$HOME/code
 
 while getopts 'b:' opt; do
@@ -28,7 +32,7 @@ elif [[ $repo_url == https:* ]]; then
     path=${repo_url#*//}
     path=${repo_url#*/}
 else
-    echo "Unrecognized URL format: '$repo_url'" >&2
+    echo "${BRIGHT}${RED}ERROR:${NORMAL} Unrecognized URL format: '$repo_url'" >&2
     exit 1
 fi
 
@@ -36,8 +40,12 @@ path=${path%.git}
 full_path=$base_dir/$path
 
 if [[ -e $full_path ]]; then
-    echo "ERROR: $full_path already exists!" >&2
+    echo "${BRIGHT}${RED}ERROR:${NORMAL} $full_path already exists!" >&2
     exit 2
 fi
 
 git clone $repo_url $full_path "$@"
+
+echo
+echo "Cloned $repo_url into ${BRIGHT}${full_path}${NORMAL}"
+echo
