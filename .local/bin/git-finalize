@@ -53,6 +53,7 @@ if [[ -n $old_upstream_ref && -z $upstream_ref ]]; then
 fi
 
 if ! confirm "Remove ${BRIGHT}${branch}${NORMAL}?"; then
+    git checkout "$branch"
     exit 1
 fi
 
