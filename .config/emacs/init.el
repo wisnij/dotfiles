@@ -645,10 +645,17 @@ value should be a list in the format accepted by `font-lock-add-keywords'.")
             (font-lock-add-keywords nil visible-whitespace-characters)))
 
 ;; Highlight comment keywords
+(defvar highlight-comment-keywords
+  '("BUG" "FIXME" "NOSUBMIT" "NOTE" "TODO" "XXX")
+  "Keywords highlighted for extra attention, even inside comments.")
+
 (add-hook 'font-lock-mode-hook
           (lambda ()
             (font-lock-add-keywords
-             nil '(("\\<\\(\\(BUG\\|FIXME\\|NOSUBMIT\\|TODO\\|XXX\\)\\(([^)]*)\\)?\\)" 1 font-lock-warning-face prepend))
+             nil `((,(concat "\\<\\(\\("
+                             (string-join highlight-comment-keywords "\\|")
+                             "\\)\\(([^)]*)\\)?\\)")
+                     1 font-lock-warning-face prepend))
              :append)))
 
 (add-hook 'text-mode-hook #'turn-on-font-lock)
