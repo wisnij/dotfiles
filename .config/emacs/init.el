@@ -140,7 +140,13 @@ won't inhibit a second open paren."
       (interactive)
       (ido-initiate-auto-merge (current-buffer))))
   (with-library ido-grid-mode
-    (ido-grid-mode 1)))
+    (ido-grid-mode 1))
+  ;; keep Ido from clobbering the mini-window size settings
+  (defun protect-expandable-mini-window (orig &rest args)
+    (let ((max-mini-window-height max-mini-window-height)
+          (resize-mini-windows resize-mini-windows))
+      (apply orig args)))
+  (advice-add 'ido-read-internal :around #'protect-expandable-mini-window))
 
 (with-library popper
   (global-set-key (kbd "C-`") #'popper-toggle-latest)
