@@ -89,6 +89,9 @@ library to `user-lisp-directory' to ensure its autoloads are picked up."
   (package-initialize))
 
 
+(with-library ace-window
+  (global-set-key (kbd "M-o") 'ace-window))
+
 (with-library avy
   (global-set-key (kbd "M-g c") #'avy-goto-char-timer)
   (global-set-key (kbd "M-g e") #'avy-goto-word-0)
