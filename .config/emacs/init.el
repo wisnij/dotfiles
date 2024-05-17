@@ -90,7 +90,24 @@ library to `user-lisp-directory' to ensure its autoloads are picked up."
 
 
 (with-library ace-window
-  (global-set-key (kbd "M-o") 'ace-window))
+  (global-set-key (kbd "M-o") 'ace-window)
+
+  ;; override the default `aw-window-list' to return windows in the same order
+  ;; as used by `'window-numbering-mode' and `other-window'
+  (defun aw-window-list ()
+    "Return the list of interesting windows, in the same order as returned by `window-list'."
+    (cl-remove-if
+     (lambda (w)
+       (let ((f (window-frame w)))
+         (or (not (and (frame-live-p f)
+                       (frame-visible-p f)))
+             (string= "initial_terminal" (terminal-name f))
+             (aw-ignored-p w))))
+     (cl-case aw-scope
+       (visible (cl-mapcan #'frame-window-list (visible-frame-list)))
+       (global (cl-mapcan #'frame-window-list (frame-list)))
+       (frame (frame-window-list))
+       (t (error "Invalid `aw-scope': %S" aw-scope))))))
 
 (with-library avy
   (global-set-key (kbd "M-g c") #'avy-goto-char-timer)
@@ -304,6 +321,11 @@ of the form HH:MM:SS,mmm.  For example:
     (concat (format-seconds "%.2h:%.2m:%.2s" s)
             ","
             (number-to-string (round ms)))))
+
+(defun frame-window-list (&optional frame)
+  "Return a list of non-minibuffer windows in FRAME, or of the
+current frame if null."
+  (window-list frame 0 (frame-first-window frame)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
