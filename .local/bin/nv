@@ -12,9 +12,9 @@ colorize () {
         line=${line##*$'\r'}
         k=${line%%: *}
         v=${line##*: }
-        if [[ $v == "enabled" ]]; then
+        if [[ $v == "enabled" || $v == "Connected" ]]; then
             v="${GREEN}$v${NORMAL}"
-        elif [[ $v == "disabled" ]]; then
+        elif [[ $v == "disabled" || $v == "Disconnected" ]]; then
             v="${RED}$v${NORMAL}"
         fi
         echo "${BRIGHT}$k${NORMAL}: $v"
@@ -47,6 +47,7 @@ nordvpn "$cmd" "$@"
 case $cmd in
     c | connect)
         nordvpn set killswitch 1
+        echo
         status
         ;;
 esac
