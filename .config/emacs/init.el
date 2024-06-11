@@ -3,14 +3,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Basics
 
-(defvar emacs-load-start (current-time)
-  "The `current-time' when .emacs started loading.")
-
 ;; load time message
 (defun startup-echo-area-message ()
   (message "Emacs loaded in %.3fs"
            (- (float-time)
-              (float-time emacs-load-start))))
+              (float-time emacs-start-time))))
 
 (when (not (boundp 'user-emacs-directory))
   (setq user-emacs-directory "~/.emacs.d/"))
