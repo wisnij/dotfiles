@@ -67,56 +67,33 @@ library to `user-lisp-directory' to ensure its autoloads are picked up."
   (byte-compile-file generated-autoload-file)
   (load generated-autoload-file t))
 
-(defmacro with-library (symbol &rest body)
-  (declare (indent 1))
-  (let ((err (gensym)))
-    `(condition-case ,err
-         (progn
-           (require ',symbol)
-           ,@body)
-       (error (message "with-library: error loading '%s': %S" ',symbol ,err) nil))))
+;; set up package system
+(require 'package)
+(advice-add 'package--save-selected-packages :override #'ignore)
+(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
+(package-initialize)
 
-(with-library package
-  (defun package--disable-save-selected-packages (&rest dummy)
-    "Don't save package-selected-packages to `custom-file' at all."
-    nil)
-  (advice-add 'package--save-selected-packages :around #'package--disable-save-selected-packages)
-  (add-to-list 'package-archives
-               '("melpa" . "https://melpa.org/packages/") t)
-  (package-initialize))
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 
+(require 'use-package)
+(setq use-package-always-ensure t)
+;; fix inexplicable (indent 'defun) in use-package-core.el
+(put 'use-package 'lisp-indent-function 1)
 
-(with-library ace-window
-  (global-set-key (kbd "M-o") 'ace-window)
+;;;; libraries that are part of Emacs
 
-  ;; override the default `aw-window-list' to return windows in the same order
-  ;; as used by `'window-numbering-mode' and `other-window'
-  (defun aw-window-list ()
-    "Return the list of interesting windows, in the same order as returned by `window-list'."
-    (cl-remove-if
-     (lambda (w)
-       (let ((f (window-frame w)))
-         (or (not (and (frame-live-p f)
-                       (frame-visible-p f)))
-             (string= "initial_terminal" (terminal-name f))
-             (aw-ignored-p w))))
-     (cl-case aw-scope
-       (visible (cl-mapcan #'frame-window-list (visible-frame-list)))
-       (global (cl-mapcan #'frame-window-list (frame-list)))
-       (frame (frame-window-list))
-       (t (error "Invalid `aw-scope': %S" aw-scope))))))
-
-(with-library avy
-  (global-set-key (kbd "M-g c") #'avy-goto-char-timer)
-  (global-set-key (kbd "M-g e") #'avy-goto-word-0)
-  (global-set-key (kbd "M-g g") #'avy-goto-line)
-  (global-set-key (kbd "M-g w") #'avy-goto-word-1))
-
-(with-library desktop
-  (add-hook 'desktop-save-hook #'clean-inactive-buffers))
+(use-package desktop
+  :ensure nil
+  :hook (desktop-save . clean-inactive-buffers))
 
 ;; auto-paired quotes/parens
-(with-library elec-pair
+(use-package elec-pair
+  :ensure nil
+  :config
   (electric-pair-mode 1)
   (defun my-electric-pair-inhibit (char)
     "Improved version of `electric-pair-default-inhibit' which
@@ -132,46 +109,37 @@ won't inhibit a second open paren."
           (electric-pair-inhibit-if-helps-balance char))))
   (setq electric-pair-inhibit-predicate #'my-electric-pair-inhibit))
 
-;; For https://github.com/rafl/git-commit-mode
-(with-library git-commit
-  (setq auto-mode-alist
-        (append '(("new-commit$" . git-commit-mode)
-                  ("COMMIT_EDITMSG$" . git-commit-mode)
-                  ("NOTES_EDITMSG$" . git-commit-mode)
-                  ("MERGE_MSG$" . git-commit-mode)
-                  ("TAG_EDITMSG$" . git-commit-mode))
-                auto-mode-alist))
-  (add-hook 'git-commit-mode-hook #'turn-on-auto-fill)
-  (add-hook 'git-commit-mode-hook
-            (lambda ()
-              (setq fill-column 72))))
-
-(with-library ido
+(use-package ido
+  :ensure nil
+  :config
   (ido-mode 1)
   (ido-everywhere 1)
   (define-key ido-file-dir-completion-map (kbd "C-c f")
     (lambda ()
       (interactive)
       (ido-initiate-auto-merge (current-buffer))))
-  (with-library ido-grid-mode
-    (ido-grid-mode 1))
-  ;; keep Ido from clobbering the mini-window size settings
   (defun protect-expandable-mini-window (orig &rest args)
+    "Keep Ido from clobbering the mini-window size settings"
     (let ((max-mini-window-height max-mini-window-height)
           (resize-mini-windows resize-mini-windows))
       (apply orig args)))
   (advice-add 'ido-read-internal :around #'protect-expandable-mini-window))
 
-(with-library popper
-  (global-set-key (kbd "C-`") #'popper-toggle-latest)
-  (global-set-key (kbd "C-M-`") #'popper-cycle)
-  (popper-mode 1)
-  ;; For echo-area hints
-  (with-library popper-echo
-    (popper-echo-mode 1)))
+(use-package perl-mode
+  :ensure nil
+  :config
+  (defalias 'cperl-mode 'perl-mode)     ; fuck CPerl mode
+  (add-to-list 'auto-mode-alist '("\\.pod$" . perl-mode))
+  (add-to-list 'auto-mode-alist '("\\.perl-expr$" . perl-mode))
+  (add-to-list 'auto-mode-alist '("\\.psgi$" . perl-mode))
+  (add-to-list 'perl-font-lock-keywords-2 '("\\<\\(our\\|state\\)\\>" . font-lock-type-face) t)
+  (add-to-list 'perl-font-lock-keywords-2 '("\\<\\(given\\|when\\|default\\)\\>" . font-lock-keyword-face) t)
+  (add-to-list 'perl-font-lock-keywords-2 '("\\(\\<not\\>\\|!\\)" . font-lock-negation-char-face) t))
 
 ;; window configs
-(with-library tab-bar
+(use-package tab-bar
+  :ensure nil
+  :config
   (defun tab-bar-new-named-tab ()
     "Create a new tab with `tab-bar-new-tab' and immediately name it
 with `tab-bar-rename-tab'."
@@ -209,17 +177,73 @@ with `tab-bar-rename-tab'."
     (menu-bar-mode -1)))
 
 ;; disambiguate buffer names with <dirname>
-(with-library uniquify)
+(use-package uniquify
+  :ensure nil)
 
-;; window numbering
-(with-library window-numbering
+;;;; libraries that need to be installed
+
+(use-package ace-window
+  :bind ("M-o" . ace-window)
+  :config
+  ;; override the default `aw-window-list' to return windows in the same order
+  ;; as used by `window-numbering-mode' and `other-window'
+  (advice-add 'aw-window-list :override
+              (lambda ()
+                "Return the list of interesting windows, in the same order as returned by `window-list'."
+                (cl-remove-if
+                 (lambda (w)
+                   (let ((f (window-frame w)))
+                     (or (not (and (frame-live-p f)
+                                   (frame-visible-p f)))
+                         (string= "initial_terminal" (terminal-name f))
+                         (aw-ignored-p w))))
+                 (cl-case aw-scope
+                   (visible (cl-mapcan #'frame-window-list (visible-frame-list)))
+                   (global (cl-mapcan #'frame-window-list (frame-list)))
+                   (frame (frame-window-list))
+                   (t (error "Invalid `aw-scope': %S" aw-scope)))))))
+
+(use-package avy
+  :bind (("M-g c" . avy-goto-char-timer)
+         ("M-g e" . avy-goto-word-0)
+         ("M-g g" . avy-goto-line)
+         ("M-g w" . avy-goto-word-1)))
+
+(use-package git-commit
+  :ensure nil                     ; from https://github.com/rafl/git-commit-mode
+  :config
+  (setq auto-mode-alist
+        (append '(("new-commit$" . git-commit-mode)
+                  ("COMMIT_EDITMSG$" . git-commit-mode)
+                  ("NOTES_EDITMSG$" . git-commit-mode)
+                  ("MERGE_MSG$" . git-commit-mode)
+                  ("TAG_EDITMSG$" . git-commit-mode))
+                auto-mode-alist))
+  :hook ((git-commit-mode . turn-on-auto-fill)
+         (git-commit-mode . (lambda ()
+                              (setq fill-column 72)))))
+
+(use-package ido-grid-mode
+  :config
+  (ido-grid-mode 1))
+
+(use-package popper
+  :bind (("C-`" . popper-toggle-latest)
+         ("C-M-`" . popper-cycle))
+  :config
+  (popper-mode 1)
+  ;; For echo-area hints
+  (popper-echo-mode 1))
+
+(use-package window-numbering
+  :config
   (window-numbering-mode t))
 
-(with-library visual-fill-column
-  ;; wrap lines at fill-column in visual line mode, rather than window width
-  (add-hook 'visual-line-mode-hook
-            (lambda ()
-              (visual-fill-column-mode (if visual-line-mode 1 -1)))))
+(use-package visual-fill-column
+  :hook (visual-line-mode
+         . (lambda ()
+             "Wrap lines at fill-column in visual line mode, rather than window width"
+             (visual-fill-column-mode (if visual-line-mode 1 -1)))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -601,16 +625,6 @@ up whitespace even if `auto-cleanup-whitespace' is in effect."
   (let ((auto-cleanup-whitespace nil)
         (require-final-newline nil))
     (save-buffer arg)))
-
-;; fuck CPerl mode
-(with-library perl-mode
-  (defalias 'cperl-mode 'perl-mode)
-  (add-to-list 'auto-mode-alist '("\\.pod$" . perl-mode))
-  (add-to-list 'auto-mode-alist '("\\.perl-expr$" . perl-mode))
-  (add-to-list 'auto-mode-alist '("\\.psgi$" . perl-mode))
-  (add-to-list 'perl-font-lock-keywords-2 '("\\<\\(our\\|state\\)\\>" . font-lock-type-face) t)
-  (add-to-list 'perl-font-lock-keywords-2 '("\\<\\(given\\|when\\|default\\)\\>" . font-lock-keyword-face) t)
-  (add-to-list 'perl-font-lock-keywords-2 '("\\(\\<not\\>\\|!\\)" . font-lock-negation-char-face) t))
 
 ;; fix POD highlighting
 (setq perl-font-lock-syntactic-keywords
