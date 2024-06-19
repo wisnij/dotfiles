@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Basics
+;;; Basics
 
 ;; load time message
 (defun startup-echo-area-message ()
@@ -51,7 +51,7 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Libraries
+;;; Libraries
 
 (defun update-my-autoloads ()
   "Call `update-autoloads-from-directories' on `user-lisp-directory' to write
@@ -247,7 +247,7 @@ with `tab-bar-rename-tab'."
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Miscellaneous functions
+;;; Miscellaneous functions
 
 (defun chr (num-or-str &optional base)
   "Return a string containing the character represented by NUM-OR-STR.
@@ -350,7 +350,7 @@ current frame if null."
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Commands
+;;; Commands
 
 (defun clean-inactive-buffers ()
   "Kill old inactive buffers that have not been displayed recently.
@@ -574,7 +574,7 @@ Arguments SIZE and SIDE are interpreted as for `split-window'."
   (split-root-window size 'right))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Passive settings
+;;; Passive settings
 
 (defmacro call-if-bound (symbol &rest args)
   "If `SYMBOL' is the name of a bound function, call it with the given `ARGS'."
@@ -754,7 +754,7 @@ mark it as unmodified."
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Keybindings
+;;; Keybindings
 
 ;; C-arrow
 (define-key function-key-map "\eOa" [C-up])
@@ -815,7 +815,7 @@ mark it as unmodified."
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Finish up
+;;; Finish up
 
 ;; per-site settings
 (defvar user-local-init-file
