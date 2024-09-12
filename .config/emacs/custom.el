@@ -51,6 +51,7 @@
  '(popper-reference-buffers
    '(help-mode compilation-mode "\\*Messages\\*" "Output\\*$" "\\*Async Shell Command\\*"))
  '(python-fill-docstring-style 'pep-257-nn)
+ '(python-indent-def-block-scale 1)
  '(read-quoted-char-radix 16)
  '(save-abbrevs 'silently)
  '(scroll-bar-mode 'right)
