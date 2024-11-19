@@ -18,5 +18,5 @@ set -x
 git checkout $master
 git pull --rebase
 git checkout $branch
-git rebase "$@" $master
+git rebase --verbose "$@" $master
 git submodule update
