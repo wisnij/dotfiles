@@ -30,6 +30,7 @@
 	st = status --short --branch
 	stashed = !git stash list --patch --color | diff-highlight | less-find-pattern "^stash@.*"
 	update = add --update --verbose
+	who = shortlog --numbered --summary
 [blame]
 	coloring = repeatedLines
 [branch]
