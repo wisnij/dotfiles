@@ -68,6 +68,7 @@
  '(tab-bar-new-tab-to 'rightmost)
  '(tab-bar-tab-hints t)
  '(tool-bar-mode nil nil (tool-bar))
+ '(tramp-default-method "ssh")
  '(transient-mark-mode t)
  '(truncate-partial-width-windows nil)
  '(uniquify-buffer-name-style 'post-forward-angle-brackets nil (uniquify))
