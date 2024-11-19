@@ -41,7 +41,9 @@ show_context () {
 old_upstream_ref=$(git rev-parse --verify --quiet --symbolic-full-name "${branch}@{upstream}" || true)
 
 git checkout $master
-git pull --prune
+if [[ -n $old_upstream_ref ]]; then
+    git pull --prune
+fi
 show_context
 
 # look for remote branch now, as upstream tracking info will be lost when we delete the local branch
