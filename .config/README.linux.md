@@ -2,8 +2,6 @@
 
 ## TODO
 
-- screen stays blank after auto-off
-  - current workaround: switch to virtual terminal and back with Ctrl-Alt-F1/F7
 - no HD Amazon Prime video
   - tried <https://github.com/nxjosephofficial/primevideo-linux> initially, but
     Chrome 104 doesn't work anymore
@@ -22,19 +20,10 @@
   - need to run `systemctl --user restart pipewire` at session start
   - local sound themes in `~/.local/share/sounds` don't seem to work, updated
     `/usr/share/sounds/freedesktop/stereo/bell.oga` with my preferred sound
-- can't sleep/suspend
-  - "suspend" still responds to keyboard/mouse input
-  - "hibernate"/"hybrid sleep" end immediately, and mouse doesn't work afterwards
-  - [2024-01-18] hibernate appears to be working after increasing swap partition
-    to size of physical memory
-    - however still wakes upon keyboard input
-      - fixed(?): add this to `/etc/tmpfiles.d/disable-usb-wake.conf` (see <https://unix.stackexchange.com/a/662778>)
-
-            #Type  Path               Mode  UID  GID  Age  Argument
-            w      /proc/acpi/wakeup  -     -    -    -    XHC
-
-    - suspend/hybrid sleep still don't work at all - afterwards screen remains
-      blank, no response to keyboard input
+- screen stays blank after auto-off
+  - current workaround: switch to virtual terminal and back with Ctrl-Alt-F1/F7
+  - [2024-12-18] fixed? this hasn't recurred in a while, but not sure if it was
+    due to any specific change
 
 ## Fixed issues
 
@@ -64,3 +53,17 @@
 
         > ~/.local/share/recently-used.xbel
         sudo chattr +i ~/.local/share/recently-used.xbel
+- can't sleep/suspend
+  - "suspend" still responds to keyboard/mouse input
+  - "hibernate"/"hybrid sleep" end immediately, and mouse doesn't work afterwards
+  - [2024-01-18] hibernate appears to be working after increasing swap partition
+    to size of physical memory
+    - however still wakes upon keyboard input
+      - fixed(?): add this to `/etc/tmpfiles.d/disable-usb-wake.conf` (see <https://unix.stackexchange.com/a/662778>)
+
+            #Type  Path               Mode  UID  GID  Age  Argument
+            w      /proc/acpi/wakeup  -     -    -    -    XHC
+
+    - suspend/hybrid sleep still don't work at all - afterwards screen remains
+      blank, no response to keyboard input
+  - [2024-12-18] this works fine now but I forgot to record how I got it working :(
