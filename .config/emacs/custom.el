@@ -14,6 +14,7 @@
  '(backup-by-copying t)
  '(backward-delete-char-untabify-method nil)
  '(c-default-style "wisnij")
+ '(calc-ensure-consistent-units t)
  '(case-fold-search t)
  '(clean-buffer-list-delay-general 7)
  '(column-number-mode t)
