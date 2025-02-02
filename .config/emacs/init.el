@@ -776,6 +776,7 @@ mark it as unmodified."
 (define-key key-translation-map [C-s-268632077] (kbd "C-s-m"))
 
 (global-set-key (kbd "<delete>") #'delete-char)
+(global-set-key (kbd "<Multi_key>") #'activate-transient-input-method)
 (global-set-key (kbd "C-<backspace>") #'backward-delete-word)
 (global-set-key (kbd "C-<delete>") #'delete-word)
 (global-set-key (kbd "C-<next>") #'next-user-buffer)
