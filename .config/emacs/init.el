@@ -781,6 +781,7 @@ mark it as unmodified."
 (global-set-key (kbd "C-<delete>") #'delete-word)
 (global-set-key (kbd "C-<next>") #'next-user-buffer)
 (global-set-key (kbd "C-<prior>") #'previous-user-buffer)
+(global-set-key (kbd "C-c c") #'activate-transient-input-method)
 (global-set-key (kbd "C-M-%") #'query-replace-regexp*)
 (global-set-key (kbd "C-M-<tab>") #'indent-relative)
 (global-set-key (kbd "C-s-m") #'toggle-frame-maximized)
