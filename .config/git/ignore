@@ -1,5 +1,8 @@
 # -*- gitignore -*-
 
+# git dirs (git itself already skips these, but other tools like ripgrep use this file)
+.git/
+
 # Emacs backup/temp files
 **/#*
 **/*~
@@ -10,7 +13,11 @@
 .DS_Store
 desktop.ini
 
-# ignore anything ending with .gitignore, except `.gitignore` exactly
+# ignore anything containing .gitignore, except `.gitignore` exactly
 *.gitignore
 *.gitignore.*
 !.gitignore
+
+# Jupyter notebooks
+.ipynb_checkpoints/
+.jupyter/
