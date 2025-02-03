@@ -781,6 +781,7 @@ mark it as unmodified."
 (global-set-key (kbd "C-<delete>") #'delete-word)
 (global-set-key (kbd "C-<next>") #'next-user-buffer)
 (global-set-key (kbd "C-<prior>") #'previous-user-buffer)
+(global-set-key (kbd "C-b") (if (fboundp 'ido-switch-buffer) #'ido-switch-buffer #'buffer-menu))
 (global-set-key (kbd "C-c c") #'activate-transient-input-method)
 (global-set-key (kbd "C-M-%") #'query-replace-regexp*)
 (global-set-key (kbd "C-M-<tab>") #'indent-relative)
@@ -789,6 +790,7 @@ mark it as unmodified."
 (global-set-key (kbd "C-S-y") #'yank-rectangle)
 (global-set-key (kbd "C-w") #'kill-region-if-active)
 (global-set-key (kbd "C-x <backspace>") #'delete-region)
+(global-set-key (kbd "C-x C-b") #'buffer-menu)
 (global-set-key (kbd "C-x C-l") #'downcase-dwim)
 (global-set-key (kbd "C-x C-u") #'upcase-dwim)
 (global-set-key (kbd "C-x M-2") #'split-root-window-below)
@@ -808,12 +810,6 @@ mark it as unmodified."
 (global-set-key (kbd "s-<left>") (lambda () (interactive) (other-frame -1)))
 (global-set-key (kbd "s-<right>") #'other-frame)
 (global-set-key (kbd "s-<up>") #'previous-frame-window)
-
-(global-set-key (kbd "C-x C-b") #'buffer-menu)
-(global-set-key (kbd "C-b")
-                (if (fboundp 'ido-switch-buffer)
-                    #'ido-switch-buffer
-                    #'buffer-menu))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
