@@ -341,7 +341,7 @@ of the form HH:MM:SS,mmm.  For example:
          (ms (* 1000 (- float-seconds s))))
     (concat (format-seconds "%.2h:%.2m:%.2s" s)
             ","
-            (number-to-string (round ms)))))
+            (format "%03d" (round ms)))))
 
 (defun frame-window-list (&optional frame)
   "Return a list of non-minibuffer windows in FRAME, or of the
