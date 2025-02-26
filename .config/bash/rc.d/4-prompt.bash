@@ -46,8 +46,15 @@ _bash_prompt () {
         prompt_color=$green
     fi
 
+    # abbreviate dir names if we're short on width
+    if [[ $COLUMNS -lt 160 ]]; then
+        curdir=$(sed -E -e 's:([^/.])[^/]*/:\1/:g' <<< ${PWD/#$HOME/\~})
+    else
+        curdir='\w'
+    fi
+
     # basics: [time] user@host pwd
-    PS1="${prompt_color}[\t] \u${normal}@${host_color}$hostname${normal} ${blue}\w${normal}"
+    PS1="${prompt_color}[\t] \u${normal}@${host_color}$hostname${normal} ${blue}${curdir}${normal}"
 
     # are we in a Python venv?
     if [[ -n $VIRTUAL_ENV ]]; then
@@ -87,7 +94,7 @@ _bash_prompt () {
 
     # final prompt char
     local sep
-    if [[ $COLUMNS -lt 120 ]]; then
+    if [[ $COLUMNS -lt 80 ]]; then
         sep="\n"
     else
         sep=" "
