@@ -4,7 +4,7 @@
 	changes = log --pretty=oneline-date --date=iso-local
 	cb = cleanup-branches
 	co = checkout
-	cof = !git for-each-ref --format='%(refname:short)' refs/heads | fzf --tac --preview 'git d --color=always -R {}' | xargs git checkout
+	cof = !git for-each-ref --format='%(refname:short)' --sort=-committerdate refs/heads | fzf --no-sort --preview 'git d --color=always -R {}' | xargs git checkout
 	configs = config --list --show-origin --show-scope
 	difflast = diff HEAD~1 HEAD
 	diffs = diff --staged
@@ -35,6 +35,7 @@
 	coloring = repeatedLines
 [branch]
 	autoSetupRebase = always
+	sort = -committerdate
 [color "diff"]
 	commit = bold yellow
 	frag = yellow
@@ -50,22 +51,35 @@
 	ui = auto
 [color.grep]
 	filename = magenta
+[column]
+	ui = auto
 [commit]
 	cleanup = scissors
 	gpgSign = true
 	verbose = true
 [core]
 	pager = cat
+[diff]
+	algorithm = histogram
+	colorMoved = plain
+	mnemonicPrefix = true
+[fetch]
+	all = true
+	prune = true
+	pruneTags = true
 [format]
 	pretty = fuller-compact
 [grep]
 	lineNumber = true
 	patternType = perl
+[help]
+	autoCorrect = prompt
 [init]
 	defaultBranch = master
 [log]
 	date = format-local:%a %b %e %Y %T %z
 [merge]
+	conflictStyle = zdiff3
 	ff = false
 [pager]
 	blame = less
@@ -87,17 +101,21 @@
 	ff = only
 	rebase = true
 [push]
+	autoSetupRemote = true
+	default = simple
 	gpgSign = if-asked
-	default = current
 [rebase]
 	autoSquash = true
+	autoStash = true
 	stat = true
 [rerere]
+	autoUpdate = true
 	enabled = true
 [status]
 	showUntrackedFiles = all
 [tag]
 	gpgSign = true
+	sort = version:refname
 [user]
 	email = wisnij@gmail.com
 	name = Jim Wisniewski
