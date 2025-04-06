@@ -42,3 +42,5 @@ if type -t lesspipe >/dev/null; then
 elif [[ -x /usr/bin/lesspipe.sh ]]; then
     export LESSOPEN="|-/usr/bin/lesspipe.sh %s"
 fi
+
+shopt -s globstar
