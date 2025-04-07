@@ -2,7 +2,7 @@ _titlebar_prompt () {
     # set the window titlebar if we're in a term which can do that
     case $TERM in
         alacritty*|screen*|rxvt*|xterm*)
-            printf '\033]2;%s\007' "$(dir-title -s "$PWD")"
+            printf '\033]0;%s\007' "$(dir-title -s "$PWD")"
             ;;
     esac
 }
