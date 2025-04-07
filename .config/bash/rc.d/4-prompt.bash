@@ -1,11 +1,8 @@
 _titlebar_prompt () {
     # set the window titlebar if we're in a term which can do that
     case $TERM in
-        xterm*|rxvt*|alacritty*)
-            echo -ne "\033]2;${USER}@${HOSTNAME}: ${PWD/$HOME/\~}\007"
-            ;;
-        screen*) # probably actually tmux
-            echo -ne "\033]2;$PWD\007"
+        alacritty*|screen*|rxvt*|xterm*)
+            printf '\033]2;%s\007' "$(dir-title -s "$PWD")"
             ;;
     esac
 }
