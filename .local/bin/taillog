@@ -4,20 +4,23 @@
 gray='\033[38;5;8m'
 normal='\033[0m'
 
-if type -p gtail >/dev/null; then
-    tail=gtail
-else
-    tail=tail
-fi
+timestamp_lines () {
+    local line
+    while IFS= read -r line; do
+        printf "$gray[%s]$normal %s\n" "$(date +'%F %T %Z')" "$line"
+    done
+}
 
 if [[ $# -gt 0 ]]; then
-    # Follow provided file(s) by name
-    args=(-F "$@")
-else
-    # No args, so read from stdin
-    args=(-)
-fi
+    if type -p gtail >/dev/null; then
+        tail=gtail
+    else
+        tail=tail
+    fi
 
-$tail "${args[@]}" | while IFS= read -r line; do
-    printf "$gray[%s]$normal %s\n" "$(date +'%F %T %Z')" "$line"
-done
+    # Follow provided file(s) by name
+    $tail -F "$@" | timestamp_lines
+else
+    # No args, so just read from stdin
+    timestamp_lines
+fi
