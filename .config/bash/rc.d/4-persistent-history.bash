@@ -2,10 +2,15 @@
 
 HISTTIMEFORMAT='[%Y-%m-%d %H:%M:%S] '
 PERSISTENT_HISTORY_DIR=~/.local/share/bash
+PERSISTENT_HISTORY_ENABLED=true
 PERSISTENT_HISTORY_FILE=$PERSISTENT_HISTORY_DIR/persistent_history
 PERSISTENT_HISTORY_LOCK=${PERSISTENT_HISTORY_FILE}.flock
 
 persistent_history_append_log () {
+    if ! $PERSISTENT_HISTORY_ENABLED; then
+        return
+    fi
+
     [[ $(history 1) =~ ^\ *[0-9]+\ +\[([^\]]+)\]\ +(.*)$ ]]
     local date="${BASH_REMATCH[1]}"
     local command="${BASH_REMATCH[2]//$'\n'/ }"
@@ -38,15 +43,22 @@ persistent_history_append_log () {
 PROMPT_COMMAND="persistent_history_append_log;$PROMPT_COMMAND"
 
 phistory () {
-    local OPTION OPTARG OPTIND fuzzy search recall
-    while getopts 'fg:r:' OPTION; do
+    local OPTION OPTARG OPTIND enable fuzzy search recall
+    while getopts 'defg:r:' OPTION; do
         case $OPTION in
+            d) enable=false ;;
+            e) enable=true ;;
             f) fuzzy=1 ;;
             g) search=$OPTARG ;;
             r) recall=$OPTARG ;;
         esac
     done
     shift $(($OPTIND - 1))
+
+    if [[ -n $enable ]]; then
+        PERSISTENT_HISTORY_ENABLED=$enable
+        return
+    fi
 
     local entry
     if [[ -n $fuzzy ]]; then
