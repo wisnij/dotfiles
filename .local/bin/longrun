@@ -20,8 +20,8 @@ if [[ $# -eq 0 ]]; then
     success=true
 
     # try to detect when we started running this command
-    if [[ -e $PS0_TIMESTAMP_FILE ]]; then
-        start_timestamp=$(cat "$PS0_TIMESTAMP_FILE")
+    if [[ -e $PS0_STATE_FILE ]]; then
+        start_timestamp=$(grep '^timestamp ' "$PS0_STATE_FILE" | awk '{print $2}')
         start_date=$(date "$date_format" --date="@$start_timestamp")
 
         end_timestamp=$(date +%s)

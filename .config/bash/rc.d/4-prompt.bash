@@ -9,7 +9,7 @@ _titlebar_prompt () {
 
 _str_color () {
     local str=$1
-    local n=$(echo $str | cksum | cut -d' ' -f1)
+    local n=$(cksum <<< "$str" | cut -d' ' -f1)
 
     # fold into the 256color range 22-231
     local c=$((22 + 10#$n % 210))
@@ -115,5 +115,10 @@ GIT_PS1_STATESEPARATOR=""
 
 PROMPT_COMMAND="_prompt;$PROMPT_COMMAND"
 
-export PS0_TIMESTAMP_FILE="/tmp/bash.$$.last_cmd_start"
-PS0='$(date +%s > "$PS0_TIMESTAMP_FILE")'
+_ps0_state_command () {
+    printf 'pwd %s\n' "$PWD"
+    printf 'timestamp %d\n' $(date +%s)
+}
+
+export PS0_STATE_FILE="/tmp/bash.$$.last_cmd_state"
+PS0='$(_ps0_state_command > "$PS0_STATE_FILE")'

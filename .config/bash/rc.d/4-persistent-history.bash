@@ -1,4 +1,5 @@
 # based on http://eli.thegreenplace.net/2013/06/11/keeping-persistent-history-in-bash
+# and https://www.jefftk.com/p/you-should-be-logging-shell-history
 
 HISTTIMEFORMAT='[%Y-%m-%d %H:%M:%S] '
 PERSISTENT_HISTORY_DIR=~/.local/share/bash
@@ -15,6 +16,15 @@ persistent_history_append_log () {
     local date="${BASH_REMATCH[1]}"
     local command="${BASH_REMATCH[2]//$'\n'/ }"
 
+    local dir
+    if [[ -e $PS0_STATE_FILE ]]; then
+        dir=$(grep '^pwd ' "$PS0_STATE_FILE" | sed -e 's/^pwd //')
+    else
+        dir=$PWD
+    fi
+    dir=$(printf '%q' "$dir")
+    dir=${dir/#$HOME/\~}
+
     mkdir -p $PERSISTENT_HISTORY_DIR
 
     (
@@ -22,11 +32,13 @@ persistent_history_append_log () {
             flock -x -w 60 200
         fi
 
-        local last_num=0 last_command
+        local last_command
         if [[ -e $PERSISTENT_HISTORY_FILE ]]; then
-            if [[ $(tail -n1 $PERSISTENT_HISTORY_FILE) =~ ^\ *([0-9]+)\ +\[[^\]]+\]\ +(.*)$ ]]; then
-                last_num="${BASH_REMATCH[1]}"
-                last_command="${BASH_REMATCH[2]}"
+            local last_line=$(tail -n1 $PERSISTENT_HISTORY_FILE)
+            if [[ $last_line =~ ^\[[^\]]+\]\ +.*\ +\$\ +.*$ ]]; then
+                last_command=${last_line#* \$ }
+            elif [[ $last_line =~ ^\ *[0-9]+\ +\[[^\]]+\]\ +(.*)$ ]]; then
+                last_command=${BASH_REMATCH[1]}
             fi
         fi
 
@@ -35,7 +47,7 @@ persistent_history_append_log () {
                 (umask g=,o=; touch $PERSISTENT_HISTORY_FILE)
             fi
 
-            printf '%6d [%s] %s\n' $((last_num + 1)) "$date" "$command" >> $PERSISTENT_HISTORY_FILE
+            printf '[%s] %s $ %s\n' "$date" "$dir" "$command" >> $PERSISTENT_HISTORY_FILE
         fi
     ) 200>$PERSISTENT_HISTORY_LOCK
 }
@@ -43,14 +55,13 @@ persistent_history_append_log () {
 PROMPT_COMMAND="persistent_history_append_log;$PROMPT_COMMAND"
 
 phistory () {
-    local OPTION OPTARG OPTIND enable fuzzy search recall
+    local OPTION OPTARG OPTIND enable fuzzy search
     while getopts 'defg:r:' OPTION; do
         case $OPTION in
             d) enable=false ;;
             e) enable=true ;;
             f) fuzzy=1 ;;
             g) search=$OPTARG ;;
-            r) recall=$OPTARG ;;
         esac
     done
     shift $(($OPTIND - 1))
@@ -65,12 +76,6 @@ phistory () {
         if entry=$(fzf --tac --no-sort "$@" <$PERSISTENT_HISTORY_FILE); then :; else
             return $?
         fi
-    elif [[ -n $recall ]]; then
-        if entry=$(grep "^ *$recall " $PERSISTENT_HISTORY_FILE); then :; else
-            local status=$?
-            echo "history entry $recall not found" >&2
-            return $status
-        fi
     elif [[ -n $search ]]; then
         grep "$search" "$@" $PERSISTENT_HISTORY_FILE
         return $?
@@ -81,8 +86,14 @@ phistory () {
     fi
 
     if [[ -n $entry ]]; then
-        if [[ $entry =~ ^\ *[0-9]+\ +\[[^\]]+\]\ +(.*)$ ]]; then
-            local command="${BASH_REMATCH[1]}"
+        local command
+        if [[ $entry =~ ^\[[^\]]+\]\ +.*?\ +\$\ +.*$ ]]; then
+            command=${entry#* \$ }
+        elif [[ $entry =~ ^\ *[0-9]+\ +\[[^\]]+\]\ +(.*)$ ]]; then
+            command=${BASH_REMATCH[1]}
+        fi
+
+        if [[ -n $command ]]; then
             echo "recalling command: $command"
             history -s "$command"
         else
