@@ -87,7 +87,7 @@ phistory () {
 
     if [[ -n $entry ]]; then
         local command
-        if [[ $entry =~ ^\[[^\]]+\]\ +.*?\ +\$\ +.*$ ]]; then
+        if [[ $entry =~ ^\[[^\]]+\]\ +.*\ +\$\ +.*$ ]]; then
             command=${entry#* \$ }
         elif [[ $entry =~ ^\ *[0-9]+\ +\[[^\]]+\]\ +(.*)$ ]]; then
             command=${BASH_REMATCH[1]}
