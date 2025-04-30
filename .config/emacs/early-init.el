@@ -22,9 +22,19 @@
 ;; the file, but during startup, it won’t need any of them.
 (defvar file-name-handler-alist/orig file-name-handler-alist)
 (setq file-name-handler-alist nil)
+
+;; Raise garbage collection threshold during initial startup
+(defvar gc-cons-threshold/orig gc-cons-threshold)
+(defvar gc-cons-percentage/orig gc-cons-percentage)
+(setq gc-cons-threshold most-positive-fixnum
+      gc-cons-percentage 0.6)
+
+;; Restore any temporarily-set variables to their original values
 (add-hook 'emacs-startup-hook
           (lambda ()
-            (setq file-name-handler-alist file-name-handler-alist/orig)))
+            (setq gc-cons-threshold gc-cons-threshold/orig
+                  gc-cons-percentage gc-cons-percentage/orig
+                  file-name-handler-alist file-name-handler-alist/orig)))
 
 ;; Only load packages when requested later by use-package
 (setq package-enable-at-startup nil)
