@@ -42,6 +42,7 @@
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(initial-scratch-message nil)
+ '(isearch-lazy-count t)
  '(iswitchb-buffer-ignore '("^ " "^\\*"))
  '(kill-read-only-ok t)
  '(kill-whole-line t)
