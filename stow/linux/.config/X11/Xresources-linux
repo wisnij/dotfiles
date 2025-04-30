@@ -1,0 +1,10 @@
+! 4k monitor scaling
+Xft.dpi: 192
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! (U)Rxvt
+
+Rxvt.scrollColor:	#030
+Rxvt.shading:		75
+Rxvt.transparent:	true

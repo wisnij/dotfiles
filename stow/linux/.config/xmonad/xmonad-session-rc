@@ -1,0 +1,17 @@
+#!/bin/bash
+
+export PATH="$HOME/bin:$PATH"
+
+xkbhome=$HOME/.config/xkb
+if [[ -r $xkbhome/keymap.xkb ]]; then
+    # FIXME: this is stupid
+    (sleep 1; xkbcomp -I$xkbhome $xkbhome/keymap.xkb $DISPLAY) &
+fi
+
+if type -t xscreensaver >/dev/null; then
+    xscreensaver &
+fi
+
+if type -t unclutter >/dev/null; then
+    unclutter &
+fi

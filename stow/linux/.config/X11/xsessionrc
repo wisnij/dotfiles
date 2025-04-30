@@ -1,0 +1,27 @@
+#!/bin/sh
+
+export PATH="$HOME/bin:$HOME/usr/bin:$HOME/.local/bin:$PATH"
+
+# Adjust GTK/QT app scaling with custom DPI setting = 192 in xfce settings
+# May also want to set xft-dpi=192 in lightdm greeter
+export GDK_DPI_SCALE=0.5
+export GDK_SCALE=2
+
+# likewise for QT
+export QT_AUTO_SCREEN_SCALE_FACTOR=1
+export QT_ENABLE_HIGHDPI_SCALING=1
+
+xkbhome=$HOME/.config/xkb
+if [ -r $xkbhome/keymap.xkb ]; then
+    # if using ibus, may need to set "Use system keyboard layout" to have this
+    # take effect properly
+    xkbcomp -I$xkbhome $xkbhome/keymap.xkb $DISPLAY
+fi
+
+# Restart pipewire to play X11 bell properly
+if systemctl --user is-enabled pipewire >/dev/null; then
+    systemctl --user restart pipewire
+fi
+
+# Restart IBus after login to fix menu position
+(sleep 1; ibus restart) &

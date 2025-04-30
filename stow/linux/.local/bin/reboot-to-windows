@@ -1,0 +1,14 @@
+#!/bin/bash
+set -eu -o pipefail
+
+sudo -v
+for n in `seq 5`; do
+    ((r = 6 - $n))
+    echo -ne "\rRebooting in $r..."
+    sleep 1
+done
+echo
+
+set -x
+sudo grub-reboot 2
+sudo systemctl reboot
