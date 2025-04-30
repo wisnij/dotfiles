@@ -1,0 +1,5 @@
+#!/bin/bash
+
+for file in "$@"; do
+    nice ionice -c3 md5sum -b "$file" | tee --append .checksums.md5
+done

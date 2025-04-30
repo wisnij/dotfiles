@@ -1,0 +1,78 @@
+#!/bin/bash
+# git finalize: pull master and remove a local branch after the remote branch is merged
+
+set -eu -o pipefail
+
+confirm () {
+    local prompt=$1
+    local answer
+    read -p "$prompt [y/N] " answer
+    if [[ -n $answer && ${answer:0:1} == "y" ]]; then
+        return 0
+    fi
+
+    return 1
+}
+
+BRIGHT=$'\e[1m'
+RED=$'\e[31m'
+NORMAL=$'\e[0m'
+
+master='master'
+if git show-ref --verify --quiet refs/heads/main; then
+    master='main'
+fi
+
+branch=$(git branch --show-current)
+if [[ $branch == $master ]]; then
+    echo "Already on '$master'" >&2
+    exit 1
+fi
+
+show_context () {
+    echo
+    git g --color=always | \
+        awk 'BEGIN {FS="\n"} {print NR, $1}' | \
+        grep -C10 -E "(^1 )|$branch" | \
+        sed -re 's/^[0-9]+ //'
+    echo
+}
+
+get_upstream () {
+    git rev-parse --verify --quiet --symbolic-full-name "${branch}@{upstream}" 2>/dev/null || true
+}
+
+old_upstream_ref=$(get_upstream)
+
+git checkout $master
+if [[ -n $old_upstream_ref ]]; then
+    git pull --prune
+fi
+show_context
+
+# look for remote branch now, as upstream tracking info will be lost when we delete the local branch
+upstream_ref=$(get_upstream)
+
+if [[ -n $old_upstream_ref && -z $upstream_ref ]]; then
+    echo "Remote branch ${BRIGHT}${RED}${old_upstream_ref#refs/remotes/}${NORMAL} has been deleted"
+    echo
+fi
+
+if ! confirm "Remove ${BRIGHT}${branch}${NORMAL}?"; then
+    git checkout "$branch"
+    exit 1
+fi
+
+git branch --delete --force --verbose "$branch"
+
+# check for lingering remote branch
+if [[ -n $upstream_ref ]]; then
+    upstream_branch=${upstream_ref#refs/remotes/}
+    echo
+    if confirm "Remove upstream ${BRIGHT}${upstream_branch}${NORMAL}?"; then
+        remote=${upstream_branch%%/*}
+        git push "$remote" --delete --verbose "$branch"
+    fi
+fi
+
+show_context

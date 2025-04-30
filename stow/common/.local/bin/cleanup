@@ -1,0 +1,284 @@
+#!/usr/bin/perl
+# cleanup -- remove files which fit a given pattern
+#
+# Copyright (C) 2007 Jim Wisniewski (wisnij@gmail.com).
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+# details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program.  If not, see <http://www.gnu.org/licenses/>.
+
+use strict;
+use warnings;
+
+use File::Basename;
+use File::Spec::Functions ':ALL';
+use Getopt::Long qw/:config gnu_getopt/;
+
+
+###########################  Function declarations  ############################
+
+sub cleanup( @ );
+sub cleanup_rec( $$ );
+sub process( $ );
+sub isdir( $ );
+
+
+##############################  Global constants  ##############################
+
+my $PN = basename $0;
+my $USAGE = "Usage: $PN [OPTION]... [PATH]...\n";
+my @DEFAULT = ([1, '(~|#|\.(aux|toc))$']);
+
+my $HELPMSG = $USAGE . <<'ENDHELP;';
+Removes all files from the PATHs (the current directory by default) which match
+a certain regular expression.
+
+  -d, --display           display the matching rules being used and exit
+  -e, --exclude=PATTERN   do not remove files whose path matches PATTERN
+  -i, --include=PATTERN   remove files whose path matches PATTERN
+  -L, --dereference       always follow symbolic links
+  -m, --mindepth=N        do not remove files less than N levels deep
+  -M, --maxdepth=N        limit recursion depth to N levels
+  -R, --recursive         clean up all subdirectories recursively
+  -t, --test              print results, but do not actually remove files
+  -v, --verbose           explain what is being done
+      --help              display this help and exit
+      --helplong          display manual page and exit
+
+Report bugs to <wisnij@gmail.com>.
+ENDHELP;
+
+
+##############################  Process options  ###############################
+
+my @rules;
+my ($display, $dereference, $recursive, $test);
+my $mindepth = 0;
+my $maxdepth = 1;
+my $verbose = 0;
+
+GetOptions
+    'd|display'     => \$display,
+    'e|exclude=s'   => sub { push @rules, [ 0, $_[1] ] },
+    'i|include=s'   => sub { push @rules, [ 1, $_[1] ] },
+    'L|dereference' => \$dereference,
+    'm|mindepth=i'  => \$mindepth,
+    'M|maxdepth=i'  => \$maxdepth,
+    'R|recursive'   => sub { $maxdepth = -1 },
+    't|test'        => \$test,
+    'v|verbose+'    => \$verbose,
+
+    'help'     => sub { print $HELPMSG; exit },
+    'helplong' => sub { exec 'perldoc', $0
+                            or die "$PN: couldn't exec perldoc: $!\n" }
+or die $USAGE . "Try `$PN --help' for more information.\n";
+
+push @rules, @DEFAULT;
+
+
+################################  Main program  ################################
+
+if( $display )
+{
+    printf "%s  << %s >>\n", $_->[0] ? 'INCLUDE' : 'EXCLUDE', $_->[1] for @rules;
+}
+else
+{
+    $_->[1] = qr/$_->[1]/ for @rules;
+    $mindepth = 0 if $mindepth < 0;
+
+    push @ARGV, '.' unless @ARGV;
+    cleanup @ARGV;
+}
+
+exit;
+
+
+############################  Function definitions  ############################
+
+# Wrapper for the recursive cleanup function.
+sub cleanup( @ )
+{
+    foreach my $path ( @_ )
+    {
+        warn( "$PN: $path: $!\n" ), next unless -e $path;
+        cleanup_rec canonpath( $path ), 0;
+    }
+}
+
+
+# Traverse the directory tree recursively looking for files.
+sub cleanup_rec( $$ )
+{
+    my ($path, $curdepth) = @_;
+
+    if( isdir $path )
+    {
+        return unless $maxdepth < 0 or $maxdepth > $curdepth;
+        print "--- $path\n" if $verbose;
+
+        opendir my $dir, $path  or warn( "$PN: $path: $!\n" ), return;
+        my @entries = grep { $_ ne '.' and $_ ne '..' } readdir $dir;
+        closedir $dir;
+
+        my ($vol, $dirs, $file) = splitpath $path;
+        my $newdirs = catdir( splitdir( $dirs ), $file );
+        cleanup_rec catpath( $vol, $newdirs, $_ ), $curdepth + 1 for @entries;
+    }
+    else
+    {
+        process $path unless $curdepth < $mindepth;
+    }
+}
+
+
+# Test the filename against the regexps, unlink it if there's a positive match.
+sub process( $ )
+{
+    my $file = shift;
+
+    RULE: for my $pair ( @rules )
+    {
+        my ($include, $pattern) = @$pair;
+        next RULE unless $file =~ $pattern;
+
+        if( $include )
+        {
+            print "<<< $file\n";
+            unlink $file or warn "$PN: cannot remove `$file': $!\n"
+                unless $test;
+        }
+        else
+        {
+            print "!!! $file\n" if $verbose;
+        }
+
+        return;
+    }
+
+    print "--- $file\n" if $verbose > 1;
+}
+
+
+# Determine whether the file should be treated like a directory.  Symbolic links
+# are only followed if the dereference option was set.
+sub isdir( $ )
+{
+    my $file = shift;
+    return (-d $file and ($dereference or not -l $file));
+}
+
+
+__END__
+
+###############################  Documentation  ################################
+
+=head1 NAME
+
+cleanup - remove files which fit a given pattern
+
+=head1 SYNOPSIS
+
+B<cleanup> [I<OPTION>]... [I<PATH>]...
+
+=head1 DESCRIPTION
+
+Search in the I<PATH>s (the current directory by default) for files which match
+a given regular expression, and remove them.  This expression is designed to
+match Emacs backup and autosave files, partially downloaded files, and the
+various temp files created by processing with (La)TeX.
+
+=head1 OPTIONS
+
+=over 7
+
+=item B<-d>, B<--display>
+
+Print the matching rules in effect and exit successfully.  The output will be
+lines of the form "S<<< I<TYPE>  << I<PATTERN> >> >>>", where I<TYPE> is one of
+B<INCLUDE> or B<EXCLUDE>.
+
+=item B<-e> I<PATTERN>, B<--exclude>=I<PATTERN>
+
+Add the Perl regular expression I<PATTERN> to the list of patterns which, if
+matched, will cause files to be excluded from removal.
+
+=item B<-i> I<PATTERN>, B<--include>=I<PATTERN>
+
+Add the Perl regular expression I<PATTERN> to the list of patterns which, if
+matched, will cause files to be flagged for removal.
+
+Both inclusion and exclusion patterns may be specified; they will take effect in
+the order they are presented in the list of program arguments.
+
+=item B<-L>, B<--dereference>
+
+Dereference symbolic links.
+
+=item B<-m> I<N>, B<--mindepth>=I<N>
+
+Require files to be more than I<N> levels deep before being processed.  A value
+of 1 causes only the command-line options to be skipped.  A negative value is
+the same as 0.
+
+=item B<-M> I<N>, B<--maxdepth>=I<N>
+
+Set maximum subdirectory recursion depth to I<N>.  A value of 0 causes only the
+command-line options to be tested.  A negative value allows unlimited recursion.
+
+=item B<-R>, B<--recursive>
+
+Search in all subdirectories recursively; equivalent to B<-M -1>.  Note: if used
+together with B<-L>, circular links can cause the program to loop until killed
+manually.
+
+=item B<-t>, B<--test>
+
+List the files found which match the pattern, but do not unlink them.
+
+=item B<-v>, B<--verbose>
+
+Print file and directory information as the directory tree is traversed.  Files
+so printed are prefixed with one of the following codes:
+
+    ---  a directory or a file not matching any rule
+    <<<  a file matching an include rule
+    !!!  a file matching an exclude rule
+
+The B<--verbose> option is cumulative; multiple invocations will increase the
+amount of information printed.
+
+=item B<--help>
+
+Print a usage message listing all available options and exit successfully.
+
+=item B<--helplong>
+
+Display this manual page and exit successfully.
+
+=back
+
+=head1 AUTHOR
+
+Written by Jim Wisniewski.
+
+=head1 REPORTING BUGS
+
+Report bugs to <wisnij@gmail.com>.
+
+=head1 COPYRIGHT
+
+Copyright (C) 2007 Jim Wisniewski.
+
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+=cut

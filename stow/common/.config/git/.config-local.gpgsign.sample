@@ -1,0 +1,10 @@
+# -*- gitconfig -*-
+# see e.g. https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work
+[commit]
+	gpgSign = true
+[push]
+	gpgSign = if-asked
+[tag]
+	gpgSign = true
+[user]
+	signingKey = GPG_LONG_KEY_ID

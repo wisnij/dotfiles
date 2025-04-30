@@ -1,0 +1,26 @@
+#!/bin/bash
+# Output new lines in file(s) as they're added, with timestamps
+
+gray='\033[38;5;8m'
+normal='\033[0m'
+
+timestamp_lines () {
+    local line
+    while IFS= read -r line; do
+        printf "$gray[%s]$normal %s\n" "$(date +'%F %T %Z')" "$line"
+    done
+}
+
+if [[ $# -gt 0 ]]; then
+    if type -p gtail >/dev/null; then
+        tail=gtail
+    else
+        tail=tail
+    fi
+
+    # Follow provided file(s) by name
+    $tail -F "$@" | timestamp_lines
+else
+    # No args, so just read from stdin
+    timestamp_lines
+fi

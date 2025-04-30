@@ -1,0 +1,35 @@
+#!/bin/bash
+# Display or create backup files with datestamps and optional descriptions
+
+set -eu
+
+move=false
+
+while getopts 'm' opt; do
+    case $opt in
+        m) move=true ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+if [[ $# -eq 0 ]]; then
+    ls -l -F --time-style="+%Y-%m-%d %H:%M:%S" *.bak
+    exit
+fi
+
+file=$1
+shift
+
+slug=""
+if [[ -n $* ]]; then
+    slug=$(sed -E -e 's/[^A-Za-z0-9_]+/-/g' <<< "-$*")
+fi
+
+datestamp=$(date +'%Y%m%d-%H%M%S')
+backup="$file.$datestamp$slug.bak"
+
+if $move; then
+    mv -iv "$file" "$backup"
+else
+    cp -ipv "$file" "$backup"
+fi

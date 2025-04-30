@@ -1,0 +1,11 @@
+#!/bin/bash
+# Check all .checksums.md5 under the given path(s), or the current directory
+
+find "$@" -name .checksums.md5 -printf '%h\n' | sort | while IFS= read -r dir; do
+    (
+        cd "$dir"
+        pwd
+        nice ionice -c3 md5sum -c .checksums.md5
+        echo
+    )
+done

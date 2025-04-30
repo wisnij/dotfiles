@@ -1,0 +1,6 @@
+@namespace xhtml url("http://www.w3.org/1999/xhtml");
+
+/* Hide tabs when using Tree Style Tabs, i.e. not in private mode */
+xhtml|html:not([privatebrowsingmode]) #TabsToolbar {
+    visibility: collapse;
+}

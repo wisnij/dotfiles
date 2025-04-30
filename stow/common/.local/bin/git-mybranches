@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Show branches matching my git username
+
+set -eu
+
+email=$(git config user.email)
+user=${email%%@*}
+git branches "$user"

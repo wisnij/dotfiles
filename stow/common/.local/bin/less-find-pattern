@@ -1,0 +1,26 @@
+#!/bin/bash
+
+pattern="${1?Need pattern}"
+shift
+
+stdin=$(cat "$@")
+if [[ -z $stdin ]]; then
+    exit
+fi
+
+if type -t gsed >/dev/null; then
+    sed=gsed
+else
+    sed=sed
+fi
+
+remove-colors () {
+    $sed -E "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})*)?[mGK]//g"
+}
+
+args=()
+if remove-colors <<<"$stdin" | grep --silent --perl-regexp "$pattern"; then
+    args+=($'+/\cK'"$pattern")
+fi
+
+less "${args[@]}" <<<"$stdin"

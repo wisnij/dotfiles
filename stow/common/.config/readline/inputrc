@@ -1,0 +1,28 @@
+# -*- conf -*-
+
+$include /etc/inputrc
+
+## Variables
+
+set colored-stats On
+set editing-mode emacs
+set mark-symlinked-directories On
+set show-all-if-ambiguous On
+
+## Key bindings
+
+# C-left
+"\e[1;5D": backward-word
+"\eOd": backward-word
+
+# M-left
+"\e[1;9D": backward-word
+"\e\e[D": backward-word
+
+# C-right
+"\e[1;5C": forward-word
+"\eOc": forward-word
+
+# M-right
+"\e[1;9C": forward-word
+"\e\e[C": forward-word

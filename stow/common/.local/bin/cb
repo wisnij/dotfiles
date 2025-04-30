@@ -1,0 +1,69 @@
+#!/bin/bash
+# clipboard utility
+
+set -eu -o pipefail
+
+RED=$'\e[1;31m'
+GREEN=$'\e[0;32m'
+YELLOW=$'\e[1;33m'
+NORMAL=$'\e[0m'
+
+mode=copy
+while getopts 'hp' opt; do
+    case $opt in
+        p)
+            mode=paste
+            ;;
+        h | \?)
+            echo "Copies a string or the contents of a file to the clipboard."
+            echo "Usage: cb FILENAME..."
+            echo "       ... | cb"
+            echo "       cb -p | ..."
+            if [[ $opt == "?" ]]; then
+                exit 1
+            else
+                exit
+            fi
+            ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+# TODO: check for Mac pbcopy/pbpaste
+if ! type xclip >/dev/null 2>&1; then
+    echo "${RED}ERROR: xclip not installed${NORMAL}" >&2
+    exit 1
+fi
+
+if [[ $mode == "paste" ]]; then
+    xclip -out -selection clipboard
+    exit
+fi
+
+if ! tty -s; then
+    input=$(< /dev/stdin)
+else
+    input=""
+    if [[ $# -eq 0 ]]; then
+        args=(-)
+    else
+        args=("$@")
+    fi
+
+    for arg in "${args[@]}"; do
+        if [[ $arg == "-" ]]; then
+            input="$input$(< /dev/stdin)"
+        else
+            input="$input$(< $arg)"
+        fi
+    done
+fi
+
+echo -n "$input" | xclip -in -selection clipboard
+
+# format for display
+input=$(tr '\n' ' ' <<<"$input")
+if [[ ${#input} -gt 80 ]]; then
+    input="$(cut -c1-80 <<<"$input")${YELLOW}...${NORMAL}"
+fi
+echo "${GREEN}Copied to clipboard:${NORMAL} $input"

@@ -1,0 +1,15 @@
+/* Customize "reader view" theme */
+@-moz-document url-prefix("about:reader") {
+    body.serif {
+        font-family: serif !important;
+    }
+
+    body.sans-serif {
+        font-family: sans-serif !important;
+    }
+
+    body.dark {
+        color: #b5aea4 !important;
+        background-color: #212425 !important;
+    }
+}

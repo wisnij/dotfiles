@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# git remaster: REbase onto freshly fetched MASTER
+
+set -eu
+
+branch=$(git branch --show-current)
+if [[ $branch == 'master' || $branch == 'main' ]]; then
+    echo "Already on '$branch'" >&2
+    exit 1
+fi
+
+master='master'
+if git show-ref --verify --quiet refs/heads/main; then
+    master='main'
+fi
+
+set -x
+git checkout $master
+git pull --rebase
+git checkout $branch
+git rebase --verbose "$@" $master
+git submodule update

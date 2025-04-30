@@ -1,0 +1,126 @@
+[alias]
+	a = add --verbose
+	branch-delete = "!f(){ git branch --delete --force ${1}; git push origin --delete ${1}; };f"
+	changes = log --pretty=oneline-date --date=iso-local
+	cb = cleanup-branches
+	co = checkout
+	cof = !git for-each-ref --format='%(refname:short)' --sort=-committerdate refs/heads | fzf --no-sort --preview 'git d --color=always -R {}' | xargs git checkout
+	configs = config --list --show-origin --show-scope
+	difflast = diff HEAD~1 HEAD
+	diffs = diff --staged
+	dir = "!f(){ echo $GIT_DIR; }"
+	d  = diff --patch --compact-summary --ignore-space-change --ignore-space-at-eol
+	ds = diff --patch --compact-summary --ignore-space-change --ignore-space-at-eol --staged
+	fa = fetch --all
+	files = "!f(){ git ls-files \"$@\" | sort; };f"
+	gg = "!f(){ git ls-files | sort | xargs grep -E \"$@\"; };f"
+	graph = log --graph --pretty=oneline-date --date=human-local --date-order
+	g     = log --graph --pretty=oneline-date --date=human-local --date-order --all
+	land = merge --squash --ff
+	history = log --patch  --compact-summary --ignore-space-change --ignore-space-at-eol
+	hf = log --patch  --compact-summary --ignore-space-change --ignore-space-at-eol --follow
+	hm = history master..
+	mb = make-branch
+	mychanges = changes --author wisnij@gmail.com
+	myhistory = history --author wisnij@gmail.com
+	pp = pull --prune
+	puff = pull --ff --ff-only
+	pt = push --set-upstream
+	s = show --patch --compact-summary --ignore-space-change --ignore-space-at-eol
+	st = status --short --branch
+	stashed = !git stash list --patch --color | diff-highlight | less-find-pattern "^stash@.*"
+	update = add --update --verbose
+	who = shortlog --numbered --summary
+[blame]
+	coloring = repeatedLines
+[branch]
+	autoSetupRebase = always
+	sort = -committerdate
+[color "diff"]
+	commit = bold yellow
+	frag = yellow
+	new = cyan
+	old = red
+	plain = dim
+[color "diff-highlight"]
+	newHighlight = cyan 19
+	newNormal = cyan
+	oldHighlight = red 52
+	oldNormal = red
+[color]
+	ui = auto
+[color.grep]
+	filename = magenta
+[column]
+	ui = auto
+[commit]
+	cleanup = scissors
+	gpgSign = true
+	verbose = true
+[core]
+	pager = cat
+[diff]
+	algorithm = histogram
+	colorMoved = plain
+	mnemonicPrefix = true
+[fetch]
+	all = true
+	prune = true
+	pruneTags = true
+[format]
+	pretty = fuller-compact
+[grep]
+	lineNumber = true
+	patternType = perl
+[help]
+	autoCorrect = prompt
+[init]
+	defaultBranch = master
+[log]
+	date = format-local:%a %b %e %Y %T %z
+[merge]
+	conflictStyle = zdiff3
+	ff = false
+[pager]
+	blame = less
+	branch = false
+	changes = less
+	configs = less
+	diff = diff-highlight | less-find-pattern "^diff"
+	g = less
+	graph = less
+	history = diff-highlight | less "+/^commit\\ [0-9a-f]+"
+	hf = diff-highlight | less "+/^commit\\ [0-9a-f]+"
+	show = diff-highlight | less-find-pattern "^diff"
+[pretty]
+	fuller-compact = format:"%C(bold yellow)commit %H%Creset%C(auto)%d%nAuthor:    %aN <%aE>, %ad%nCommitter: %cN <%cE>, %cd%n%n%w(0,4,4)%B"
+	oneline-date = tformat:"%C(yellow)%h%Creset %C(cyan)%cd%Creset %C(magenta)%aN%Creset %s%C(auto)%d"
+[protocol]
+	version = 2
+[pull]
+	ff = only
+	rebase = true
+[push]
+	autoSetupRemote = true
+	default = simple
+	gpgSign = if-asked
+[rebase]
+	autoSquash = true
+	autoStash = true
+	stat = true
+[rerere]
+	autoUpdate = true
+	enabled = true
+[status]
+	showUntrackedFiles = all
+[tag]
+	gpgSign = true
+	sort = version:refname
+[user]
+	email = wisnij@gmail.com
+	name = Jim Wisniewski
+	signingKey = 88FCEA8D986E4990
+################################################################################
+# keep this at the end
+[include]
+	path = config-local

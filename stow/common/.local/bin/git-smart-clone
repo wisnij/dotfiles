@@ -1,0 +1,51 @@
+#!/bin/bash
+# Clone a git repo into a local path based on its remote path
+
+set -eu -o pipefail
+
+BRIGHT=$'\e[1m'
+RED=$'\e[31m'
+NORMAL=$'\e[0m'
+
+base_dir=$HOME/code
+
+while getopts 'b:' opt; do
+    case $opt in
+        b) base_dir=$OPTARG ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+if [[ $# -lt 1 ]]; then
+    echo "Usage: $0 [-b BASE_DIR] REPO_URL [GIT_CLONE_ARGS...]" >&2
+    exit 1
+fi
+
+repo_url=$1
+shift
+
+if [[ $repo_url == git@* ]]; then
+    # ssh style: git@domain:path/to/repo.git
+    path=${repo_url#*:}
+elif [[ $repo_url == https:* ]]; then
+    # http style: https://domain/path/to/repo.git
+    path=${repo_url#*//}
+    path=${repo_url#*/}
+else
+    echo "${BRIGHT}${RED}ERROR:${NORMAL} Unrecognized URL format: '$repo_url'" >&2
+    exit 1
+fi
+
+path=${path%.git}
+full_path=$base_dir/$path
+
+if [[ -e $full_path ]]; then
+    echo "${BRIGHT}${RED}ERROR:${NORMAL} $full_path already exists!" >&2
+    exit 2
+fi
+
+git clone $repo_url $full_path "$@"
+
+echo
+echo "Cloned $repo_url into ${BRIGHT}${full_path}${NORMAL}"
+echo

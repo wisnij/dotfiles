@@ -1,0 +1,8 @@
+#!/bin/bash
+
+case $TERM in
+    screen-256color)
+        TERM=xterm-256color ;;
+esac
+
+exec call-next-command $0 "$@"
