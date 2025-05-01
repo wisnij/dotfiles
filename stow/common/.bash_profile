@@ -1,1 +1,1 @@
-dot-bash_login
+.bash_login
