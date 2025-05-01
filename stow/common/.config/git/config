@@ -79,7 +79,7 @@
 [log]
 	date = format-local:%a %b %e %Y %T %z
 [merge]
-	conflictStyle = zdiff3
+	conflictStyle = diff3
 	ff = false
 [pager]
 	blame = less
