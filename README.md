@@ -5,7 +5,7 @@ These configuration files and user scripts are intended to be managed with
 
 ```bash
 git clone git@github.com:wisnij/dotfiles.git
-cd dotfiles/stow
+cd dotfiles
 
 # common settings
 stow common
@@ -13,4 +13,5 @@ stow common
 # system-specific settings (optional)
 stow linux
 stow mac
+...
 ```
