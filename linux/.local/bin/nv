@@ -10,14 +10,31 @@ GREEN=$'\e[32m'
 colorize () {
     while IFS= read -r line; do
         line=${line##*$'\r'}
-        k=${line%%: *}
-        v=${line##*: }
-        if [[ $v == "enabled" || $v == "Connected" ]]; then
-            v="${GREEN}$v${NORMAL}"
-        elif [[ $v == "disabled" || $v == "Disconnected" ]]; then
-            v="${RED}$v${NORMAL}"
+
+        if [[ $line == *:* && ! $line == *"\e["* ]]; then
+            k=${line%%:*}
+            v=${line#*:}
+
+            k="${BRIGHT}$k${NORMAL}"
+            line="$k:$v"
         fi
-        echo "${BRIGHT}$k${NORMAL}: $v"
+
+        if [[ $line == *" "* ]]; then
+            prefix=${line% *}
+            last=${line##* }
+
+            last=${last#$'\e[0m'}
+            last=${last%$'\e[0m'}
+            last_lc=$(tr A-Z a-z <<<"$last")
+            if [[ $last_lc == "enabled" || $last_lc == "connected" ]]; then
+                last="${GREEN}$last"
+            elif [[ $last_lc == "disabled" || $last_lc == "disconnected" ]]; then
+                last="${RED}$last"
+            fi
+            line="$prefix $last${NORMAL}"
+        fi
+
+        echo "$line"
     done
 }
 
@@ -42,7 +59,7 @@ case $cmd in
         ;;
 esac
 
-nordvpn "$cmd" "$@"
+unbuffer nordvpn "$cmd" "$@" | colorize
 
 case $cmd in
     c | connect)
