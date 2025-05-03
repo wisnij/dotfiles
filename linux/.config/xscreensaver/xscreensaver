@@ -18,11 +18,11 @@ fade:		False
 unfade:		False
 fadeSeconds:	0:00:01
 ignoreUninstalledPrograms:False
-dpmsEnabled:	False
+dpmsEnabled:	True
 dpmsQuickOff:	False
-dpmsStandby:	2:00:00
-dpmsSuspend:	2:00:00
-dpmsOff:	4:00:00
+dpmsStandby:	1:00:00
+dpmsSuspend:	1:00:00
+dpmsOff:	1:00:00
 grabDesktopImages:  False
 grabVideoFrames:    False
 chooseRandomImages: False
