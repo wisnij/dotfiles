@@ -10,7 +10,7 @@
               (float-time emacs-start-time))))
 
 (when (not (boundp 'user-emacs-directory))
-  (setq user-emacs-directory "~/.emacs.d/"))
+  (setq user-emacs-directory "~/.config/emacs/"))
 
 (defun user-file (name)
   "Return an absolute file name for NAME in `user-emacs-directory'."
