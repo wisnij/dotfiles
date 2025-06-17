@@ -21,3 +21,6 @@ desktop.ini
 # Jupyter notebooks
 .ipynb_checkpoints/
 .jupyter/
+
+# Environment settings which may contain passwords, tokens, etc
+.env
