@@ -34,4 +34,8 @@ echo
 echo
 
 new_commit=$(git rev-parse HEAD)
-echo "current commit: $new_commit"
+if [[ $new_commit == $orig_commit ]]; then
+    echo "no rebase needed, commits unchanged"
+else
+    echo "new commit: $new_commit"
+fi
