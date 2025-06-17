@@ -6,3 +6,8 @@ export PYTHONDONTWRITEBYTECODE=1
 alias python=python3
 alias pydoc=pydoc3
 alias ipython=ipython3
+
+if type -t pyenv >/dev/null; then
+    export PYENV_ROOT=$HOME/.pyenv
+    eval "$(pyenv init -)"
+fi
