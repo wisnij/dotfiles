@@ -4,19 +4,34 @@
 set -eu
 
 branch=$(git branch --show-current)
-if [[ $branch == 'master' || $branch == 'main' ]]; then
+if [[ -z $branch ]]; then
+    echo "Can't rebase from detached HEAD state"
+    exit 1
+elif [[ $branch == 'master' || $branch == 'main' ]]; then
     echo "Already on '$branch'" >&2
     exit 1
 fi
+
+echo "on branch $branch"
+
+orig_commit=$(git rev-parse HEAD)
+echo "original commit: $orig_commit"
 
 master='master'
 if git show-ref --verify --quiet refs/heads/main; then
     master='main'
 fi
 
-set -x
-git checkout $master
-git pull --rebase
-git checkout $branch
-git rebase --verbose "$@" $master
-git submodule update
+echo
+(
+    set -x
+    git checkout $master
+    git pull --rebase
+    git checkout $branch
+    git rebase --verbose "$@" $master
+    git submodule update
+)
+echo
+
+new_commit=$(git rev-parse HEAD)
+echo "current commit: $new_commit"
