@@ -38,7 +38,6 @@
  '(ido-ignore-buffers '("\\` " "^\\*"))
  '(ido-ignore-files
    '("\\`CVS/" "\\`#" "\\`.#" "\\`\\.\\./" "\\`\\./" "\\.bak\\'"))
- '(ido-save-directory-list-file "~/.emacs.d/ido.last")
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(initial-scratch-message nil)
