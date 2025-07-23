@@ -470,7 +470,16 @@ With argument ARG, do this that many times."
   (interactive "p")
   (delete-word (- arg)))
 
+(defun unfill-region (beg end)
+  ;; from https://www.emacswiki.org/emacs/UnfillRegion
+  "Unfill the region, joining text paragraphs into a single logical line.
+This is useful, e.g., for use with `visual-line-mode'."
+  (interactive "*r")
+  (let ((fill-column (point-max)))
+    (fill-region beg end)))
+
 (defun unfill-paragraph (&optional region)
+  ;; from https://www.emacswiki.org/emacs/UnfillParagraph
   "Takes a multi-line paragraph and makes it into a single line of text."
   (interactive (progn (barf-if-buffer-read-only) '(t)))
   (let ((fill-column (point-max))
