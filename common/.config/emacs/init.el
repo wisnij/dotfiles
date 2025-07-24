@@ -486,6 +486,36 @@ This is useful, e.g., for use with `visual-line-mode'."
         (emacs-lisp-docstring-fill-column t))
     (fill-paragraph nil region)))
 
+(defun fill-sentences-in-region (start end)
+  "Fill each of the paragraphs in the region, with a newline after every sentence."
+  (interactive "*r")
+  (message "fill-sentences-in-region: point=%S start=%S end=%S" (point) start end)
+  (save-mark-and-excursion
+    (goto-char start)
+    (message "fill-sentences-in-region: point=%S start=%S end=%S" (point) start end)
+    (call-interactively 'unfill-region)
+    (let ((sentence-start start))
+      (while (re-search-forward "[.?!][]\"')}]*\\(  \\)" end t)
+        (fill-region sentence-start (point))
+        (newline-and-indent)
+        (setq sentence-start (point)))
+      ;; handle final sentence
+      (fill-region sentence-start end))))
+
+(defun fill-sentences-in-paragraph ()
+  "Fill the current paragraph, with a newline after every sentence."
+  (interactive)
+  (save-mark-and-excursion
+    (mark-paragraph)
+    (call-interactively 'fill-sentences-in-region)))
+
+(defun fill-sentences ()
+  "Fill the current region or paragraph, with a newline after every sentence."
+  (interactive)
+  (if mark-active
+      (call-interactively 'fill-sentences-in-region)
+    (call-interactively 'fill-sentences-in-paragraph)))
+
 (defun sort-words (reverse beg end)
   "Sort words in region alphabetically, in REVERSE if negative.
 Prefixed with negative \\[universal-argument], sorts in reverse.
@@ -810,7 +840,7 @@ mark it as unmodified."
 (global-set-key (kbd "M-<delete>") #'delete-word)
 (global-set-key (kbd "M-]") #'goto-matching-paren)
 (global-set-key (kbd "M-c") #'capitalize-dwim)
-(global-set-key (kbd "M-Q") #'unfill-paragraph)
+(global-set-key (kbd "M-Q") #'fill-sentences)
 (global-set-key (kbd "M-s") #'next-frame-window)
 (global-set-key (kbd "M-S") #'previous-frame-window)
 (global-set-key (kbd "M-SPC") (lambda () (interactive) (cycle-spacing -1)))
