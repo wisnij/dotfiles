@@ -519,6 +519,12 @@ This is useful, e.g., for use with `visual-line-mode'."
       (call-interactively 'fill-sentences-in-region)
     (call-interactively 'fill-sentences-in-paragraph)))
 
+(defun unfill-sentences ()
+  "Unfill each sentence in the region or paragraph, but separate them by newlines."
+  (interactive)
+  (let ((fill-column (point-max)))
+    (call-interactively 'fill-sentences)))
+
 (defun sort-words (reverse beg end)
   "Sort words in region alphabetically, in REVERSE if negative.
 Prefixed with negative \\[universal-argument], sorts in reverse.
