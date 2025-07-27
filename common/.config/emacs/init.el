@@ -487,12 +487,11 @@ This is useful, e.g., for use with `visual-line-mode'."
     (fill-paragraph nil region)))
 
 (defun fill-sentences-in-region (start end)
+  ;; from https://stackoverflow.com/a/23469931
   "Fill each of the paragraphs in the region, with a newline after every sentence."
   (interactive "*r")
-  (message "fill-sentences-in-region: point=%S start=%S end=%S" (point) start end)
   (save-mark-and-excursion
     (goto-char start)
-    (message "fill-sentences-in-region: point=%S start=%S end=%S" (point) start end)
     (call-interactively 'unfill-region)
     (let ((sentence-start start))
       (while (re-search-forward "[.?!][]\"')}]*\\(  \\)" end t)
