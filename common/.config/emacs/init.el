@@ -490,13 +490,17 @@ This is useful, e.g., for use with `visual-line-mode'."
   ;; from https://stackoverflow.com/a/23469931
   "Fill each of the paragraphs in the region, with a newline after every sentence."
   (interactive "*r")
+  (unless (markerp end)
+    (setq end (copy-marker end t)))
   (save-mark-and-excursion
-    (goto-char start)
-    (call-interactively 'unfill-region)
-    (let ((sentence-start start))
+    (let ((sentence-start start)
+          (fill-prefix (fill-context-prefix start end)))
+      (goto-char start)
+      (call-interactively 'unfill-region)
       (while (re-search-forward "[.?!][]\"')}]*\\(  \\)" end t)
         (fill-region sentence-start (point))
-        (newline-and-indent)
+        (newline)
+        (insert fill-prefix)
         (setq sentence-start (point)))
       ;; handle final sentence
       (fill-region sentence-start end))))
