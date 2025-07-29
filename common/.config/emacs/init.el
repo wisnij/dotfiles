@@ -659,12 +659,19 @@ Arguments SIZE and SIDE are interpreted as for `split-window'."
   "Toggle the value of `auto-cleanup-whitespace'."
   (interactive)
   (setq auto-cleanup-whitespace (not auto-cleanup-whitespace))
-  (message "Auto cleanup whitespace %s"
-           (if auto-cleanup-whitespace "enabled" "disabled")))
+  (when (called-interactively-p 'interactive)
+    (message "Auto cleanup whitespace %s"
+             (if auto-cleanup-whitespace "enabled" "disabled"))))
 
-(add-hook 'before-save-hook (lambda ()
-                              (when auto-cleanup-whitespace
-                                (cleanup-whitespace))))
+(defun auto-cleanup-whitespace-if-enabled ()
+  (when auto-cleanup-whitespace
+    (cleanup-whitespace)))
+(add-hook 'before-save-hook #'auto-cleanup-whitespace-if-enabled)
+
+(defun disable-auto-cleanup-whitespace ()
+  (setq auto-cleanup-whitespace nil))
+(dolist (hook '(hexl-mode-hook))
+  (add-hook hook #'disable-auto-cleanup-whitespace))
 
 (defun save-buffer-without-cleanup (&optional arg)
   "Save current buffer in visited file if modified. Don't clean
