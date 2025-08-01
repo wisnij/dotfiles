@@ -73,11 +73,14 @@ library to `user-lisp-directory' to ensure its autoloads are picked up."
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
-(package-initialize)
 
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
+(package-initialize)
+(unless package-archive-contents
+  (package-refresh-contents))
+
+(dolist (pkg '(gnu-elpa-keyring-update use-package))
+  (unless (package-installed-p pkg)
+    (package-install pkg)))
 
 (require 'use-package)
 (setq use-package-always-ensure t)
