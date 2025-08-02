@@ -80,9 +80,9 @@ library to `user-lisp-directory' to ensure its autoloads are picked up."
 
 (dolist (pkg '(gnu-elpa-keyring-update use-package))
   (unless (package-installed-p pkg)
-    (package-install pkg)))
+    (package-install pkg))
+  (require pkg))
 
-(require 'use-package)
 (setq use-package-always-ensure t)
 ;; fix inexplicable (indent 'defun) in use-package-core.el
 (put 'use-package 'lisp-indent-function 1)
