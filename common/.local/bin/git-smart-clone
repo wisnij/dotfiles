@@ -38,14 +38,12 @@ fi
 
 path=${path%.git}
 full_path=$base_dir/$path
+echo "$full_path"
 
 if [[ -e $full_path ]]; then
     echo "${BRIGHT}${RED}ERROR:${NORMAL} $full_path already exists!" >&2
     exit 2
 fi
 
+set -x
 git clone $repo_url $full_path "$@"
-
-echo
-echo "Cloned $repo_url into ${BRIGHT}${full_path}${NORMAL}"
-echo
