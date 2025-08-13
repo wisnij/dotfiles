@@ -77,6 +77,7 @@
  '(version-control t)
  '(view-read-only t)
  '(visual-line-fringe-indicators '(empty-line nil))
+ '(vterm-set-bold-hightbright t)
  '(x-stretch-cursor t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

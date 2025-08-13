@@ -81,6 +81,24 @@
            (trailing-whitespace ((t (:inherit (escape-glyph)))))
            (warning ((t (:foreground ,brorange :weight bold))))
 
+           ;; terminal colors
+           (ansi-color-black          ((t (:foreground "#000000" :background "#000000"))))
+           (ansi-color-red            ((t (:foreground "#cc0000" :background "#cc0000"))))
+           (ansi-color-green          ((t (:foreground "#00cc00" :background "#00cc00"))))
+           (ansi-color-yellow         ((t (:foreground "#cccc00" :background "#cccc00"))))
+           (ansi-color-blue           ((t (:foreground "#3333cc" :background "#3333cc"))))
+           (ansi-color-magenta        ((t (:foreground "#cc00cc" :background "#cc00cc"))))
+           (ansi-color-cyan           ((t (:foreground "#00cccc" :background "#00cccc"))))
+           (ansi-color-white          ((t (:foreground "#cccccc" :background "#cccccc"))))
+           (ansi-color-bright-black   ((t (:foreground "#666666" :background "#666666"))))
+           (ansi-color-bright-red     ((t (:foreground "#ff6666" :background "#ff6666"))))
+           (ansi-color-bright-green   ((t (:foreground "#66ff66" :background "#66ff66"))))
+           (ansi-color-bright-yellow  ((t (:foreground "#ffff66" :background "#ffff66"))))
+           (ansi-color-bright-blue    ((t (:foreground "#6666ff" :background "#6666ff"))))
+           (ansi-color-bright-magenta ((t (:foreground "#ff66ff" :background "#ff66ff"))))
+           (ansi-color-bright-cyan    ((t (:foreground "#66ffff" :background "#66ffff"))))
+           (ansi-color-bright-white   ((t (:foreground "#ffffff" :background "#ffffff"))))
+
            ;; font lock mode
            (font-lock-builtin-face ((t (:foreground ,ltblue))))
            (font-lock-comment-delimiter-face ((t (:foreground ,red))))
