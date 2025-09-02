@@ -45,6 +45,7 @@
  '(iswitchb-buffer-ignore '("^ " "^\\*"))
  '(kill-read-only-ok t)
  '(kill-whole-line t)
+ '(markdown-header-scaling t)
  '(org-agenda-files (list org-directory))
  '(org-log-done 'time)
  '(org-todo-keywords '((sequence "TODO" "STARTED" "DONE")))
@@ -84,4 +85,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(outline-1 ((t (:inherit font-lock-function-name-face :height 2.0))))
+ '(outline-2 ((t (:inherit font-lock-variable-name-face :height 1.7))))
+ '(outline-3 ((t (:inherit font-lock-keyword-face :height 1.4))))
+ '(outline-4 ((t (:inherit font-lock-comment-face :height 1.1)))))
