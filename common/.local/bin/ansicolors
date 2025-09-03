@@ -7,6 +7,7 @@ my @attrs  = qw(normal bright dim italic underscore blink rapid_blink reverse hi
 my @colors = qw(black red green yellow blue magenta cyan white);
 
 my $normal = "\e[0m";
+my $dim = "\e[2m";
 my $fg_offset = 30;
 my $bg_offset = 40;
 
@@ -76,6 +77,10 @@ for my $red ( 0 .. 5 )
         for my $blue ( 0 .. 5 )
         {
             my $color = 16 + ($red * 36) + ($green * 6) + $blue;
+
+            my $first_col = ($green == 0 and $blue == 0);
+            printf "$dim%3d$normal ", $color if $first_col;
+
             print "\e[48;5;${color}m  ";
         }
 
