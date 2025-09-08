@@ -624,6 +624,15 @@ Arguments SIZE and SIDE are interpreted as for `split-window'."
   (interactive "P")
   (split-root-window size 'right))
 
+(defun cycle-spacing-preserve-nl-back ()
+  "Remove whitespace around point as with `cycle-spacing',
+but preserve newlines backwards."
+  (interactive)
+  (save-restriction
+    (narrow-to-region (pos-bol) (point-max))
+    (cycle-spacing -1)))
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Passive settings
 
@@ -862,7 +871,7 @@ mark it as unmodified."
 (global-set-key (kbd "M-Q") #'fill-sentences)
 (global-set-key (kbd "M-s") #'next-frame-window)
 (global-set-key (kbd "M-S") #'previous-frame-window)
-(global-set-key (kbd "M-SPC") (lambda () (interactive) (cycle-spacing -1)))
+(global-set-key (kbd "M-SPC") #'cycle-spacing-preserve-nl-back)
 (global-set-key (kbd "M-w") #'kill-ring-save-if-active)
 (global-set-key (kbd "s-<down>") #'next-frame-window)
 (global-set-key (kbd "s-<left>") (lambda () (interactive) (other-frame -1)))
