@@ -871,7 +871,7 @@ mark it as unmodified."
 (global-set-key (kbd "M-Q") #'fill-sentences)
 (global-set-key (kbd "M-s") #'next-frame-window)
 (global-set-key (kbd "M-S") #'previous-frame-window)
-(global-set-key (kbd "M-SPC") #'cycle-spacing-preserve-nl-back)
+(global-set-key (kbd "M-SPC") #'cycle-spacing)
 (global-set-key (kbd "M-w") #'kill-ring-save-if-active)
 (global-set-key (kbd "s-<down>") #'next-frame-window)
 (global-set-key (kbd "s-<left>") (lambda () (interactive) (other-frame -1)))
