@@ -7,6 +7,11 @@
     Chrome 104 doesn't work anymore
 - tty console looks worse after installing Nvidia drivers
   - setting `GRUB_GFXMODE=1280x1024` in `/etc/default/grub` helps slightly
+- [2025-09-05] no Emacs bell after trixie upgrade
+  - other sound seems to work normally
+- [2025-09-05] krunner weird glitching in Xfce; first invocation does nothing,
+  second switches me to virtual desktop 4, third pops up normally (but only when
+  on vd4)
 
 ## Acceptable workaround
 
@@ -67,3 +72,6 @@
     - suspend/hybrid sleep still don't work at all - afterwards screen remains
       blank, no response to keyboard input
   - [2024-12-18] this works fine now but I forgot to record how I got it working :(
+- [2025-09-07] no audio at all after trixie upgrade
+  - analog audio does not appear at all in mixer
+  - installed pipewire-alsa and pipewire-pulse (replaced pulseaudio)
