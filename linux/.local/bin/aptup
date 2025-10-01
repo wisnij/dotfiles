@@ -1,0 +1,11 @@
+#!/bin/bash
+# Update Debian and upgrade packages
+set -eu
+
+sudo -v
+sudo apt update
+
+if apt-get --just-print upgrade | grep -q '^Inst'; then
+    apt list --upgradable
+    sudo apt upgrade
+fi
