@@ -5,13 +5,9 @@
 - no HD Amazon Prime video
   - tried <https://github.com/nxjosephofficial/primevideo-linux> initially, but
     Chrome 104 doesn't work anymore
-- tty console looks worse after installing Nvidia drivers
-  - setting `GRUB_GFXMODE=1280x1024` in `/etc/default/grub` helps slightly
-- [2025-09-05] no Emacs bell after trixie upgrade
-  - other sound seems to work normally
-- [2025-09-05] krunner weird glitching in Xfce; first invocation does nothing,
-  second switches me to virtual desktop 4, third pops up normally (but only when
-  on vd4)
+- [2025-10-06] mouse cursor is tiny in Plasma
+  - changing it in System Settings > Mouse doesn't do anything
+  - presumably an X11 issue somewhere?
 
 ## Acceptable workaround
 
@@ -29,6 +25,15 @@
   - current workaround: switch to virtual terminal and back with Ctrl-Alt-F1/F7
   - [2024-12-18] fixed? this hasn't recurred in a while, but not sure if it was
     due to any specific change
+- tty console looks worse after installing Nvidia drivers
+  - setting `GRUB_GFXMODE=1280x1024` in `/etc/default/grub` helps slightly
+- [2025-09-05] krunner weird glitching in Xfce; first invocation does nothing,
+  second switches me to virtual desktop 4, third pops up normally (but only when
+  on vd4)
+  - [2025-10-06] switched to KDE Plasma, it works normally there
+- [2025-09-05] no Emacs bell after trixie upgrade
+  - other sound seems to work normally
+  - [2025-10-06] switched to KDE Plasma, it works normally there
 
 ## Fixed issues
 
@@ -75,3 +80,12 @@
 - [2025-09-07] no audio at all after trixie upgrade
   - analog audio does not appear at all in mixer
   - installed pipewire-alsa and pipewire-pulse (replaced pulseaudio)
+  - [2025-10-06] switched to KDE Plasma, it works normally there
+- [2025-10-06] different bell for Emacs and Konsole
+  - sound setting locations in Plasma:
+    - System Settings > Accessibility > System Bell > Custom sound – for basic
+      system bell from e.g. xterm, Emacs
+    - System Settings > Notifications > System Notifications > Beep – for most
+      other GUI apps
+    - Konsole > Settings > Configure Notifications > Bell in (Non-)Focused
+      Session – for Konsole
