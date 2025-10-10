@@ -1,0 +1,12 @@
+[Desktop Entry]
+Comment=Start XScreenSaver daemon
+Exec=/usr/bin/xscreensaver
+GenericName=Screensaver
+Name=XScreenSaver
+OnlyShowIn=XFCE;KDE;
+RunHook=0
+StartupNotify=false
+Terminal=false
+TryExec=/usr/bin/xscreensaver
+Type=Application
+Version=0.9.4
