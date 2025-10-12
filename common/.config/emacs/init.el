@@ -789,7 +789,7 @@ value should be a list in the format accepted by `font-lock-add-keywords'.")
                 ;; use Inconsolata on Mac
                 ((eq system-type 'darwin) "Inconsolata-11")
                 ;; after adjusting for 4k DPI settings
-                ((eq system-type 'gnu/linux) "Inconsolata-9")
+                ((eq system-type 'gnu/linux) "Inconsolata-10")
                 )))
     (when font
       (set-frame-font font t t))))
