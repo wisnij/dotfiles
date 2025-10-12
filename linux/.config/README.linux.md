@@ -31,6 +31,9 @@
 - [2025-09-05] no Emacs bell after trixie upgrade
   - other sound seems to work normally
   - [2025-10-06] switched to KDE Plasma, it works normally there
+- [2025-10-12] kwin often hangs during shutdown and has to wait 90s to be killed
+  - [2025-10-12] set `TimeoutStopSec=10s` in
+    `.config/systemd/user/plasma-kwin_x11.service.d/shorter_TimeoutStopSec.conf`
 
 ## Fixed issues
 
