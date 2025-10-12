@@ -5,9 +5,6 @@
 - no HD Amazon Prime video
   - tried <https://github.com/nxjosephofficial/primevideo-linux> initially, but
     Chrome 104 doesn't work anymore
-- [2025-10-06] mouse cursor is tiny in Plasma
-  - changing it in System Settings > Mouse doesn't do anything
-  - presumably an X11 issue somewhere?
 
 ## Acceptable workaround
 
@@ -89,3 +86,7 @@
       other GUI apps
     - Konsole > Settings > Configure Notifications > Bell in (Non-)Focused
       Session – for Konsole
+- [2025-10-06] mouse cursor is tiny in Plasma
+  - changing it in System Settings > Mouse doesn't do anything
+  - presumably an X11 issue somewhere?
+  - [2025-10-12] fix: setting `Xcursor.size` resource in `.config/X11/Xresources-linux`

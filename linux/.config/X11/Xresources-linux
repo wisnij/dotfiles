@@ -1,6 +1,8 @@
 ! 4k monitor scaling
 Xft.dpi: 192
 
+! Mouse cursor size
+Xcursor.size: 36
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! (U)Rxvt
