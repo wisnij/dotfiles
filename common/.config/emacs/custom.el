@@ -60,7 +60,6 @@
  '(scroll-bar-mode 'right)
  '(select-enable-clipboard t)
  '(show-paren-mode t nil (paren))
- '(show-trailing-whitespace t)
  '(size-indication-mode t)
  '(slime-startup-animation nil)
  '(sort-fold-case t)

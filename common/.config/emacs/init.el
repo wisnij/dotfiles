@@ -183,6 +183,76 @@ with `tab-bar-rename-tab'."
 (use-package uniquify
   :ensure nil)
 
+(use-package whitespace
+  :ensure nil
+  :config
+  (defvar whitespace-cycle-styles-alist
+    '((default
+       (face trailing tabs missing-newline-at-eof empty space-before-tab tab-mark)
+       ((go-mode :exclude (tabs tab-mark))))
+      (verbose
+       (face trailing tabs missing-newline-at-eof empty space-before-tab tab-mark
+        spaces newline indentation space-mark newline-mark)))
+    "An alist of whitespace display style names and the settings to use for
+them.  Each element is of the form (NAME STYLES [MODES]).
+
+STYLES is a list of symbols to set `whitespace-style' for that display
+style.
+
+MODES is an alist with elements of the form (MAJOR-MODE . MODE-SETTINGS).
+MAJOR-MODE is the name of a major mode.  MODE-SETTINGS is a plist of
+mode-specific settings to apply whenever the style is enabled in a
+buffer where that major mode is active.  The following keys are
+recognized:
+
+    :exclude EXCLUDE-STYLES
+        Remove EXCLUDE-STYLES from the top-level STYLES before setting
+        `whitespace-style' for the current mode.")
+  (defvar-local whitespace-cycle-styles-current 'default
+    "The current whitespace style for this buffer.")
+  (make-variable-buffer-local 'whitespace-style)
+  (defun whitespace-cycle-styles--next (&optional current-style)
+    "Return the name of the next style in `whitespace-cycle-styles-alist'
+after CURRENT-STYLE (`whitespace-cycle-styles-current' by default)."
+    (let* ((current-style (or current-style whitespace-cycle-styles-current))
+           (style-names (mapcar #'car whitespace-cycle-styles-alist))
+           (idx (-elem-index current-style style-names))
+           (next-idx (% (1+ idx) (length style-names))))
+      ;;(message "*** current-style=%S style-names=%S idx=%S next-idx=%S" current-style style-names idx next-idx)
+      (nth next-idx style-names)))
+  (defun whitespace-activate-style (&optional style)
+    "Set the active whitespace display style to STYLE, or
+`whitespace-cycle-styles-current' if not specified.  Settings for the
+style come from the corresponding entry in `whitespace-cycle-styles-alist'."
+    (interactive)
+    (let* ((style (or style whitespace-cycle-styles-current))
+           (style-data (assoc style whitespace-cycle-styles-alist)))
+      (if (null style-data)
+          (error "whitespace-activate-style: invalid style %S" style)
+        ;;(message "whitespace-activate-style: %s" style)
+        (let* ((style-values (nth 1 style-data))
+               (per-mode-configs (nth 2 style-data))
+               (mode-config (cdr (assoc major-mode per-mode-configs)))
+               (mode-exclude (plist-get mode-config :exclude)))
+          (whitespace-mode 0)
+          (setq whitespace-style (-remove (lambda (v) (member v mode-exclude)) style-values))
+          ;;(message "major-mode=%s whitespace-style=%S" major-mode whitespace-style)
+          (whitespace-mode 1))
+        (setq whitespace-cycle-styles-current style))))
+  (defun whitespace-cycle-styles (&optional style)
+    "Switch the active whitespace to STYLE if specified, otherwise to the
+next style in `whitespace-cycle-styles-alist' after
+`whitespace-cycle-styles-current' if `whitespace-mode' is active,
+otherwise `whitespace-cycle-styles-current' itself."
+    (interactive)
+    ;;(message "\n*** whitespace-mode=%S global-whitespace-mode=%S" whitespace-mode global-whitespace-mode)
+    (let ((style (cond (style)
+                       (whitespace-mode (whitespace-cycle-styles--next))
+                       (t whitespace-cycle-styles-current))))
+      (whitespace-activate-style style)))
+  :hook ((prog-mode text-mode) . whitespace-activate-style)
+  :bind ("C-c w" . whitespace-cycle-styles))
+
 ;;;; libraries that need to be installed
 
 (use-package ace-window
@@ -211,6 +281,8 @@ with `tab-bar-rename-tab'."
          ("M-g e" . avy-goto-word-0)
          ("M-g g" . avy-goto-line)
          ("M-g w" . avy-goto-word-1)))
+
+(use-package dash)
 
 (use-package git-commit
   :ensure nil                     ; from https://github.com/rafl/git-commit-mode
@@ -725,24 +797,6 @@ up whitespace even if `auto-cleanup-whitespace' is in effect."
             (lambda ()
               (set (make-local-variable lisp-indent-function)
                    #'common-lisp-indent-function))))
-
-;; Visible tabs
-(defface visible-whitespace-face
-    '((t (:inherit escape-glyph)))
-  "Face used to visualize TAB.")
-
-(defvar visible-whitespace-characters
-  '(("\t" . 'visible-whitespace-face))
-  "Characters shown as visible whitespace in `visible-whitespace-face'.  The
-value should be a list in the format accepted by `font-lock-add-keywords'.")
-
-(add-hook 'font-lock-mode-hook
-          (lambda ()
-            (standard-display-ascii
-             ?\t (cond ((not (display-graphic-p))  ">\t")
-                       ((> emacs-major-version 21) "\xBB\t")
-                       (t                          "\x08BB\t")))
-            (font-lock-add-keywords nil visible-whitespace-characters)))
 
 ;; Highlight comment keywords
 (defvar highlight-comment-keywords
