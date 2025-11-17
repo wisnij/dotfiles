@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+# Interleave the pages of two or more separate PDF files.
+# That is, for input documents A, B, C, etc., the output page order will be:
+#
+#     A.pg1 B.pg1 C.pg1 ... A.pg2 B.pg2 C.pg2 ... A.pgN B.pgN C.pgN ...
+#
+# Depends on poppler-utils for pdf* utils.
+
+set -eu -o pipefail
+
+verbose=false
+while getopts 'v' opt; do
+    case $opt in
+        v) verbose=true ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+if $verbose; then
+    set -xv
+fi
+
+if [[ $# -lt 3 ]]; then
+    echo "Usage: $0 PAGES-1.PDF PAGES-2.PDF [... PAGES-N.PDF] COMBINED.PDF" >&2
+    exit 1
+fi
+
+args=("$@")
+num_args="${#args[@]}"
+infiles=("${args[@]:0:$((num_args - 1))}")
+outfile="${args[-1]}"
+
+tmpdir=$(mktemp -d -t pdfinterleave-XXXXXXXX)
+
+num_pages=0
+tmpfiles=()
+for file in "${infiles[@]}"; do
+    file_pages=$(pdfinfo "$file" | grep Pages: | awk '{print $2}')
+    if [[ $file_pages -gt $num_pages ]]; then
+        num_pages=$file_pages
+    fi
+
+    tmpfile="$tmpdir/$file"
+    tmpfiles+=("$tmpfile")
+    pdfseparate "$file" "$tmpfile.%d"
+done
+
+page_files=()
+for n in $(seq $num_pages); do
+    for tmpfile in "${tmpfiles[@]}"; do
+        page="$tmpfile.$n"
+        if [[ -e "$page" ]]; then
+            page_files+=("$page")
+        fi
+    done
+done
+
+pdfunite "${page_files[@]}" "$outfile"
+rm -r "$tmpdir"
