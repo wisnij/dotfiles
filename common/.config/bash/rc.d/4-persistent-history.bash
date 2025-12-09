@@ -73,7 +73,7 @@ phistory () {
 
     local entry
     if [[ -n $fuzzy ]]; then
-        if entry=$(fzf --tac --no-sort "$@" <$PERSISTENT_HISTORY_FILE); then :; else
+        if entry=$(fzf --exact --tac --no-sort "$@" <$PERSISTENT_HISTORY_FILE); then :; else
             return $?
         fi
     elif [[ -n $search ]]; then

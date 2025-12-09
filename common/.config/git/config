@@ -4,7 +4,7 @@
 	changes = log --pretty=oneline-date --date=iso-local
 	cb = cleanup-branches
 	co = checkout
-	cof = !git for-each-ref --format='%(refname:short)' --sort=-committerdate refs/heads | fzf --no-sort --preview 'git d --color=always -R {}' | xargs git checkout
+	cof = !git for-each-ref --format='%(refname:short)' --sort=-committerdate refs/heads | fzf --exact --preview 'git d --color=always -R {}' | xargs git checkout
 	configs = config --list --show-origin --show-scope
 	difflast = diff HEAD~1 HEAD
 	diffs = diff --staged
