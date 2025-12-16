@@ -1,16 +1,26 @@
+/* NOTE: does not work as a symbolic link on Mac as of Firefox 146.0!
+   Replace the symlink in ~/.config/mozilla/firefox/wisnij.profile/chrome with a copy
+   after running stow.
+*/
+
 /* Customize "reader view" theme */
 @-moz-document url-prefix("about:reader") {
-    body.serif {
-        font-family: serif !important;
-    }
+    /* Not specifying these explicitly here so we don't break the layout settings dialog: */
+    /* width: 45em; */
+    /* font-size: 12pt; */
 
-    body.sans-serif {
-        font-family: sans-serif !important;
+    body {
+        background-color: #1d1d1d !important;
+        font-family: Verdana, Geneva, sans-serif !important;
     }
 
     body.dark {
-        color: #b5aea4 !important;
-        background-color: #212425 !important;
+        color: #c6c6c6 !important;
+    }
+
+    /* Quick way to verify that this file is being loaded */
+    ::selection {
+        background-color: #f0f !important;
     }
 }
 
