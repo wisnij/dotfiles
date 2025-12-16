@@ -42,7 +42,9 @@ in the filename(s).  In extended mode, treat the SCRIPTs as Perl commands to run
 in order to modify the filename(s).
 
   -a, --all                 show all filenames, even if unchanged
+  -B, --begin=SCRIPT        run SCRIPT before all -e scripts
   -c, --count               print the number of files renamed
+  -E, --end=SCRIPT          run SCRIPT after all -e scripts
   -e, --expression=SCRIPT   add the script to the commands to be executed
   -f, --force               never prompt before overwriting
   -g, --global              replace all occurrences of FROM (simple mode only)
@@ -61,15 +63,17 @@ ENDHELP;
 
 ##############################  Process options  ###############################
 
-my @actions;
+my (@begin_actions, @actions, @end_actions);
 my $interactive = 1;
 my $verbose = 1;
 my ($all, $count, $extensions, $fullpath, $global, $reverse, $test);
 
 GetOptions
     'a|all'          => \$all,
+    'B|begin=s'      => \@begin_actions,
     'c|count'        => \$count,
     'e|expression=s' => \@actions,
+    'E|end=s'        => \@end_actions,
     'f|force'        => sub { $interactive = 0 },
     'g|global'       => \$global,
     'i|interactive'  => \$interactive,
@@ -114,6 +118,24 @@ if( @actions )
     $comp->deny_only();
 }
 
+sub safe_eval
+{
+    my ($script) = @_;
+
+    no strict;
+    no warnings;
+    $comp->reval($script);
+    die "$PN: evaluation error: $@" if $@;
+}
+
+if( @begin_actions )
+{
+    for my $begin ( @begin_actions )
+    {
+        safe_eval( $begin );
+    }
+}
+
 my $total = 0;
 foreach my $path ( @ARGV )
 {
@@ -134,10 +156,7 @@ foreach my $path ( @ARGV )
         {
             foreach my $script ( @actions )
             {
-                no strict;
-                no warnings;
-                $comp->reval( $script );
-                die "$PN: evaluation error: $@" if $@;
+                safe_eval( $script );
             }
         }
         else
@@ -154,6 +173,14 @@ foreach my $path ( @ARGV )
         : catpath( $vol, $dirs, $file );
 
     do_rename $path, $new;
+}
+
+if( @end_actions )
+{
+    for my $end ( reverse @end_actions )
+    {
+        safe_eval( $end );
+    }
 }
 
 print "$total file", $total == 1 ? '' : 's', " renamed.\n" if $count;
@@ -240,12 +267,24 @@ and do not directly make any changes to the filesystem.
 Display all filenames, even ones for which the indicated operations produce no
 change.  The default is to skip unaltered filenames.  Implies B<-v>.
 
+=item B<-B>=I<SCRIPT>, B<--begin>=I<SCRIPT>
+
+Run I<SCRIPT> before any of the files to be processed, akin to a C<BEGIN> block.
+If this option is given more than once, the I<SCRIPT>s will be applied in the
+order that they appear on the command line.
+
 =item B<-c>, B<--count>
 
 After completion, print the number of files renamed (or with B<-t>, the number
 that would have been renamed).  This option only counts the number of files on
 which an actual file rename is (or would be) performed; unaltered filenames as
 displayed with B<-a> do not contribute to the total.
+
+=item B<-E>=I<SCRIPT>, B<--end>=I<SCRIPT>
+
+Run I<SCRIPT> after processing all files, akin to an C<END> block.
+If this option is given more than once, the I<SCRIPT>s will be applied in
+reverse order as they appear on the command line.
 
 =item B<-e> I<SCRIPT>, B<--expression>=I<SCRIPT>
 
