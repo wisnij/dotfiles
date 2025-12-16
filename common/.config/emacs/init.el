@@ -284,6 +284,9 @@ otherwise `whitespace-cycle-styles-current' itself."
 
 (use-package dash)
 
+(use-package dotenv-mode
+  :mode "\\.env\\(\\..*\\)?\\'")
+
 (use-package git-commit
   :ensure nil                     ; from https://github.com/rafl/git-commit-mode
   :config
