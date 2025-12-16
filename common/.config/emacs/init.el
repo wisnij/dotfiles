@@ -130,11 +130,9 @@ won't inhibit a second open paren."
 
 (use-package perl-mode
   :ensure nil
+  :mode "\\(?:\\.pod\\|\\.perl-expr\\|\\.psgi\\)\\'"
   :config
-  (defalias 'cperl-mode 'perl-mode)     ; fuck CPerl mode
-  (add-to-list 'auto-mode-alist '("\\.pod$" . perl-mode))
-  (add-to-list 'auto-mode-alist '("\\.perl-expr$" . perl-mode))
-  (add-to-list 'auto-mode-alist '("\\.psgi$" . perl-mode))
+  (defalias 'cperl-mode 'perl-mode) ;; fuck CPerl mode
   (add-to-list 'perl-font-lock-keywords-2 '("\\<\\(our\\|state\\)\\>" . font-lock-type-face) t)
   (add-to-list 'perl-font-lock-keywords-2 '("\\<\\(given\\|when\\|default\\)\\>" . font-lock-keyword-face) t)
   (add-to-list 'perl-font-lock-keywords-2 '("\\(\\<not\\>\\|!\\)" . font-lock-negation-char-face) t))
@@ -288,15 +286,8 @@ otherwise `whitespace-cycle-styles-current' itself."
   :mode "\\.env\\(\\..*\\)?\\'")
 
 (use-package git-commit
-  :ensure nil                     ; from https://github.com/rafl/git-commit-mode
-  :config
-  (setq auto-mode-alist
-        (append '(("new-commit$" . git-commit-mode)
-                  ("COMMIT_EDITMSG$" . git-commit-mode)
-                  ("NOTES_EDITMSG$" . git-commit-mode)
-                  ("MERGE_MSG$" . git-commit-mode)
-                  ("TAG_EDITMSG$" . git-commit-mode))
-                auto-mode-alist))
+  :ensure nil ;; from https://github.com/rafl/git-commit-mode
+  :mode "\\(?:new-commit\\|COMMIT_EDITMSG\\|NOTES_EDITMSG\\|MERGE_MSG\\|TAG_EDITMSG\\)\\'"
   :hook ((git-commit-mode . turn-on-auto-fill)
          (git-commit-mode . (lambda ()
                               (setq fill-column 72)))))
