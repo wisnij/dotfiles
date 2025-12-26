@@ -74,6 +74,7 @@
  '(transient-mark-mode t)
  '(truncate-partial-width-windows nil)
  '(uniquify-buffer-name-style 'post-forward-angle-brackets nil (uniquify))
+ '(use-short-answers t)
  '(version-control t)
  '(view-read-only t)
  '(visual-line-fringe-indicators '(empty-line nil))
