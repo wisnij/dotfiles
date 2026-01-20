@@ -56,12 +56,20 @@ PROMPT_COMMAND="persistent_history_append_log;$PROMPT_COMMAND"
 
 phistory () {
     local OPTION OPTARG OPTIND enable fuzzy search
-    while getopts 'defg:r:' OPTION; do
+    while getopts 'defg:h' OPTION; do
         case $OPTION in
             d) enable=false ;;
             e) enable=true ;;
             f) fuzzy=1 ;;
             g) search=$OPTARG ;;
+            h)
+                echo "Usage: phistory [NUM_LINES]"
+                echo "       phistory [-d | -e | -h]"
+                echo "       phistory -f [FZF_OPTIONS...]"
+                echo "       phistory -g PATTERN [GREP_OPTIONS...]"
+                return
+                ;;
+            *) return 2 ;;
         esac
     done
     shift $(($OPTIND - 1))
