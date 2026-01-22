@@ -855,6 +855,7 @@ mark it as unmodified."
         (widen)
         (delete-region (point-min) (point-max))
         (set-buffer-modified-p nil)
+        (set-visited-file-name nil)
         (fundamental-mode)
         nil)
       t))
