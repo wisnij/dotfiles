@@ -24,3 +24,7 @@ desktop.ini
 
 # Environment settings which may contain passwords, tokens, etc
 .env
+
+# local LLM files
+.claude/
+CLAUDE.local.md
