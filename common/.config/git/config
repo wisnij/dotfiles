@@ -17,7 +17,6 @@
 	gg = "!f(){ git ls-files | sort | xargs grep -E \"$@\"; };f"
 	graph = log --graph --pretty=oneline-date --date=human-local --date-order
 	g     = log --graph --pretty=oneline-date --date=human-local --date-order --all
-	land = merge --squash --ff
 	history = log --patch  --compact-summary --ignore-space-change --ignore-space-at-eol
 	hf = log --patch  --compact-summary --ignore-space-change --ignore-space-at-eol --follow
 	hm = history master..
