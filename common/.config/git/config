@@ -11,6 +11,7 @@
 	dir = "!f(){ echo $GIT_DIR; }"
 	d  = diff --patch --compact-summary --ignore-space-change --ignore-space-at-eol
 	ds = diff --patch --compact-summary --ignore-space-change --ignore-space-at-eol --staged
+	dw = diff --patch --compact-summary
 	fa = fetch --all
 	files = "!f(){ git ls-files \"$@\" | sort; };f"
 	gg = "!f(){ git ls-files | sort | xargs grep -E \"$@\"; };f"
@@ -20,6 +21,7 @@
 	history = log --patch  --compact-summary --ignore-space-change --ignore-space-at-eol
 	hf = log --patch  --compact-summary --ignore-space-change --ignore-space-at-eol --follow
 	hm = history master..
+	ignored = ls-files --ignored --others --directory --exclude-standard
 	mb = make-branch
 	mychanges = changes --author wisnij@gmail.com
 	myhistory = history --author wisnij@gmail.com
