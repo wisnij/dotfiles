@@ -3,11 +3,13 @@
 # If running in iTerm, also pop up a notification banner.
 
 date_format='+%Y-%m-%d %H:%M:%S %z'
+shell_command=false
 play_sound=true
 verbose=false
 
-while getopts 'qv' opt; do
+while getopts 'cqv' opt; do
     case $opt in
+        c) shell_command=true ;;
         q) play_sound=false ;;
         v) verbose=true ;;
     esac
@@ -45,7 +47,11 @@ if [[ $# -eq 0 ]]; then
     fi
 else
     cmd=$1
-    shift
+    if $shell_command; then
+        commands=(bash -c "set -eu -o pipefail; $@")
+    else
+        commands=("$@")
+    fi
 
     start_date=$(date "$date_format")
     if $verbose; then
@@ -53,9 +59,9 @@ else
         if [[ -z $gtime ]]; then
             gtime=$(which time)
         fi
-        $gtime --verbose $cmd "$@"
+        $gtime --verbose "${commands[@]}"
     else
-        time $cmd "$@"
+        time "${commands[@]}"
     fi
 
     status=$?
