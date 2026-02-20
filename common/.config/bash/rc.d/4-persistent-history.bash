@@ -75,7 +75,9 @@ phistory () {
     shift $(($OPTIND - 1))
 
     if [[ -n $enable ]]; then
+        if $enable; then verb="enabled"; else verb="disabled"; fi
         PERSISTENT_HISTORY_ENABLED=$enable
+        echo "persistent history $verb" >&2
         return
     fi
 
