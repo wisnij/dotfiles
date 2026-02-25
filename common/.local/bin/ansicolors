@@ -2,6 +2,14 @@
 
 set -eu
 
+verbose=false
+while getopts ':v' opt; do
+    case $opt in
+        v) verbose=true ;;
+    esac
+done
+shift $((OPTIND - 1))
+
 attrs=(normal bright dim italic underscore blink rapid_blink reverse hidden strike)
 colors=(black red green yellow blue magenta cyan white)
 
@@ -64,33 +72,56 @@ echo
 
 echo "System colors: 0-7, 8-15"
 
+# regular
 for i in {0..7}; do
-    printf '\e[48;5;%dm  ' "$i"
+    if $verbose; then
+        fg=$((i == 0 || i == 4 ? 15 : 0))
+        printf '\e[48;5;%dm\e[38;5;%dm %2d ' "$i" "$fg" "$i"
+    else
+        printf '\e[48;5;%dm  ' "$i"
+    fi
 done
 echo "$normal"
 
+# bright
 for i in {8..15}; do
-    printf '\e[48;5;%dm  ' "$i"
+    if $verbose; then
+        fg=$((i == 8 || i == 12 ? 15 : 0))
+        printf '\e[48;5;%dm\e[38;5;%dm %2d ' "$i" "$fg" "$i"
+    else
+        printf '\e[48;5;%dm  ' "$i"
+    fi
 done
 echo "$normal"
 echo
 
 # now the color cube
 echo "Color cube, 6x6x6: 16-231"
-for ((red = 0; red <= 5; red++)); do
-    for ((green = 0; green <= 5; green++)); do
-        for ((blue = 0; blue <= 5; blue++)); do
-            color=$((16 + (red * 36) + (green * 6) + blue))
 
-            first_col=$((green == 0 && blue == 0))
-            if ((first_col)); then
-                printf '%s%3d%s ' "$dim" "$color" "$normal"
+for row in {1..6}; do
+    for block in {1..6}; do
+        for cell in {1..6}; do
+            red=$((row - 1))
+            green=$((block - 1))
+            blue=$((cell - 1))
+            color=$((16 + (red * 6 + green) * 6 + blue))
+
+            if ((cell == 1)); then
+                if ((block == 1)); then
+                    printf '%s%3d%s' "$dim" "$color" "$normal"
+                fi
+                printf ' '
             fi
 
-            printf '\e[48;5;%dm  ' "$color"
+            if $verbose; then
+                fg=$((row + block < 6 ? 15 : 0))
+                printf '\e[48;5;%dm\e[38;5;%dm %3d ' "$color" "$fg" "$color"
+            else
+                printf '\e[48;5;%dm  ' "$color"
+            fi
         done
 
-        printf '%s ' "$normal"
+        printf '%s' "$normal"
     done
 
     echo
@@ -102,7 +133,12 @@ echo
 echo "Grayscale ramp: 232-255"
 
 for i in {232..255}; do
-    printf '\e[48;5;%dm  ' "$i"
+    if $verbose; then
+        fg=$((i < 244 ? 15 : 0))
+        printf '\e[48;5;%dm\e[38;5;%dm %3d ' "$i" "$fg" "$i"
+    else
+        printf '\e[48;5;%dm  ' "$i"
+    fi
 done
 echo "$normal"
 echo
