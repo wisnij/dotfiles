@@ -26,3 +26,4 @@ fi
 set -x
 git checkout $master
 git merge --squash --ff "$@" "$branch"
+git branch --move "$branch" "archive/$branch"
