@@ -6,6 +6,9 @@ if [[ $TERM == 'screen-256color' ]]; then
     export TERM=screen
 fi
 
+# Increase open files soft limit to avoid "Too many open files" errors
+ulimit -S -n 10240
+
 _osx_gnu () {
     # after "brew install coreutils findutils gawk gnu-getopt gnu-indent gnu-sed gnu-tar gnu-units gnutls grep"
     local package
