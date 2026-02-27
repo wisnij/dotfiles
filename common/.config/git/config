@@ -13,8 +13,8 @@
 	ds = diff --patch --compact-summary --ignore-space-change --ignore-space-at-eol --staged
 	dw = diff --patch --compact-summary
 	fa = fetch --all
-	files = "!f(){ git ls-files \"$@\" | sort; };f"
-	gg = "!f(){ git ls-files | sort | xargs grep -E \"$@\"; };f"
+	files = "!f(){ cd -- \"${GIT_PREFIX:-.}\"; git ls-files \"$@\" | sort; };f"
+	gg = "!f(){ cd -- \"${GIT_PREFIX:-.}\"; git ls-files | sort | xargs grep -E \"$@\"; };f"
 	graph = log --graph --pretty=oneline-date --date=human-local --date-order
 	g     = log --graph --pretty=oneline-date --date=human-local --date-order --all
 	history = log --patch  --compact-summary --ignore-space-change --ignore-space-at-eol
