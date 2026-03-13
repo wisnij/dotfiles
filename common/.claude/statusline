@@ -17,7 +17,12 @@ session_cost=$(query .cost.total_cost_usd)
 if [[ $model == arn:* ]]; then
     arn=$model
     arn_models_file=$claude_config_dir/arn-models.jsonl
-    cached_model=$(grep "$arn" "$arn_models_file" | head -n1)
+
+    cached_model=""
+    if [[ -e $arn_models_file ]]; then
+        cached_model=$(grep -F "$arn" "$arn_models_file" | head -n1)
+    fi
+
     if [[ -n $cached_model ]]; then
         # Look up cached model name
         model_name=$(jq --raw-output '.modelName' <<< "$cached_model")
