@@ -114,6 +114,7 @@ GIT_PS1_SHOWUPSTREAM=auto
 GIT_PS1_STATESEPARATOR=""
 
 PROMPT_COMMAND="_prompt;$PROMPT_COMMAND"
+PROMPT_COMMAND=${PROMPT_COMMAND%;}
 
 _ps0_state_command () {
     printf 'pwd %s\n' "$PWD"

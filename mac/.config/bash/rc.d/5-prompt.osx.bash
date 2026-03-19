@@ -9,4 +9,5 @@ _mac_titlebar_prompt () {
     echo -ne "\033];$dir\007"
 }
 
-PROMPT_COMMAND="${PROMPT_COMMAND}_mac_titlebar_prompt"
+PROMPT_COMMAND="$PROMPT_COMMAND;_mac_titlebar_prompt"
+PROMPT_COMMAND=${PROMPT_COMMAND#;}

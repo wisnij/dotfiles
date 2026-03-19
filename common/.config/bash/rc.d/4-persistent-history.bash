@@ -53,6 +53,7 @@ persistent_history_append_log () {
 }
 
 PROMPT_COMMAND="persistent_history_append_log;$PROMPT_COMMAND"
+PROMPT_COMMAND=${PROMPT_COMMAND%;}
 
 phistory () {
     local OPTION OPTARG OPTIND enable fuzzy search
