@@ -43,6 +43,7 @@
  '(initial-scratch-message nil)
  '(isearch-lazy-count t)
  '(iswitchb-buffer-ignore '("^ " "^\\*"))
+ '(js-indent-level 2)
  '(kill-read-only-ok t)
  '(kill-whole-line t)
  '(markdown-header-scaling t)
