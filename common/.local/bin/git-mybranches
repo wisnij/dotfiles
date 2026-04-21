@@ -5,4 +5,4 @@ set -eu
 
 email=$(git config user.email)
 user=${email%%@*}
-git branches "$user"
+git branches "$user" "$@"
