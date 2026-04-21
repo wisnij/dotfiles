@@ -1,6 +1,12 @@
 {
+  "spinnerVerbs": {
+    "mode": "replace",
+    "verbs": [
+      "Working"
+    ]
+  },
   "statusLine": {
-    "type": "command",
-    "command": "~/.claude/statusline"
+    "command": "~/.claude/statusline",
+    "type": "command"
   }
 }
