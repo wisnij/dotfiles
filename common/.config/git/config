@@ -27,7 +27,7 @@
 	pp = pull --prune
 	puff = pull --ff --ff-only
 	pt = push --set-upstream
-	s = show --patch --compact-summary --ignore-space-change --ignore-space-at-eol
+	s = show --patch --diff-merges=on --compact-summary --ignore-space-change --ignore-space-at-eol
 	st = status --short --branch
 	stashed = !git stash list --patch --color | diff-highlight | less-find-pattern "^stash@.*"
 	update = add --update --verbose
@@ -79,6 +79,7 @@
 	defaultBranch = master
 [log]
 	date = format-local:%a %b %e %Y %T %z
+	diff-merges = first-parent
 [merge]
 	conflictStyle = diff3
 	ff = false
