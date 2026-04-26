@@ -290,7 +290,9 @@ otherwise `whitespace-cycle-styles-current' itself."
   :mode "\\(?:new-commit\\|COMMIT_EDITMSG\\|NOTES_EDITMSG\\|MERGE_MSG\\|TAG_EDITMSG\\)\\'"
   :hook ((git-commit-mode . turn-on-auto-fill)
          (git-commit-mode . (lambda ()
-                              (setq fill-column 72)))))
+                              (setq fill-column 72))))
+  :config
+  (advice-add 'git-commit-collapse-diff :override #'ignore))
 
 (use-package ido-grid-mode
   :config
