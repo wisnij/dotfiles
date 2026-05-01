@@ -45,5 +45,12 @@ if [[ -e $full_path ]]; then
     exit 2
 fi
 
-set -x
-git clone $repo_url $full_path "$@"
+(set -x; git clone $repo_url $full_path "$@")
+
+if [[ -e $full_path/.pre-commit-config.yaml ]] && type -t pre-commit >/dev/null; then
+    (
+        set -x;
+        cd "$full_path"
+        pre-commit install
+    )
+fi
