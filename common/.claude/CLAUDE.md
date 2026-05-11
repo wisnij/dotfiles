@@ -19,7 +19,9 @@
 
 - Do not use `assert` in production code, only in tests.  Production code should throw
   exceptions instead.
-- Prefer making type annotations more specific over adding `cast`s or `type: ignore` comments.
+- When fixing type checking issues, prefer making type annotations more specific,
+  followed by adding explicit `cast`s, with `type: ignore` comments as a last resort
+  only.
 
 ## Markdown
 
