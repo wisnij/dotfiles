@@ -32,6 +32,11 @@ find-large-files () {
 }
 
 
+mkcd () {
+    mkdir -p "$@" && cd "$1"
+}
+
+
 perlmake () {
     perl Makefile.PL PREFIX="~/usr" LIB="~/usr/lib/perl5" "$@"
 }
