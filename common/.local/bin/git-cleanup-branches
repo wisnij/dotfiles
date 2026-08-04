@@ -9,6 +9,7 @@ import subprocess
 import sys
 
 MAYBE = "?"
+MISSING = "missing"
 
 
 def run(args, **kwargs):
@@ -51,23 +52,35 @@ if __name__ == "__main__":
         "%(refname:lstrip=2)",
         "%(committerdate:iso-strict)",
         "%(contents:subject)",
+        "%(upstream:short)",
     ]
 
     ref_lines = run(["git", "for-each-ref", "--format=" + "\t".join(foreach_fields), "refs/heads"]).splitlines()
 
     branches = {}
     for line in ref_lines:
-        commit, branch, iso_date, subject = line.split("\t", maxsplit=len(foreach_fields) - 1)
+        commit, branch, iso_date, subject, upstream = line.split("\t", maxsplit=len(foreach_fields) - 1)
         date = datetime.fromisoformat(iso_date)
+
+        # Check upstream status
+        if not upstream:
+            upstream_commit = ""
+        elif run(["git", "rev-parse", "--verify", upstream], check=False):
+            upstream_commit = run(["git", "rev-parse", "--short", upstream]).strip()
+        else:
+            upstream_commit = MISSING
 
         merged = commit in merged_commits
         if not merged:
-            for merged_commit in merged_commits.values():
-                if merged_commit["date"] > date and (
-                    merged_commit["subject"] == subject
-                    or merged_commit["subject"] == f"Merge branch '{branch}' into '{master}'"
-                ):
-                    merged = MAYBE
+            if upstream_commit == MISSING:
+                merged = MAYBE
+            else:
+                for merged_commit in merged_commits.values():
+                    if merged_commit["date"] > date and (
+                        merged_commit["subject"] == subject
+                        or merged_commit["subject"] == f"Merge branch '{branch}' into '{master}'"
+                    ):
+                        merged = MAYBE
 
         branches[branch] = {
             "commit": commit,
@@ -75,6 +88,7 @@ if __name__ == "__main__":
             "merged": merged,
             "branch": branch,
             "subject": subject,
+            "upstream_commit": upstream_commit,
         }
 
     candidate_branches = {b for b in branches if b != master}
@@ -92,6 +106,7 @@ if __name__ == "__main__":
             "",
             master,
             branches[master]["commit"],
+            branches[master]["upstream_commit"],
             branches[master]["date"].strftime("%F %T"),
             branches[master]["subject"],
         ],
@@ -118,12 +133,13 @@ if __name__ == "__main__":
                 merged_col,
                 branch,
                 branch_info["commit"],
+                branch_info["upstream_commit"],
                 branch_info["date"].strftime("%F %T"),
                 branch_info["subject"],
             ],
         )
 
-    columns = ["#", "mgd", "branch", "commit", "commit date", "commit subject"]
+    columns = ["#", "mgd", "branch", "commit", "upstream", "commit date", "commit subject"]
     widths = [
         max(len(columns[i]), max(len(row[i]) for row in rows))
         for i in range(len(columns))

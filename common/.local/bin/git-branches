@@ -26,13 +26,13 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     lines = run(
-        ["git", "for-each-ref", "--format=%(objectname:short) %(refname)", "refs/heads/", "refs/remotes/"]
+        ["git", "for-each-ref", "--format=%(objectname:short)\t%(refname)\t%(upstream:short)", "refs/heads/", "refs/remotes/"]
     ).splitlines()
 
     branches = defaultdict(lambda: defaultdict(str))
     for line in lines:
         remote = None
-        commit, ref = line.split(maxsplit=1)
+        commit, ref, upstream = line.split("\t")
         if ref.startswith("refs/heads/"):
             branch = re.sub("^refs/heads/", "", ref)
         elif ref.startswith("refs/remotes/origin/"):
@@ -46,24 +46,28 @@ if __name__ == "__main__":
 
         branches[branch][remote or "local"] = commit
 
-        if not remote:
-            count = run(f"git rev-list --count --left-right remotes/origin/{branch}...{branch}".split(), check=False)
-            if count:
-                left, right = map(int, count.split())
-                if left == 0 and right == 0:
-                    # same as upstream
-                    status = "="
-                elif left == 0:
-                     # ahead of upstream
-                    status = f">{right}"
-                elif right == 0:
-                    # behind upstream
-                    status = f"<{left}"
-                else:
-                    # diverged
-                    status = f"<{left} >{right}"
+        if not remote and upstream:
+            upstream_exists = run(["git", "rev-parse", "--verify", upstream], check=False)
+            if upstream_exists:
+                count = run(f"git rev-list --count --left-right {upstream}...{branch}".split(), check=False)
+                if count:
+                    left, right = map(int, count.split())
+                    if left == 0 and right == 0:
+                        # same as upstream
+                        status = "="
+                    elif left == 0:
+                        # ahead of upstream
+                        status = f">{right}"
+                    elif right == 0:
+                        # behind upstream
+                        status = f"<{left}"
+                    else:
+                        # diverged
+                        status = f"<{left} >{right}"
 
-                branches[branch]["status"] = status
+                    branches[branch]["status"] = status
+            else:
+                branches[branch]["origin"] = "missing"
 
     rows = []
     for branch in sorted(branches.keys()):
