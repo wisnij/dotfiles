@@ -839,7 +839,7 @@ up whitespace even if `auto-cleanup-whitespace' is in effect."
                 ;; use Inconsolata on Mac
                 ((eq system-type 'darwin) "Inconsolata-11")
                 ;; after adjusting for 4k DPI settings
-                ((eq system-type 'gnu/linux) "Inconsolata-10")
+                ((eq system-type 'gnu/linux) "Inconsolata LGC-9")
                 )))
     (when font
       (set-frame-font font t t))))
