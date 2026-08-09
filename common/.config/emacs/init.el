@@ -901,6 +901,7 @@ mark it as unmodified."
 (global-set-key (kbd "C-<prior>") #'previous-user-buffer)
 (global-set-key (kbd "C-b") (if (fboundp 'ido-switch-buffer) #'ido-switch-buffer #'buffer-menu))
 (global-set-key (kbd "C-c c") #'activate-transient-input-method)
+(global-set-key (kbd "C-h M-k") #'find-function-on-key)
 (global-set-key (kbd "C-M-%") #'query-replace-regexp*)
 (global-set-key (kbd "C-M-<tab>") #'indent-relative)
 (global-set-key (kbd "C-s-m") #'toggle-frame-maximized)
