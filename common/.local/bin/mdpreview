@@ -1,0 +1,35 @@
+#!/bin/bash
+set -eu -o pipefail
+
+if [[ $# -ne 1 ]]; then
+    echo "Usage: $0 [-g] INPUT.MD" >&2
+    exit 1
+fi
+
+open_html=true
+while getopts 'g' opt; do
+    case $opt in
+        g) open_html=false ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+md_file=$1
+md_path=$(realpath "$md_file")
+hash=$(md5sum <<<"$md_path" | awk '{print $1}')
+html_file="${TMPDIR:-/tmp}/mdpreview.${hash}.html"
+
+if command -v pandoc >/dev/null; then
+    (set -x; pandoc -f markdown "$md_file" -t html --standalone -o "$html_file")
+elif command -v cmark >/dev/null; then
+    (set -x; cmark "$md_file" > "$html_file")
+elif command -v markdown >/dev/null; then
+    (set -x; markdown "$md_file" > "$html_file")
+else
+    echo "ERROR: no Markdown processor found (install one of pandoc, cmark, or markdown)" >&2
+    exit 2
+fi
+
+if $open_html; then
+    (set -x; open "$html_file")
+fi
