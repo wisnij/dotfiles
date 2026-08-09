@@ -56,7 +56,7 @@ PROMPT_COMMAND="persistent_history_append_log;$PROMPT_COMMAND"
 PROMPT_COMMAND=${PROMPT_COMMAND%;}
 
 phistory () {
-    local OPTION OPTARG OPTIND enable fuzzy search
+    local OPTION OPTARG OPTIND enable fuzzy new_state prev_state search
     while getopts 'defg:h' OPTION; do
         case $OPTION in
             d) enable=false ;;
@@ -76,9 +76,14 @@ phistory () {
     shift $(($OPTIND - 1))
 
     if [[ -n $enable ]]; then
-        if $enable; then verb="enabled"; else verb="disabled"; fi
+        if [[ $PERSISTENT_HISTORY_ENABLED == "true" ]]; then prev_state="enabled"; else prev_state="disabled"; fi
+        if $enable; then new_state="enabled"; else new_state="disabled"; fi
         PERSISTENT_HISTORY_ENABLED=$enable
-        echo "persistent history $verb" >&2
+        if [[ $new_state == $prev_state ]]; then
+            echo "persistent history already $new_state" >&2
+        else
+            echo "persistent history $new_state" >&2
+        fi
         return
     fi
 
