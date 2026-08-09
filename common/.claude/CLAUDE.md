@@ -1,10 +1,11 @@
 # General
 
+- IMPORTANT: When the user asks a question (i.e. the prompt ends with a question
+  mark), just answer it.  If there is some related action to take, ask for
+  confirmation before proceeding.  NEVER make changes or take any action in
+  response to a question without explicit confirmation.
 - When starting a subagent, explicitly announce it by name.
 - Separate sentences in text with two spaces.
-- When the user asks a question, just answer it.  If there is some related action to
-  take, ask for confirmation before proceeding.  NEVER make changes or take any action
-  in response to a question without explicit confirmation.
 
 ## Programming
 
