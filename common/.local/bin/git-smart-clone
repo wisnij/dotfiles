@@ -49,8 +49,8 @@ fi
 
 if [[ -e $full_path/.pre-commit-config.yaml ]] && type -t pre-commit >/dev/null; then
     (
-        set -x;
+        set -x
         cd "$full_path"
-        pre-commit install
+        pre-commit install >&2
     )
 fi
