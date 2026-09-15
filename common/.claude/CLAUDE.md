@@ -6,6 +6,8 @@
   response to a question without explicit confirmation.
 - When starting a subagent, explicitly announce it by name.
 - Separate sentences in text with two spaces.
+- Do not use em dashes (`—`) surrounded by spaces.  Either use an em dash with no
+  spaces, or an en dash (`–`) with spaces.
 
 ## Programming
 
