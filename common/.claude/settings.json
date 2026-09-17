@@ -11,5 +11,6 @@
   "statusLine": {
     "command": "~/.claude/statusline",
     "type": "command"
-  }
+  },
+  "tui": "fullscreen"
 }
