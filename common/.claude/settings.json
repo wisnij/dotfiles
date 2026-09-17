@@ -1,4 +1,7 @@
 {
+  "permissions": {
+    "defaultMode": "auto"
+  },
   "spinnerVerbs": {
     "mode": "replace",
     "verbs": [
