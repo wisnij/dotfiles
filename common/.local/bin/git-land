@@ -1,7 +1,7 @@
 #!/bin/bash
 # Squash merge a feature branch onto master
 
-set -eu
+set -eu -o pipefail
 
 mode=squash
 while getopts "ms" opt; do
@@ -35,10 +35,13 @@ fi
 (set -x; git checkout $master)
 
 if [[ $mode == "squash" ]]; then
-    git merge --squash --ff "$@" "$branch"
-    git commit --message "Merge branch '$branch'" --edit
+    (
+        set -x
+        git merge --squash --ff "$@" "$branch"
+        git commit --message "Merge branch '$branch'" --edit
+    )
 elif [[ $mode == "merge" ]]; then
-    git merge --no-ff "$@" "$branch"
+    (set -x; git merge --no-ff "$@" "$branch")
 fi
 
-git branch --move "$branch" "archive/$branch"
+(set -x; git branch --move "$branch" "archive/$branch")
