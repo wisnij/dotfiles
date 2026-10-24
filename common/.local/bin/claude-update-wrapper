@@ -1,0 +1,18 @@
+#!/bin/bash
+# Run `claude update` at most once every 24 hours, then exec claude with the
+# original arguments.
+set -eu -o pipefail
+
+last_update=${XDG_STATE_HOME:-$HOME/.local/state}/claude-update-wrapper/last-update
+
+if [[ ${1-} != "update" && -z $(find "$last_update" -mmin -$((24 * 60)) 2>/dev/null) ]]; then
+    mkdir -p "$(dirname "$last_update")"
+    touch "$last_update"
+
+    # Update output goes to stderr so it can't end up in piped `claude -p` output.
+    if ! claude update >&2; then
+        echo "$(basename "$0"): claude update failed, continuing anyway" >&2
+    fi
+fi
+
+exec claude "$@"
