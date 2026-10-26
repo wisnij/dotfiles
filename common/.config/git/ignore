@@ -9,6 +9,9 @@
 **/.#*
 .markdown-preview.html
 
+# Vim swap files
+*.swp
+
 # Mac/Windows folder metadata
 .DS_Store
 desktop.ini
