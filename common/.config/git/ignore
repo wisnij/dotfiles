@@ -18,6 +18,9 @@ desktop.ini
 *.gitignore.*
 !.gitignore
 
+# ignore a top-level local dir
+/local/
+
 # Jupyter notebooks
 .ipynb_checkpoints/
 .jupyter/
